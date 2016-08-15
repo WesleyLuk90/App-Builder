@@ -11,6 +11,9 @@ export default class Renderer {
 	}
 
 	render(documentNode, element) {
+		if (!documentNode) {
+			throw new Error(`Invalid documentNode ${documentNode}, node must be provided`);
+		}
 		const domElement = this.createOrUpdate(element);
 		documentNode.appendChild(domElement);
 	}
@@ -24,7 +27,7 @@ export default class Renderer {
 		}
 
 		renderedNode.syncProps();
-		this.updateChildren(element);
+		this.updateChildren(renderedNode, element);
 
 		return renderedNode;
 	}
@@ -35,8 +38,17 @@ export default class Renderer {
 	}
 
 	updateChildren(renderedNode, element) {
-		const children = element.getChildren();
-		const renderedChildren = children.map(childElement => this.createOrUpdate(childElement));
+		let children = element.getChildren();
+		if (!children) {
+			children = [];
+		}
+		if (typeof children === 'string') {
+			children = [children];
+		}
+		const renderedChildren = children.map((childElement, index) => {
+
+			this.createOrUpdate(childElement, index)
+		});
 
 		renderedNode.syncChildren(renderedChildren);
 	}

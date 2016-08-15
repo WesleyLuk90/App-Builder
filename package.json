@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --watch"
+    "dev": "webpack --watch",
+    "build-server": "babel src/server --out-dir build",
+    "start": "node --use-strict index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +23,9 @@
   },
   "homepage": "https://github.com/WesleyLuk90/App-Builder#readme",
   "devDependencies": {
+    "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.13.2",
     "eslint": "^3.3.0",
     "eslint-config-airbnb-base": "^5.0.2",
@@ -30,5 +34,8 @@
     "npm": "^3.10.6",
     "webpack": "^1.13.1",
     "webpack-livereload-plugin": "^0.8.1"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
   }
 }

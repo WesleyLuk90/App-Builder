@@ -5,26 +5,35 @@ export default class RenderedNode {
 		this.element = element;
 		this.node = node;
 		this.currentProperties = new PropList();
+		this.childrenByKey = new Map();
+	}
+
+	getChildByKey(key) {
+		return this.childrenByKey.get(key);
+	}
+
+	setChildByKey(key, renderedNode) {
+		this.childrenByKey.set(key, renderedNode);
 	}
 
 	syncProps() {
-		const currentProperties = this.currentProperties.getPropertyKeys();
-		const newProperties = this.element.getPropertyKeys();
+		const currentProperties = this.currentProperties;
+		const newProperties = this.element.getProperties();
 
-		const addedProperties = this.newProperties.subtract(currentProperties);
-		const removedProperties = this.currentProperties.subtract(newProperties);
-		const sameProperties = this.newProperties.intersect(this.currentProperties);
+		const addedProperties = newProperties.subtract(currentProperties);
+		const removedProperties = currentProperties.subtract(newProperties);
+		const sameProperties = newProperties.intersect(currentProperties);
 
-		addedProperties.forEach(property => {
-			this.node[property] = this.element.getProperty(property);
+		addedProperties.forEach((property, value) => {
+			this.node[property] = value;
 		});
 
-		removedProperties.forEach(property => {
+		removedProperties.forEach((property, value) => {
 			delete this.node[property];
 		});
 
-		sameProperties.forEach(property => {
-			const oldValue = this.currentProperties.getProperty(property);
+		sameProperties.forEach((property, value) => {
+			const oldValue = value;
 			const newValue = this.element.getProperty(property);
 			if (oldValue !== newValue) {
 				this.node[property] = newValue;

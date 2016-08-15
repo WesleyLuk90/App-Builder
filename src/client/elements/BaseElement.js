@@ -37,8 +37,12 @@ export default class BaseElement {
 		return this.properties.getProperty(key);
 	}
 
+	getProperties() {
+		return this.properties;
+	}
+
 	setChildren(children) {
-		if (!Array.isArray(children)) {
+		if (!Array.isArray(children) && children !== null && typeof children !== 'string') {
 			throw new Error(`Children must be an array, got ${children}`);
 		}
 		this.children = children;
