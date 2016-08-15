@@ -1,0 +1,1 @@
+Components represent the structure of a page, a component is the binding between the logic and the html. e.g. ButtonComponent contains a Button Element bound to the "save" action
