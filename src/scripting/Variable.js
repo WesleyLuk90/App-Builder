@@ -5,7 +5,7 @@ export default class Variable {
 		this.stream = new Rx.BehaviorSubject();
 	}
 	notifyMutate(value) {
-
+		this.stream.onNext();
 	}
 	setValue(value) {
 		this.stream.onNext(value);
@@ -14,6 +14,7 @@ export default class Variable {
 
 	}
 	getStream() {}
+	getDistinctStream(){}
 
 	subscribe(onChange) {}
 	bindProperty(property) {

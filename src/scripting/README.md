@@ -32,4 +32,5 @@ When does teacherName notify teacher
 * On ever change (new name is sent to teacher)
 
 e.g. teacherStudents and firstStudent
-* teacherStudents
+
+teacherStudents notifies firstStudent on any mutation
