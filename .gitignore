@@ -86,3 +86,7 @@ $RECYCLE.BIN/
 
 
 *.sublime-workspace
+
+build/client
+build/scripting
+build/server

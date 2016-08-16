@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --watch",
+    "dev-server": "babel src --out-dir build",
     "build-server": "babel src/server --out-dir build",
     "start": "node --use-strict index.js",
     "lintfix": "eslint --fix src"
