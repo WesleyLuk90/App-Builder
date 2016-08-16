@@ -26,14 +26,14 @@ export default class ComponentInserter extends AbstractComponent {
 	}
 
 	render() {
-		return React.createElement('div', { className: 'component-inserter' },
-			React.createElement('a', {
-					className: 'component-inserter__button',
-					onClick: (e) => this.clickOpenInserter(e),
-				},
-				React.createElement('span', { className: 'fa fa-fw fa-2x fa-plus-circle' })
-			),
-			React.createElement(ComponentInserterModal, this.createProps({ shown: this.state.shown }))
-		);
+		return (<div className="component-inserter">
+			<a className="component-inserter__button" onClick={(e) => this.clickOpenInserter(e)}>
+				<span className="fa fa-fw fa-2x fa-plus-circle" />
+			</a>
+			<ComponentInserterModal
+				{...this.createProps({ shown: this.state.shown })}
+				onComplete={() => this.closeModal()}
+			/>
+		</div>);
 	}
 }

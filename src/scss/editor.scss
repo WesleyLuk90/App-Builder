@@ -1,27 +1,77 @@
-@import 'modal.scss';
+@import "modal.scss";
+
+.component-editor {
+	@include fill-parent;
+	display: flex;
+	flex-direction: column;
+
+	&__edit-panel {
+		height: 300px;
+		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+	}
+
+	&__components {
+		top: 300px;
+		overflow: auto;
+	}
+}
 
 .component-inserter {
 	.component-inserter__button {
 		text-align: center;
 		display: block;
-		cursor: pointer;	
+		cursor: pointer;
 	}
 }
 
 .component-inserter-modal {
-	.component-inserter-modal__background {
-		@include modal-background();
-		display: none;
-		&--shown {
-			display: flex;
-		}
+	@include modal-container;
+
+	display: none;
+	justify-content: center;
+	align-items: center;
+
+	&--shown {
+		display: flex;
 	}
 
-	.component-inserter-modal__modal {
-		@include modal();
-		@include row-container();
+	&__background {
+		@include modal-background;
+	}
+
+	&__modal {
+		@include modal;
+
+		@include row-container;
 
 		width: 500px;
 		height: 500px;
+	}
+}
+
+.component-placeholder {
+	@include section-style;
+
+	min-height: 2rem;
+	position: relative;
+	padding: 20px 10px;
+
+	&__header {
+		position: absolute;
+		top: 0px;
+		left: 5px;
+		display: flex;
+	}
+
+	&__label {
+		font-size: 0.75rem;
+	}
+
+	&__action {
+		@include muted-action;
+	}
+
+	&--selected {
+		border-color: $section-focused-border;
 	}
 }

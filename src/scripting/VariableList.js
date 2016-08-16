@@ -51,8 +51,8 @@ export default class VariableList {
 	}
 
 	getValueStream(variableName) {
-		const name = variableName.pop();
-		const path = variableName.slice();
+		const name = variableName[variableName.length - 1];
+		const path = variableName.slice(0, -1);
 		const scope = this.getMatchingScope(path);
 
 		return scope.getVariable(name);

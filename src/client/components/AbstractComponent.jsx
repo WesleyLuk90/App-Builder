@@ -1,5 +1,7 @@
 import React from 'react';
 
+import InsertComponentContext from './InsertComponentContext';
+
 export default class AbstractComponent extends React.Component {
 
 	getChildComponents(name) {
@@ -25,8 +27,12 @@ export default class AbstractComponent extends React.Component {
 		return Object.assign({}, this.props, props);
 	}
 
+	hasValue(key) {
+		return typeof this.props.values[key] !== 'undefined';
+	}
+
 	getValue(key, defaultValue) {
-		if (typeof this.props.values[key] !== 'undefined') {
+		if (this.hasValue(key)) {
 			return this.props.values[key];
 		}
 		if (this.hasNamedVariable(key)) {
@@ -57,6 +63,33 @@ export default class AbstractComponent extends React.Component {
 		}
 		return Object.keys(this.props.namedVariables)
 			.map(key => this.props.namedVariables[key]);
+	}
+
+	getComponentInserter(componentGroup) {
+		if (!componentGroup) {
+			throw new Error(`ComponentGroup must be defined, got ${componentGroup}`);
+		}
+		const inserterProps = this.createProps({
+			key: 'inserter',
+			insertContext: this.getInsertContext(componentGroup),
+		});
+		// Prevent a circular dependency by fetching it from the component map
+		const ComponentInserter = this.props.ComponentMap.getComponent('ComponentInserter');
+		return <ComponentInserter {...inserterProps} />;
+	}
+
+	getDisplayValue(key) {
+		if (this.hasValue(key)) {
+			return this.getValue(key);
+		}
+		if (this.hasNamedVariable(key)) {
+			return JSON.stringify(this.props.namedVariables[key]);
+		}
+		return 'null';
+	}
+
+	getInsertContext(componentGroup) {
+		return new InsertComponentContext(this, componentGroup);
 	}
 
 	componentDidMount() {

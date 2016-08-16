@@ -1,3 +1,4 @@
+@import 'defaults.scss';
 
 @mixin row-container() {
 	> * + * {
@@ -13,4 +14,24 @@
 	> * + * {
 		margin-left: 1.5rem;
 	}
+}
+
+@mixin fullscreen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+@mixin fill-parent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.section {
+	@include row-container();
 }

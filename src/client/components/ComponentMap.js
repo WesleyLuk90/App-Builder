@@ -1,9 +1,11 @@
-import Page from './Page';
-import Label from './Label';
-import TextField from './TextField';
 import ComponentEditor from './ComponentEditor';
+import ComponentInserter from './ComponentInserter';
+import Label from './Label';
+import Page from './Page';
+import Section from './Section';
 import Table from './Table';
-import { createDefaultComponentEditor } from './DefaultComponentEditor';
+import TextField from './TextField';
+import { createComponentPlaceholder } from './ComponentPlaceholder';
 
 export default class ComponentMap {
 	constructor() {
@@ -18,6 +20,8 @@ export default class ComponentMap {
 		this.addComponent(TextField);
 		this.addComponent(ComponentEditor);
 		this.addComponent(Table);
+		this.addComponent(ComponentInserter);
+		this.addComponent(Section);
 	}
 
 	addComponent(ctr) {
@@ -25,7 +29,7 @@ export default class ComponentMap {
 		if (ctr.getEditor) {
 			this.componentEditors.set(ctr.name, ctr.getEditor());
 		} else {
-			this.componentEditors.set(ctr.name, createDefaultComponentEditor(ctr.name));
+			this.componentEditors.set(ctr.name, createComponentPlaceholder(ctr.name));
 		}
 	}
 
@@ -46,9 +50,15 @@ export default class ComponentMap {
 		return this.componentEditors.get(componentName);
 	}
 
-	getComponentNames() {
+	getInsertableComponentNames() {
 		const components = [];
-		this.components.forEach((component, name) => components.push(name));
+		const blacklist = {
+			ComponentEditor: true,
+			Page: true,
+		};
+		this.components.forEach((component, name) => {
+			if (!blacklist[name]) { components.push(name); }
+		});
 		return components;
 	}
 

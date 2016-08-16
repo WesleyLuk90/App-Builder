@@ -1,13 +1,13 @@
 import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
-import ComponentInserter from './ComponentInserter';
 
 class PageEditor extends AbstractComponent {
 	render() {
 		const children = this.buildChildComponents('children');
-		children.push(React.createElement(ComponentInserter, { key: 'inserter' }));
-		return React.createElement('div', { className: 'page' }, children);
+		const inserter = this.getComponentInserter('children');
+		children.push(inserter);
+		return <div className="page">{children}</div>;
 	}
 }
 
