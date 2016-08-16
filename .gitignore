@@ -90,3 +90,5 @@ $RECYCLE.BIN/
 build/client
 build/scripting
 build/server
+
+bower_components
