@@ -1,0 +1,27 @@
+@import 'modal.scss';
+
+.component-inserter {
+	.component-inserter__button {
+		text-align: center;
+		display: block;
+		cursor: pointer;	
+	}
+}
+
+.component-inserter-modal {
+	.component-inserter-modal__background {
+		@include modal-background();
+		display: none;
+		&--shown {
+			display: flex;
+		}
+	}
+
+	.component-inserter-modal__modal {
+		@include modal();
+		@include row-container();
+
+		width: 500px;
+		height: 500px;
+	}
+}

@@ -16,10 +16,10 @@ export default class ComponentFactory {
 
 	build(componentList) {
 		if (!componentList) {
-			return null;
+			return [];
 		}
 		if (typeof componentList === 'string') {
-			return componentList;
+			return [componentList];
 		}
 		return componentList.map((component, index) => this.buildComponent(component, index));
 	}

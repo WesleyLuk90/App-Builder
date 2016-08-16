@@ -10,7 +10,7 @@ module.exports = {
 		filename: 'bundle.js',
 	},
 	resolve: {
-		extensions: ['', '.js'],
+		extensions: ['', '.js', '.jsx'],
 	},
 	module: {
 		loaders: [{
@@ -19,6 +19,7 @@ module.exports = {
 			loader: 'babel',
 			query: {
 				presets: ['es2015'],
+				plugins: ['transform-react-jsx'],
 			},
 		}, {
 			test: /\.scss$/,

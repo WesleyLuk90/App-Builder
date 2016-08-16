@@ -1,0 +1,20 @@
+{
+  "name": "app-builder",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Wesley Luk <wesleyluk@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/WesleyLuk90/App-Builder",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "^4.6.3"
+  }
+}

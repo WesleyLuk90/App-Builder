@@ -21,6 +21,6 @@ export default class Variable {
 		if (this.binding) {
 			throw new Error('Failed to bind to other variable, binding already exists');
 		}
-		this.binding = otherVariable.
+		// this.binding = otherVariable.
 	}
 }

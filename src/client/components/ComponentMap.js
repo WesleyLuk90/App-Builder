@@ -2,6 +2,7 @@ import Page from './Page';
 import Label from './Label';
 import TextField from './TextField';
 import ComponentEditor from './ComponentEditor';
+import Table from './Table';
 import { createDefaultComponentEditor } from './DefaultComponentEditor';
 
 export default class ComponentMap {
@@ -16,6 +17,7 @@ export default class ComponentMap {
 		this.addComponent(Label);
 		this.addComponent(TextField);
 		this.addComponent(ComponentEditor);
+		this.addComponent(Table);
 	}
 
 	addComponent(ctr) {
@@ -42,6 +44,12 @@ export default class ComponentMap {
 			throw new Error(`Unknown component ${componentName}`);
 		}
 		return this.componentEditors.get(componentName);
+	}
+
+	getComponentNames() {
+		const components = [];
+		this.components.forEach((component, name) => components.push(name));
+		return components;
 	}
 
 	getEditorComponentMap() {

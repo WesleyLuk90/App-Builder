@@ -1,0 +1,4 @@
+.page {
+	@include row-container();
+	padding: 0 1rem;
+}

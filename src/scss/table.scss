@@ -1,0 +1,9 @@
+.table {
+	width: 100%;
+	> * + * > {
+		border-top: solid 1px rgb(50, 50, 50);
+	}
+	tr + tr {
+		border-top: solid 1px rgb(50, 50, 50);
+	}
+}
