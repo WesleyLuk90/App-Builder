@@ -7,7 +7,7 @@ import ComponentEditor from './ComponentEditor';
 export default class ComponentPlaceholder extends AbstractComponent {
 	clickEdit(event) {
 		event.preventDefault();
-		this.props.ComponentEditor.selectComponent(this);
+		this.props.ComponentEditor.selectComponent(this.props.component);
 	}
 
 	clickRemove(event) {

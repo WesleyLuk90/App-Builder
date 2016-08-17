@@ -1,5 +1,14 @@
 {
-	"folders": [{
-		"path": "."
-	}]
+	"folders":
+	[
+		{
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"FuzzyFilePath":
+		{
+		}
+	}
 }

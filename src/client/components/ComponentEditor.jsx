@@ -1,6 +1,7 @@
 import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
+import ComponentOptionInput from './ComponentOptionInput';
 
 export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
@@ -13,6 +14,10 @@ export default class ComponentEditor extends AbstractComponent {
 			});
 
 		this.selectedComponent = null;
+
+		this.state = {
+			componentOptions: [],
+		};
 	}
 
 	isSelected(component) {
@@ -22,6 +27,7 @@ export default class ComponentEditor extends AbstractComponent {
 	selectComponent(component) {
 		const lastSelected = this.selectedComponent;
 		this.selectedComponent = component;
+		this.setState({ componentOptions: component.getComponentOptions() });
 		component.forceUpdate();
 		if (lastSelected) {
 			lastSelected.forceUpdate();
@@ -33,10 +39,12 @@ export default class ComponentEditor extends AbstractComponent {
 	}
 
 	render() {
+		console.log(this.state.componentOptions);
 		const children = this.buildChildComponents('children');
 		return (<div className="component-editor">
 			<div className="component-editor__edit-panel">
-				Things go here
+				{this.state.componentOptions.map((option, index) =>
+					<ComponentOptionInput key={index} option={option} />)}
 			</div>
 			<div className="component-editor__components">
 				{children}

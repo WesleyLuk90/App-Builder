@@ -4,6 +4,10 @@ import InsertComponentContext from './InsertComponentContext';
 
 export default class AbstractComponent extends React.Component {
 
+	getComponentOptions() {
+		return [];
+	}
+
 	getChildComponents(name) {
 		if (!this.props.components) {
 			return null;
