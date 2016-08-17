@@ -13,28 +13,22 @@ export default class Variable {
 		}
 	}
 
-	notifyMutate(value) {
-		this.stream.onNext();
-	}
-
 	setValue(value) {
 		this.stream.onNext(value);
 	}
 
 	getValue() {
-
+		return this.stream.getValue();
 	}
 
-	getStream() {}
+	getStream() {
+		return this.stream;
+	}
 
-	getDistinctStream() {}
-
-	subscribe(onChange) {}
-
-	bindProperty(property) {
+	bindProperty(otherVariable, property) {
 		if (this.binding) {
 			throw new Error('Failed to bind to other variable, binding already exists');
 		}
-		// this.binding = otherVariable.
+		otherVariable.getValue()
 	}
 }

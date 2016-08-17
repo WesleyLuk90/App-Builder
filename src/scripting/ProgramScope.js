@@ -1,8 +1,20 @@
 import Rx from 'rx';
 
+
+import Variable from './Variable';
+/**
+ * interface ProgramScope {
+ * 		getValue(variableName): value;
+ * 		setValue(variableName);
+ * 		getStream(variableName): Rx.Observable
+ * }
+ */
+
 export default class ProgramScope {
-	static create() {
-		return new ProgramScope([], null);
+	static create(programData) {
+		const programScope = new ProgramScope([], null);
+		programScope.loadFromData(programData);
+		return programScope;
 	}
 
 	constructor(scopePath, parentScope) {
@@ -11,50 +23,78 @@ export default class ProgramScope {
 		this.variables = new Map();
 	}
 
-	matchesScope(scopePath) {
-		const myScope = this.scopePath;
-		if (myScope.length !== scopePath.length) {
-			return false;
+	loadFromData(programData) {
+		const name = programData.name;
+		if (!this.equalsScope(name)) {
+			throw new Error(`Failed to load scope, invalid name got ${name} but expecting ${this.scopePath}`);
 		}
-		return myScope.every((component, index) => component === scopePath[index]);
+		const variables = programData.variables;
+		variables.forEach(variableData => this.defineLocalVariable(variableData.name));
+
+		// const scopes = programData.scopes;
 	}
 
-	getMatchingScope(scopePath) {
-		const parentCount = scopePath.length - this.scopePath.length;
-		if (parentCount < 0) {
-			throw new Error(`Failed to find matching scope of ${scopePath} from ${this.scopePath}`);
+	getScopeFromName(variableName) {
+		const scopeName = variableName.slice(0, -1);
+		let currentScope = this;
+		while (currentScope) {
+			if (currentScope.equalsScope(scopeName)) {
+				return currentScope;
+			}
+			currentScope = currentScope.getParent();
 		}
-		let scope = this;
-		while (parentCount > 0) {
-			scope = scope.getParent();
+		return currentScope;
+	}
+
+	defineLocalVariable(name) {
+		const variable = Variable.createVariable();
+		this.variables.set(name, variable);
+	}
+
+	getNamedVariable(variableName) {
+		const variableIdentifier = variableName[variableName.length - 1];
+		return this.variables.get(variableIdentifier);
+	}
+
+	equalsScope(scope) {
+		if (scope.length !== this.scopePath.length) {
+			return false;
 		}
-		return scope;
+		for (let i = 0; i < scope.length; i++) {
+			if (scope[i] !== this.scopePath[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	getParent() {
 		return this.parentScope;
 	}
 
-	getVariable(name) {
-		if (!this.variables.has(name)) {
-			this.variables.set(name, new Rx.BehaviorSubject());
+	getVariable(variableName) {
+		const scope = this.getScopeFromName(variableName);
+		if (!scope) {
+			throw new Error(`Failed to find scope for variable '${variableName}'`);
 		}
-		return this.variables.get(name);
+		const variable = scope.getNamedVariable(variableName);
+		if (!variable) {
+			throw new Error(`Failed to find variable '${variableName}'`);
+		}
+		return variable;
 	}
 
 	setValue(variableName, value) {
-		this.getValueStream(variableName).onNext(value);
+		const variable = this.getVariable(variableName);
+		variable.setValue(value);
 	}
 
 	getValue(variableName) {
-		return this.getValueStream(variableName).getValue();
+		const variable = this.getVariable(variableName);
+		return variable.getValue();
 	}
 
 	getValueStream(variableName) {
-		const name = variableName[variableName.length - 1];
-		const path = variableName.slice(0, -1);
-		const scope = this.getMatchingScope(path);
-
-		return scope.getVariable(name);
+		return this.getVariable(variableName).getStream();
 	}
 }
