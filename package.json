@@ -7,9 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine",
     "dev": "webpack --watch",
-    "dev-server": "babel src --out-dir build",
+    "dev-server": "babel src --out-dir build --watch",
     "build-server": "babel src --out-dir build",
     "start": "node --use-strict index.js",
     "lintfix": "eslint --fix src"
@@ -38,6 +38,7 @@
     "eslint-plugin-react": "^6.0.0",
     "font-awesome": "^4.6.3",
     "install": "^0.8.1",
+    "jasmine": "^2.4.1",
     "node-sass": "^3.8.0",
     "npm": "^3.10.6",
     "sass-loader": "^4.0.0",
@@ -50,6 +51,7 @@
     "babel-preset-react": "^6.11.1",
     "classnames": "^2.2.5",
     "express": "^4.14.0",
+    "mongodb": "^2.2.6",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
     "rx": "^4.1.0"

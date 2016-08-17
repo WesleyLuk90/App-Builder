@@ -8,11 +8,13 @@
 	&__edit-panel {
 		height: 300px;
 		box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+		padding: 1rem;
 		@include row-container;
 	}
 
 	&__components {
 		top: 300px;
+		padding-top: 1rem;
 		overflow: auto;
 	}
 }
@@ -55,7 +57,7 @@
 
 	min-height: 2rem;
 	position: relative;
-	padding: 20px 10px;
+	padding: 25px 10px 10px;
 
 	&__header {
 		position: absolute;

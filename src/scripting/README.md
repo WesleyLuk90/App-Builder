@@ -34,3 +34,7 @@ When does teacherName notify teacher
 e.g. teacherStudents and firstStudent
 
 teacherStudents notifies firstStudent on any mutation
+* A change to the order or values in the array affects any computed value of firstStudnet
+
+firstStudent notifies teacherStudents on any mutation
+* A change to firstStudent can modify any value computed from teacherStudents e.g. Change the first students marks affects the average mark of all students

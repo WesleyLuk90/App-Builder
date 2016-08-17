@@ -38,13 +38,17 @@ export default class ComponentEditor extends AbstractComponent {
 		return this.editorComponentFactory.withProps(this.childProps);
 	}
 
+	getComponentData() {
+		console.log(this.props.components.children[0]);
+	}
+
 	render() {
-		console.log(this.state.componentOptions);
 		const children = this.buildChildComponents('children');
 		return (<div className="component-editor">
 			<div className="component-editor__edit-panel">
 				{this.state.componentOptions.map((option, index) =>
 					<ComponentOptionInput key={index} option={option} />)}
+				<button className="button" onClick={() => this.getComponentData()}>Save</button>
 			</div>
 			<div className="component-editor__components">
 				{children}

@@ -54,6 +54,7 @@ export default class ComponentMap {
 		const components = [];
 		const blacklist = {
 			ComponentEditor: true,
+			ComponentInserter: true,
 			Page: true,
 		};
 		this.components.forEach((component, name) => {

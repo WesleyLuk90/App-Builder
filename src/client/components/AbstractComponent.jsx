@@ -23,8 +23,8 @@ export default class AbstractComponent extends React.Component {
 		return this.props.ComponentFactory.withProps(this.props);
 	}
 
-	getVariableList() {
-		return this.props.VariableList;
+	getProgramScope() {
+		return this.props.ProgramScope;
 	}
 
 	createProps(props) {
@@ -41,18 +41,18 @@ export default class AbstractComponent extends React.Component {
 		}
 		if (this.hasNamedVariable(key)) {
 			const variableName = this.props.namedVariables[key];
-			return this.getVariableList().getValue(variableName);
+			return this.getProgramScope().getValue(variableName);
 		}
 		if (arguments.length >= 2) {
 			return defaultValue;
 		}
-		throw new Error(`Attempted to get a not found value ${key} without providing a default`);
+		throw new Error(`Attempted to get a not found value '${key}' without providing a default on component ${this.constructor.name}`);
 	}
 
 	setValue(key, value) {
 		if (this.hasNamedVariable(key)) {
 			const variableName = this.props.namedVariables[key];
-			return this.getVariableList().setValue(variableName, value);
+			return this.getProgramScope().setValue(variableName, value);
 		}
 		throw new Error(`Failed to set value, no variable for ${key} exists`);
 	}
@@ -98,7 +98,7 @@ export default class AbstractComponent extends React.Component {
 
 	componentDidMount() {
 		this.subscriptions = this.getNamedVariables()
-			.map(variableName => this.getVariableList().getValueStream(variableName))
+			.map(variableName => this.getProgramScope().getValueStream(variableName))
 			.map(variable => variable.subscribe(() => this.forceUpdate()));
 	}
 

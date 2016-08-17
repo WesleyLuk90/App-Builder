@@ -2,10 +2,14 @@
 	"extends": "airbnb",
 	"rules": {
 		"indent": ["error", "tab"],
+		"max-len": [0],
 		"react/jsx-indent": ["error", "tab"],
 		"react/jsx-indent-props": [2, "tab"],
 		"react/prop-types": [0],
 		"react/sort-comp": [0],
 		"react/html-has-for": [0]
+	},
+	"env": {
+		"jasmine": true
 	}
 }

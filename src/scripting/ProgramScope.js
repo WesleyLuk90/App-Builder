@@ -1,8 +1,8 @@
 import Rx from 'rx';
 
-export default class VariableList {
+export default class ProgramScope {
 	static create() {
-		return new VariableList([], null);
+		return new ProgramScope([], null);
 	}
 
 	constructor(scopePath, parentScope) {

@@ -17,4 +17,11 @@ export default class ObjectType extends Type {
 		super();
 		this.modelName = modelName;
 	}
+
+	toJSONObject() {
+		return {
+			type: 'object',
+			model: this.modelName,
+		};
+	}
 }

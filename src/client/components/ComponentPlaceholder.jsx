@@ -32,6 +32,12 @@ export default class ComponentPlaceholder extends AbstractComponent {
 					<a className="component-placeholder__action">
 						<span className="fa fa-fw fa-remove" onClick={e => this.clickRemove(e)} />
 					</a>
+					<a className="component-placeholder__action">
+						<span className="fa fa-fw fa-backward" onClick={e => this.clickRemove(e)} />
+					</a>
+					<a className="component-placeholder__action">
+						<span className="fa fa-fw fa-forward" onClick={e => this.clickRemove(e)} />
+					</a>
 				</div>
 			</div>
 			<div className="component-placeholder__preview">

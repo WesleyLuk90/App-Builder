@@ -17,4 +17,11 @@ export default class ArrayType extends Type {
 		super();
 		this.baseType = baseType;
 	}
+
+	toJSONObject() {
+		return {
+			type: 'array',
+			arrayType: this.baseType.toJSONObject(),
+		};
+	}
 }
