@@ -91,4 +91,6 @@ build/client
 build/scripting
 build/server
 
+public/bundle.js
+
 bower_components
