@@ -1,6 +1,7 @@
 import Rx from 'rx';
 
 import ChangeTokenGenerator from './ChangeTokenGenerator';
+
 const STATIC_ARGUMENT = '$$args$$';
 
 function createFunction(parameters, body) {
@@ -37,7 +38,7 @@ export default class Variable {
 	}
 
 	isNewChange(changeToken) {
-		if (this.changeToken === changeToken) {
+		if (ChangeTokenGenerator.tokensEqual(this.changeToken, changeToken)) {
 			return false;
 		}
 		this.changeToken = changeToken;
@@ -89,8 +90,7 @@ export default class Variable {
 		const recompute = () => {
 			const args = variables.map(v => v.getValue());
 			const tokens = variables.map(v => v.getCurrentChangeToken());
-			const newestToken = ChangeTokenGenerator.newestToken(tokens);
-			this.setValue(computation(args), newestToken);
+			this.setValue(computation(args), tokens);
 		};
 
 		variables.forEach(variable => {

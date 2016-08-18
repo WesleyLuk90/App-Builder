@@ -116,7 +116,6 @@ describe('ProgramScope', () => {
 
 		expect(programScope.getValue(['branch'])).toEqual({ isABranch: true });
 
-		console.log("Set value");
 		programScope.setValue(['branch'], { reallyIsABranch: true });
 		expect(treeSubscriber).toHaveBeenCalledWith({ branch: { reallyIsABranch: true } });
 		expect(branchSubscriber).toHaveBeenCalledWith({ reallyIsABranch: true });

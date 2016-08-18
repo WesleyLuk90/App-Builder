@@ -8,7 +8,13 @@ export default class ChangeTokenGenerator {
 		return this.lastToken++;
 	}
 
-	static newestToken(tokens) {
-		return _.max(tokens);
+	static tokensEqual(token1, token2) {
+		if (token1 === token2) {
+			return true;
+		}
+		if (Array.isArray(token1) && Array.isArray(token2)) {
+			return token1.every((t, i) => token2[i] === t);
+		}
+		return false;
 	}
 }
