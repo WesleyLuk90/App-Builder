@@ -5,9 +5,13 @@ class Variable {
 		variable.type = type;
 		return variable;
 	}
-	static createBound(name, type, binding) {
+
+	static createPropertyBound(name, type, otherVariable, property) {
 		const variable = Variable.createSimple(name, type);
-		variable.binding = binding;
+		variable.binding = {
+			variable: otherVariable,
+			property,
+		};
 		return variable;
 	}
 
@@ -54,8 +58,8 @@ export default class ProgramBuilder {
 		return this;
 	}
 
-	addBoundVariable(variable, type, binding) {
-		this.variables.push(Variable.createBound(variable, type, binding));
+	addBoundVariable(variable, type, otherVariable, property) {
+		this.variables.push(Variable.createPropertyBound(variable, type, otherVariable, property));
 		return this;
 	}
 

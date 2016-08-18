@@ -44,7 +44,7 @@ describe('ProgramScope', () => {
 	it('should notify when bound variable changes', () => {
 		const programData = ProgramBuilder.newBuilder()
 			.addVariable('teacher', AllTypes.getObjectType('teacher'))
-			.addBoundVariable('age', AllTypes.getNumberType(), ['teacher', 'age'])
+			.addBoundVariable('age', AllTypes.getNumberType(), ['teacher'], 'age')
 			.toJSONObject();
 
 		const programScope = ProgramScope.create(programData);
@@ -56,5 +56,23 @@ describe('ProgramScope', () => {
 		expect(spy).toHaveBeenCalled();
 
 		expect(programScope.getValue(['age'])).toEqual(20);
+	});
+
+	it('should notify a property of an object is changed', () => {
+		const programData = ProgramBuilder.newBuilder()
+			.addVariable('teacher', AllTypes.getObjectType('teacher'))
+			.addBoundVariable('age', AllTypes.getNumberType(), ['teacher'], 'age')
+			.toJSONObject();
+
+		const programScope = ProgramScope.create(programData);
+		programScope.setValue(['teacher'], { age: 20 });
+
+		const spy = jasmine.createSpy('notify');
+		programScope.getValueStream(['teacher']).subscribe(spy);
+
+		programScope.setValue(['age'], 30);
+		expect(spy).toHaveBeenCalled();
+
+		expect(programScope.getValue(['teacher']).age).toEqual(30);
 	});
 });

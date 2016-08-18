@@ -52,7 +52,7 @@ function main(document) {
 	const programDefinition = ProgramBuilder.newBuilder()
 		.addVariable('text_value', AllTypes.getStringType())
 		.addVariable('teacher', AllTypes.getObjectType('teacher'))
-		.addBoundVariable('teacher_name', AllTypes.getStringType(), ['teacher', 'name'])
+		.addBoundVariable('teacher_name', AllTypes.getStringType(), ['teacher'], 'name')
 		.addComputedVariable('my_other_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
 			.addParameter(['text_value'], 'text_value')
 			.setBody("return text_value + 'is the value';"))

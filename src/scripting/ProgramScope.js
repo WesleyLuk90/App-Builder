@@ -30,6 +30,7 @@ export default class ProgramScope {
 		}
 		const variables = programData.variables;
 		variables.forEach(variableData => this.defineLocalVariable(variableData.name));
+		variables.forEach(variableData => this.loadBinding(variableData.name, variableData.binding));
 
 		// const scopes = programData.scopes;
 	}
@@ -49,6 +50,15 @@ export default class ProgramScope {
 	defineLocalVariable(name) {
 		const variable = Variable.createVariable();
 		this.variables.set(name, variable);
+	}
+
+	loadBinding(name, binding) {
+		if (!binding) {
+			return;
+		}
+		const variable = this.variables.get(name);
+		const bindTo = this.getVariable(binding.variable);
+		variable.bindProperty(bindTo, binding.property);
 	}
 
 	getNamedVariable(variableName) {

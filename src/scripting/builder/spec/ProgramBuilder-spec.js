@@ -25,7 +25,7 @@ describe('ProgramBuilder', () => {
 	it('should generate a program with a bound value', () => {
 		const programData = ProgramBuilder.newBuilder()
 			.addVariable('tree', AllTypes.getObjectType('trees'))
-			.addBoundVariable('height', AllTypes.getNumberType(), ['tree', 'height'])
+			.addBoundVariable('height', AllTypes.getNumberType(), ['tree'], 'height')
 			.toJSONObject();
 
 		expect(programData).toEqual({
@@ -36,7 +36,10 @@ describe('ProgramBuilder', () => {
 			}, {
 				name: 'height',
 				type: { type: 'number' },
-				binding: ['tree', 'height'],
+				binding: {
+					variable: ['tree'],
+					property: 'height',
+				},
 			}],
 			scopes: {},
 		});
