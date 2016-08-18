@@ -40,6 +40,9 @@ export default class Table extends AbstractComponent {
 		return TableEditor;
 	}
 	render() {
+		const forEach = this.getValue('foreach', []);
+		const scopeName = this.getValue('scopeName', null);
+
 		const headers = this.buildChildComponents('headers');
 		// const columns = this.buildChildComponents('columns');
 		const footers = this.buildChildComponents('footers');
@@ -48,7 +51,17 @@ export default class Table extends AbstractComponent {
 				<tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
 			</thead>
 			<tbody>
-				<tr><td>data</td></tr>
+				{forEach.map((value, rowIndex) => {
+					const newScope = this.getLoopScope(scopeName, rowIndex);
+					const children = this.buildChildComponents('columns', { ProgramScope: newScope });
+					const variableName = this.getScopedVariable('as');
+					newScope.setValue(variableName, value);
+					return (<tr key={rowIndex}>
+						{children.map((child, columnIndex) =>
+							<td key={columnIndex}>{child}</td>
+						)}
+					</tr>);
+				})}
 			</tbody>
 			<tfoot>
 				<tr>{footers.map((f, i) => <th key={i}>{f}</th>)}</tr>

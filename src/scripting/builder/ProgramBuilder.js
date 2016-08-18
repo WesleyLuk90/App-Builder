@@ -41,16 +41,26 @@ export default class ProgramBuilder {
 		return new ProgramBuilder([]);
 	}
 
-	constructor(scope) {
-		this.scope = scope;
-		this.variables = [];
+	static newScope(scope) {
+		return new ProgramBuilder(scope);
 	}
 
-	getNamedScope(scope) {
-		const childScope = [...this.scope, scope];
-		const newBuilder = new ProgramBuilder(childScope);
+	constructor(scope) {
+		if (!Array.isArray(scope)) {
+			throw new Error(`Scope must be an array, got ${scope}`);
+		}
+		this.scope = scope;
+		this.variables = [];
+		this.childScopes = new Map();
+	}
 
-		return newBuilder;
+	getScopeName() {
+		return this.scope[this.scope.length - 1];
+	}
+
+	addScope(scope) {
+		this.childScopes.set(scope.getScopeName(), scope);
+		return this;
 	}
 
 	addVariable(name, type) {
@@ -77,7 +87,11 @@ export default class ProgramBuilder {
 	}
 
 	scopesToJSONObject() {
-		return {};
+		const scopes = {};
+		this.childScopes.forEach((scope, name) => {
+			scopes[name] = scope.toJSONObject();
+		});
+		return scopes;
 	}
 
 	toJSONObject() {

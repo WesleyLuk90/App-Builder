@@ -15,12 +15,13 @@ export default class AbstractComponent extends React.Component {
 		return this.props.components[name];
 	}
 
-	buildChildComponents(name) {
-		return this.getComponentFactory().build(this.getChildComponents(name));
+	buildChildComponents(name, replaceProps) {
+		return this.getComponentFactory(replaceProps).build(this.getChildComponents(name));
 	}
 
-	getComponentFactory() {
-		return this.props.ComponentFactory.withProps(this.props);
+	getComponentFactory(replaceProps) {
+		const props = Object.assign({}, this.props, replaceProps);
+		return this.props.ComponentFactory.withProps(props);
 	}
 
 	getProgramScope() {
@@ -49,12 +50,24 @@ export default class AbstractComponent extends React.Component {
 		throw new Error(`Attempted to get a not found value '${key}' without providing a default on component ${this.constructor.name}`);
 	}
 
+	getLoopScope(scopeName, index) {
+		return this.props.ProgramScope.getChildScope(scopeName, index);
+	}
+
 	setValue(key, value) {
 		if (this.hasNamedVariable(key)) {
 			const variableName = this.props.namedVariables[key];
 			return this.getProgramScope().setValue(variableName, value);
 		}
 		throw new Error(`Failed to set value, no variable for ${key} exists`);
+	}
+
+	getNamedVariable(key) {
+		return this.props.namedVariables[key];
+	}
+
+	getScopedVariable(key) {
+		return this.props.scopedVariables[key];
 	}
 
 	hasNamedVariable(key) {

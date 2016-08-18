@@ -72,4 +72,29 @@ describe('ProgramBuilder', () => {
 			scopes: {},
 		});
 	});
+
+	it('should generate a program with a child scope', () => {
+		const programData = ProgramBuilder.newBuilder()
+			.addScope(
+				ProgramBuilder
+				.newScope(['testScope'])
+				.addVariable('testVar', AllTypes.getNumberType())
+			)
+			.toJSONObject();
+
+		expect(programData).toEqual({
+			name: [],
+			variables: [],
+			scopes: {
+				testScope: {
+					name: ['testScope'],
+					variables: [{
+						name: 'testVar',
+						type: { type: 'number' },
+					}],
+					scopes: {},
+				},
+			},
+		});
+	});
 });

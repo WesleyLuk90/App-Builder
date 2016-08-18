@@ -27,6 +27,7 @@ function main(document) {
 						.setNamedVariable('value', ['text_value'])
 					)
 					.addComponent(ComponentBuilder.newBuilder('Table')
+						.setValue('scopeName', 'loopScope1')
 						.setComponents('headers', ComponentListBuilder.newBuilder()
 							.addComponent(ComponentBuilder.newBuilder('Label').setNamedVariable('text', ['my_other_value']))
 							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Header 2'))
@@ -34,6 +35,7 @@ function main(document) {
 						)
 						.setComponents('columns', ComponentListBuilder.newBuilder()
 							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Row'))
+							.addComponent(ComponentBuilder.newBuilder('Label').setNamedVariable('text', ['loopScope1', 'column_value']))
 						)
 						.setComponents('footers', ComponentListBuilder.newBuilder()
 							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Footer 4'))
@@ -41,7 +43,7 @@ function main(document) {
 							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Footer 6'))
 						)
 						.setValue('foreach', [1, 2, 3, 4])
-						.setNamedVariable('as', ['thing'])
+						.setScopedVariable('as', ['loopScope1', 'rowNumber'])
 					)
 				)
 			)
@@ -55,15 +57,22 @@ function main(document) {
 		.addBoundVariable('teacher_name', AllTypes.getStringType(), ['teacher'], 'name')
 		.addComputedVariable('my_other_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
 			.addParameter(['text_value'], 'text_value')
-			.setBody("return text_value + 'is the value';"))
+			.setBody("return text_value + 'is the value';")
+		)
+		.addScope(ProgramBuilder.newScope(['loopScope1'])
+			.addVariable('rowNumber', AllTypes.getNumberType())
+			.addComputedVariable('column_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
+				.addParameter(['loopScope1', 'rowNumber'], 'rowNumber')
+				.addParameter(['text_value'], 'inputValue')
+				.setBody('return `${inputValue} ${rowNumber} + Row`;')
+			)
+		)
 		.toJSONObject();
-
-	console.log(programDefinition);
 
 	const props = {
 		page: pageDefinition,
 		ComponentFactory: componentFactory,
-		ProgramScope: ProgramScope.create(),
+		ProgramScope: ProgramScope.create(programDefinition),
 		ComponentMap: componentMap,
 	};
 	const element = componentFactory.withProps(props).buildComponent(pageDefinition);

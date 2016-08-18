@@ -13,6 +13,7 @@ export default class ComponentBuilder {
 		this.components = new Map();
 		this.values = new Map();
 		this.namedVariables = new Map();
+		this.scopedVariables = new Map();
 	}
 
 	setComponents(name, componentList) {
@@ -33,6 +34,14 @@ export default class ComponentBuilder {
 			throw new Error(`VariableName must be an array, got ${variable}`);
 		}
 		this.namedVariables.set(key, variable);
+		return this;
+	}
+
+	setScopedVariable(key, variable) {
+		if (!Array.isArray(variable)) {
+			throw new Error(`VariableName must be an array, got ${variable}`);
+		}
+		this.scopedVariables.set(key, variable);
 		return this;
 	}
 
@@ -63,12 +72,22 @@ export default class ComponentBuilder {
 		return namedVariables;
 	}
 
+	scopedVariablesToJSONObject() {
+		const scopedVariables = {};
+		this.scopedVariables
+			.forEach((value, key) => {
+				scopedVariables[key] = value;
+			});
+		return scopedVariables;
+	}
+
 	toJSONObject() {
 		return {
 			type: this.type,
 			components: this.componentsToJSONObject(),
 			values: this.valuesToJSONObject(),
 			namedVariables: this.namedVariablesToJSONObject(),
+			scopedVariables: this.scopedVariablesToJSONObject(),
 		};
 	}
 }

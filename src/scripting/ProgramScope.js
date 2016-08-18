@@ -19,6 +19,7 @@ export default class ProgramScope {
 		this.parentScope = parentScope;
 		this.tokenGenerator = tokenGenerator;
 		this.variables = new Map();
+		this.childScopes = new Map();
 	}
 
 	loadFromData(programData) {
@@ -36,7 +37,28 @@ export default class ProgramScope {
 			.filter(variableData => variableData.computation)
 			.forEach(variableData => this.loadComputed(variableData.name, variableData.computation));
 
-		// const scopes = programData.scopes;
+		this.childScopeDefinitions = programData.scopes;
+	}
+
+	getChildScopeList(scopeName) {
+		if (!this.childScopes.has(scopeName)) {
+			this.childScopes.set(scopeName, new Map());
+		}
+		return this.childScopes.get(scopeName);
+	}
+
+	getChildScope(scopeName, index) {
+		if (!this.childScopeDefinitions[scopeName]) {
+			throw new Error(`No child scope defined for ${scopeName}`);
+		}
+		const childScopeData = this.childScopeDefinitions[scopeName];
+		const scopeList = this.getChildScopeList(scopeName);
+		if (!scopeList.has(index)) {
+			const childScope = new ProgramScope(childScopeData.name, this, this.tokenGenerator);
+			childScope.loadFromData(childScopeData);
+			scopeList.set(index, childScope);
+		}
+		return scopeList.get(index);
 	}
 
 	getScopeFromName(variableName) {
@@ -104,7 +126,7 @@ export default class ProgramScope {
 	getVariable(variableName) {
 		const scope = this.getScopeFromName(variableName);
 		if (!scope) {
-			throw new Error(`Failed to find scope for variable '${variableName}'`);
+			throw new Error(`Failed to find scope for variable '${variableName}' from scope '${this.scopePath}'`);
 		}
 		const variable = scope.getLocalVariable(variableName);
 		if (!variable) {
