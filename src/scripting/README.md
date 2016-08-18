@@ -38,3 +38,7 @@ teacherStudents notifies firstStudent on any mutation
 
 firstStudent notifies teacherStudents on any mutation
 * A change to firstStudent can modify any value computed from teacherStudents e.g. Change the first students marks affects the average mark of all students
+
+## ChangeTokens
+
+Change tokens are used to strictly enforce that each change to a value can not cause an infinite loop of variables updating each other

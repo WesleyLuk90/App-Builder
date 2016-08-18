@@ -1,6 +1,4 @@
-import Rx from 'rx';
-
-
+import ChangeTokenGenerator from './ChangeTokenGenerator';
 import Variable from './Variable';
 /**
  * interface ProgramScope {
@@ -9,17 +7,17 @@ import Variable from './Variable';
  * 		getStream(variableName): Rx.Observable
  * }
  */
-
 export default class ProgramScope {
 	static create(programData) {
-		const programScope = new ProgramScope([], null);
+		const programScope = new ProgramScope([], null, new ChangeTokenGenerator());
 		programScope.loadFromData(programData);
 		return programScope;
 	}
 
-	constructor(scopePath, parentScope) {
+	constructor(scopePath, parentScope, tokenGenerator) {
 		this.scopePath = scopePath;
 		this.parentScope = parentScope;
+		this.tokenGenerator = tokenGenerator;
 		this.variables = new Map();
 	}
 
@@ -29,8 +27,14 @@ export default class ProgramScope {
 			throw new Error(`Failed to load scope, invalid name got ${name} but expecting ${this.scopePath}`);
 		}
 		const variables = programData.variables;
-		variables.forEach(variableData => this.defineLocalVariable(variableData.name));
-		variables.forEach(variableData => this.loadBinding(variableData.name, variableData.binding));
+		variables
+			.forEach(variableData => this.defineLocalVariable(variableData.name));
+		variables
+			.filter(variableData => variableData.binding)
+			.forEach(variableData => this.loadBinding(variableData.name, variableData.binding));
+		variables
+			.filter(variableData => variableData.computation)
+			.forEach(variableData => this.loadComputed(variableData.name, variableData.computation));
 
 		// const scopes = programData.scopes;
 	}
@@ -53,15 +57,25 @@ export default class ProgramScope {
 	}
 
 	loadBinding(name, binding) {
-		if (!binding) {
-			return;
-		}
 		const variable = this.variables.get(name);
 		const bindTo = this.getVariable(binding.variable);
 		variable.bindProperty(bindTo, binding.property);
 	}
 
-	getNamedVariable(variableName) {
+	loadComputed(name, computation) {
+		const variable = this.variables.get(name);
+		const variables = computation.parameters.map(parameter => this.getVariable(parameter.variable));
+		const parameters = computation.parameters.map(parameter => parameter.localVariable);
+
+		variable.bindComputed(variables, parameters, computation.body);
+	}
+
+	/**
+	 * Gets a local variable given its fully qualified scope path
+	 * @param  {[type]} variableName [description]
+	 * @return {[type]}              [description]
+	 */
+	getLocalVariable(variableName) {
 		const variableIdentifier = variableName[variableName.length - 1];
 		return this.variables.get(variableIdentifier);
 	}
@@ -82,12 +96,17 @@ export default class ProgramScope {
 		return this.parentScope;
 	}
 
+	/**
+	 * Gets a variable given its fully qualified scope path, searches through parent scopes too
+	 * @param  Array<string> variableName [description]
+	 * @return Variable              [description]
+	 */
 	getVariable(variableName) {
 		const scope = this.getScopeFromName(variableName);
 		if (!scope) {
 			throw new Error(`Failed to find scope for variable '${variableName}'`);
 		}
-		const variable = scope.getNamedVariable(variableName);
+		const variable = scope.getLocalVariable(variableName);
 		if (!variable) {
 			throw new Error(`Failed to find variable '${variableName}'`);
 		}
@@ -96,7 +115,7 @@ export default class ProgramScope {
 
 	setValue(variableName, value) {
 		const variable = this.getVariable(variableName);
-		variable.setValue(value);
+		variable.setValue(value, this.tokenGenerator.nextToken());
 	}
 
 	getValue(variableName) {
