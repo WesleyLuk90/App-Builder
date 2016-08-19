@@ -14,7 +14,7 @@ require('../scss/main.scss');
 function main(document) {
 	const appContainer = document.querySelector('.app-container');
 
-	const pageDefinition = ComponentBuilder.newBuilder('Page')
+	const pageDefinition = ComponentBuilder.newBuilder('ComponentEditor')
 		.setComponents('children', ComponentListBuilder.newBuilder()
 			.addComponent(ComponentBuilder.newBuilder('Page')
 				.setComponents('children', ComponentListBuilder.newBuilder()
