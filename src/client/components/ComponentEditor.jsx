@@ -7,11 +7,11 @@ import ScriptEditor from './script-editor/ScriptEditor';
 export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
 		super(props);
-		this.editorComponentFactory = this.props.ComponentFactory.toEditorComponentFactory();
+		this.editorComponentFactory = this.props.componentFactory.toEditorComponentFactory();
 		this.childProps = Object.assign({},
 			this.props, {
-				ComponentFactory: this.editorComponentFactory,
-				ComponentEditor: this,
+				componentFactory: this.editorComponentFactory,
+				componentEditor: this,
 			});
 
 		this.state = {
@@ -61,7 +61,7 @@ export default class ComponentEditor extends AbstractComponent {
 				</div>
 			</div>
 			<div className="component-editor__script-panel">
-				<ScriptEditor program={this.props.ProgramScope} />
+				<ScriptEditor program={this.props.programScope} {...this.props} />
 			</div>
 		</div>);
 	}

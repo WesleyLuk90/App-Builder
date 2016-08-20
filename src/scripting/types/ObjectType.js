@@ -5,7 +5,7 @@ const objectTypes = new Map();
 export default class ObjectType extends Type {
 	static getInstance(modelName) {
 		if (Type.isType(modelName)) {
-			throw new Error(`Array type must have a base type, got ${modelName}`);
+			throw new Error(`Object type must have a model name, got '${modelName}'`);
 		}
 		if (!objectTypes.has(modelName)) {
 			objectTypes.set(modelName, new ObjectType(modelName));
@@ -28,6 +28,10 @@ export default class ObjectType extends Type {
 
 	isAssignableTo(otherType) {
 		return otherType.toJSONObject().type === 'object';
+	}
+
+	getModelName() {
+		return this.modelName;
 	}
 
 	toJSONObject() {

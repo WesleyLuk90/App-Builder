@@ -21,11 +21,11 @@ export default class AbstractComponent extends React.Component {
 
 	getComponentFactory(replaceProps) {
 		const props = Object.assign({}, this.props, replaceProps);
-		return this.props.ComponentFactory.withProps(props);
+		return this.props.componentFactory.withProps(props);
 	}
 
 	getProgramScope() {
-		return this.props.ProgramScope;
+		return this.props.programScope;
 	}
 
 	createProps(props) {
@@ -51,7 +51,7 @@ export default class AbstractComponent extends React.Component {
 	}
 
 	getLoopScope(scopeName, index) {
-		return this.props.ProgramScope.getChildScope(scopeName, index);
+		return this.props.programScope.getChildScope(scopeName, index);
 	}
 
 	setValue(key, value) {
@@ -91,7 +91,7 @@ export default class AbstractComponent extends React.Component {
 			insertContext: this.getInsertContext(componentGroup),
 		});
 		// Prevent a circular dependency by fetching it from the component map
-		const ComponentInserter = this.props.ComponentMap.getComponent('ComponentInserter');
+		const ComponentInserter = this.props.componentMap.getComponent('ComponentInserter');
 		return <ComponentInserter {...inserterProps} />;
 	}
 

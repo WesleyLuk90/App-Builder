@@ -5,7 +5,7 @@ import AbstractComponent from './AbstractComponent';
 
 export default class ComponentInserterModal extends AbstractComponent {
 	getInsertableComponents() {
-		return this.props.ComponentMap.getInsertableComponentNames()
+		return this.props.componentMap.getInsertableComponentNames()
 			.map((componentName, index) =>
 				(<li key={index}>
 					<a onClick={(e) => this.selectComponent(e, componentName)}>{componentName}</a>

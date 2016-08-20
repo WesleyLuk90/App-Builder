@@ -10,6 +10,7 @@
 		"react/html-has-for": [0]
 	},
 	"env": {
+		"browser": true,
 		"jasmine": true
 	}
 }

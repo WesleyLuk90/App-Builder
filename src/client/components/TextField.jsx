@@ -57,7 +57,7 @@ export default class TextField extends AbstractComponent {
 			value = '';
 		}
 		return (<div>
-			<label htmlFor={this.id}>{this.getValue('label')}</label>
+			<label htmlFor={this.id}>{this.getValue('label', '')}</label>
 			<input
 				id={this.id}
 				type="text"

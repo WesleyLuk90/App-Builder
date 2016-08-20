@@ -7,7 +7,7 @@ import ComponentEditor from './ComponentEditor';
 export default class ComponentPlaceholder extends AbstractComponent {
 	clickEdit(event) {
 		event.preventDefault();
-		this.props.ComponentEditor.selectComponent(this.props.component);
+		this.props.componentEditor.selectComponent(this.props.component);
 	}
 
 	clickRemove(event) {
@@ -17,7 +17,7 @@ export default class ComponentPlaceholder extends AbstractComponent {
 	render() {
 		const placeholderClassname = classnames(
 			'component-placeholder', {
-				'component-placeholder--selected': this.props.ComponentEditor.isSelected(this),
+				'component-placeholder--selected': this.props.componentEditor.isSelected(this),
 			}
 		);
 		return (<div className={placeholderClassname}>
@@ -48,7 +48,7 @@ export default class ComponentPlaceholder extends AbstractComponent {
 }
 
 ComponentPlaceholder.propTypes = {
-	ComponentEditor: React.PropTypes.instanceOf(ComponentEditor).isRequired,
+	componentEditor: React.PropTypes.instanceOf(ComponentEditor).isRequired,
 };
 
 export function createComponentPlaceholder(name) {

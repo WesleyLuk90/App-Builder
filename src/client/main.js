@@ -1,13 +1,17 @@
 import ReactDom from 'react-dom';
 
-import ComponentFactory from './components/ComponentFactory';
-import ComponentMap from './components/ComponentMap';
-import ComponentListBuilder from './components/ComponentListBuilder';
 import ComponentBuilder from './components/ComponentBuilder';
-import ProgramScope from '../scripting/ProgramScope';
-import ProgramBuilder from '../scripting/builder/ProgramBuilder';
+import ComponentFactory from './components/ComponentFactory';
+import ComponentListBuilder from './components/ComponentListBuilder';
+import ComponentMap from './components/ComponentMap';
 import ComputedVariableBuilder from '../scripting/builder/ComputedVariableBuilder';
+
 import AllTypes from '../scripting/types/AllTypes';
+import ModelBuilder from '../scripting/builder/ModelBuilder';
+import ModelDataBuilder from '../scripting/builder/ModelDataBuilder';
+import ModelList from '../scripting/ModelList';
+import ProgramBuilder from '../scripting/builder/ProgramBuilder';
+import ProgramScope from '../scripting/ProgramScope';
 
 require('../scss/main.scss');
 
@@ -53,7 +57,7 @@ function main(document) {
 
 	const programDefinition = ProgramBuilder.newBuilder()
 		.addVariable('text_value', AllTypes.getStringType())
-		.addVariable('teacher', AllTypes.getObjectType('teacher'))
+		.addVariable('teacher', AllTypes.getObjectType('people'))
 		.addBoundVariable('teacher_name', AllTypes.getStringType(), ['teacher'], 'name')
 		.addComputedVariable('my_other_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
 			.addParameter(['text_value'], 'text_value')
@@ -69,12 +73,19 @@ function main(document) {
 		)
 		.toJSONObject();
 
+	const modelData = ModelDataBuilder.newBuilder()
+		.addModel(ModelBuilder.newBuilder('people')
+			.addField('name', AllTypes.getStringType())
+			.addField('age', AllTypes.getStringType())
+		)
+		.toJSONObject();
 
 	const props = {
 		page: pageDefinition,
-		ComponentFactory: componentFactory,
-		ProgramScope: ProgramScope.create(programDefinition),
-		ComponentMap: componentMap,
+		componentFactory,
+		programScope: ProgramScope.create(programDefinition),
+		componentMap,
+		modelList: ModelList.fromData(modelData),
 	};
 	const element = componentFactory.withProps(props).buildComponent(pageDefinition);
 	ReactDom.render(element, appContainer);
