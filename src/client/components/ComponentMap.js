@@ -1,6 +1,6 @@
 import ComponentEditor from './ComponentEditor';
 import ComponentInserter from './ComponentInserter';
-import Label from './Label';
+import Text from './Text';
 import Page from './Page';
 import Section from './Section';
 import Table from './Table';
@@ -16,7 +16,7 @@ export default class ComponentMap {
 
 	initialize() {
 		this.addComponent(Page);
-		this.addComponent(Label);
+		this.addComponent(Text);
 		this.addComponent(TextField);
 		this.addComponent(ComponentEditor);
 		this.addComponent(Table);

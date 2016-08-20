@@ -6,7 +6,7 @@
 	flex-direction: column;
 
 	&__actions-panel {
-		padding: 10px 15px;
+		@include default-padding;
 		height: 50px;
 		flex: 0 0 auto;
 		display: flex;
@@ -39,7 +39,7 @@
 	&__edit-panel {
 		border-left: solid 1px $section-border;
 		width: 300px;
-		padding: 1rem;
+		@include default-padding;
 		@include row-container;
 	}
 
@@ -108,4 +108,29 @@
 	&--selected {
 		border-color: $section-focused-border;
 	}
+}
+
+
+.script-editor {
+	@include default-padding;
+	@include row-container;
+}
+
+.variable-option, .variable-list {
+	> * + * {
+		margin-top: 1.5rem;
+	}
+}
+.variable-type, .variable-binding {
+	display: flex;
+	align-items: center;
+	> * + * {
+		margin-left: 1.5rem;		
+	}
+}
+
+.code-editor {
+	position: relative;
+	width: 500px;
+	height: 300px;
 }

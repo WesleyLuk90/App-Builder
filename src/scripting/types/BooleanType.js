@@ -7,6 +7,14 @@ export default class BooleanType extends Type {
 		return booleanType;
 	}
 
+	static isTypeData(typeData) {
+		return typeData.type === 'boolean';
+	}
+
+	static fromData() {
+		return BooleanType.getInstance();
+	}
+
 	toJSONObject() {
 		return {
 			type: 'boolean',

@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import AbstractComponent from './AbstractComponent';
 import ComponentPlaceholder from './ComponentPlaceholder';
@@ -7,8 +8,14 @@ import AllTypes from '../../scripting/types/AllTypes';
 
 export class TextFieldEditor extends AbstractComponent {
 
+	constructor(props) {
+		super(props);
+		this.id = _.uniqueId();
+	}
+
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
+			.addOption('label', AllTypes.getStringType())
 			.addOption('placeholder', AllTypes.getStringType())
 			.addOption('value', AllTypes.getStringType())
 			.build();
@@ -16,7 +23,9 @@ export class TextFieldEditor extends AbstractComponent {
 
 	render() {
 		return (<ComponentPlaceholder {...this.createProps()} name="Text Field" component={this}>
+			<label htmlFor={this.id}>{this.getDisplayValue('label', '')}</label>
 			<input
+				id={this.id}
 				className="text-field"
 				disabled
 				placeholder={this.getDisplayValue('placeholder')}
@@ -26,6 +35,11 @@ export class TextFieldEditor extends AbstractComponent {
 }
 
 export default class TextField extends AbstractComponent {
+
+	constructor(props) {
+		super(props);
+		this.id = _.uniqueId();
+	}
 
 	static getEditor() {
 		return TextFieldEditor;
@@ -42,12 +56,16 @@ export default class TextField extends AbstractComponent {
 		if (value == null) {
 			value = '';
 		}
-		return (<input
-			type="text"
-			className="text-field"
-			placeholder={this.getValue('placeholder')}
-			value={value}
-			onChange={e => this.onChangeInput(e)}
-		/>);
+		return (<div>
+			<label htmlFor={this.id}>{this.getValue('label')}</label>
+			<input
+				id={this.id}
+				type="text"
+				className="text-field"
+				placeholder={this.getValue('placeholder')}
+				value={value}
+				onChange={e => this.onChangeInput(e)}
+			/>
+		</div>);
 	}
 }

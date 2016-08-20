@@ -1,7 +1,8 @@
 import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
-import ComponentOptionInput from './ComponentOptionInput';
+import ComponentOptionEditor from './ComponentOptionEditor';
+import ScriptEditor from './script-editor/ScriptEditor';
 
 export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
@@ -13,21 +14,21 @@ export default class ComponentEditor extends AbstractComponent {
 				ComponentEditor: this,
 			});
 
-		this.selectedComponent = null;
-
 		this.state = {
-			componentOptions: [],
+			selectedComponent: null,
 		};
 	}
 
 	isSelected(component) {
-		return this.selectedComponent === component;
+		return this.state.selectedComponent === component;
 	}
 
 	selectComponent(component) {
-		const lastSelected = this.selectedComponent;
-		this.selectedComponent = component;
-		this.setState({ componentOptions: component.getComponentOptions() });
+		if (this.isSelected(component)) {
+			return;
+		}
+		const lastSelected = this.state.selectedComponent;
+		this.setState({ selectedComponent: component });
 		component.forceUpdate();
 		if (lastSelected) {
 			lastSelected.forceUpdate();
@@ -56,11 +57,11 @@ export default class ComponentEditor extends AbstractComponent {
 					{children}
 				</div>
 				<div className="component-editor__edit-panel">
-					{this.state.componentOptions.map((option, index) =>
-						<ComponentOptionInput key={index} option={option} />)}
+					<ComponentOptionEditor component={this.state.selectedComponent} />
 				</div>
 			</div>
 			<div className="component-editor__script-panel">
+				<ScriptEditor program={this.props.ProgramScope} />
 			</div>
 		</div>);
 	}

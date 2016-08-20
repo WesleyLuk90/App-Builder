@@ -4,7 +4,6 @@ import AllTypes from '../types/AllTypes';
 import ProgramScope from '../ProgramScope';
 
 describe('ProgramScope', () => {
-
 	it('should throw an error if a variable doesnt exist', () => {
 		const programData = ProgramBuilder.newBuilder()
 			.toJSONObject();

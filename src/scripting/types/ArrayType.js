@@ -13,9 +13,21 @@ export default class ArrayType extends Type {
 		return arrayTypes.get(baseType);
 	}
 
+	static isTypeData(typeData) {
+		return typeData.type === 'array' && typeData.arrayType;
+	}
+
+	static fromData(typeData) {
+		return ArrayType.getInstance(typeData.arrayType);
+	}
+
 	constructor(baseType) {
 		super();
 		this.baseType = baseType;
+	}
+
+	isAssignableTo(otherType) {
+		return otherType.toJSONObject().type === 'array';;
 	}
 
 	toJSONObject() {

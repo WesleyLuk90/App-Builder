@@ -7,6 +7,14 @@ export default class NumberType extends Type {
 		return numberType;
 	}
 
+	static isTypeData(typeData) {
+		return typeData.type === 'number';
+	}
+
+	static fromData() {
+		return NumberType.getInstance();
+	}
+
 	toJSONObject() {
 		return {
 			type: 'number',

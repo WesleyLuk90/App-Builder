@@ -7,6 +7,14 @@ export default class StringType extends Type {
 		return stringType;
 	}
 
+	static isTypeData(typeData) {
+		return typeData.type === 'string';
+	}
+
+	static fromData() {
+		return StringType.getInstance();
+	}
+
 	toJSONObject() {
 		return {
 			type: 'string',

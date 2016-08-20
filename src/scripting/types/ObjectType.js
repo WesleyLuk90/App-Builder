@@ -13,9 +13,21 @@ export default class ObjectType extends Type {
 		return objectTypes.get(modelName);
 	}
 
+	static isTypeData(typeData) {
+		return typeData.type === 'object' && typeData.model;
+	}
+
+	static fromData(typeData) {
+		return ObjectType.getInstance(typeData.model);
+	}
+
 	constructor(modelName) {
 		super();
 		this.modelName = modelName;
+	}
+
+	isAssignableTo(otherType) {
+		return otherType.toJSONObject().type === 'object';
 	}
 
 	toJSONObject() {

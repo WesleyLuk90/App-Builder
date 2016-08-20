@@ -6,7 +6,7 @@ import ObjectType from './ObjectType';
 import AnyArrayType from './AnyArrayType';
 import AnyObjectType from './AnyObjectType';
 
-export default {
+const AllTypes = {
 	getStringType() {
 		return StringType.getInstance();
 	},
@@ -34,4 +34,28 @@ export default {
 	getAnyObjectType() {
 		return AnyObjectType.getInstance();
 	},
+
+	getTypeConstructors() {
+		return [
+			StringType,
+			NumberType,
+			BooleanType,
+			ArrayType,
+			ObjectType,
+			AnyArrayType,
+			AnyObjectType,
+		];
+	},
+
+	fromData(type) {
+		const constructors = AllTypes.getTypeConstructors();
+		for (let i = 0; i < constructors.length; i++) {
+			if (constructors[i].isTypeData(type)) {
+				return constructors[i].fromData(type);
+			}
+		}
+		throw new Error(`Invalid type data ${type}`);
+	},
 };
+
+export default AllTypes;

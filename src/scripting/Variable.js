@@ -1,6 +1,7 @@
 import Rx from 'rx';
 
 import ChangeTokenGenerator from './ChangeTokenGenerator';
+import Type from './types/Type';
 
 const STATIC_ARGUMENT = '$$args$$';
 
@@ -15,16 +16,24 @@ function createFunction(parameters, body) {
 }
 
 export default class Variable {
-	static createVariable(initialValue) {
-		return new Variable(initialValue);
+	static createVariable(type, initialValue) {
+		return new Variable(type, initialValue);
 	}
 
-	constructor(initialValue) {
+	constructor(type, initialValue) {
+		if (!Type.isType(type)) {
+			throw new Error(`Variable type must be instance of Type, got '${type}'`);
+		}
+		this.type = type;
 		if (initialValue != null) {
 			this.stream = new Rx.BehaviorSubject(initialValue);
 		} else {
 			this.stream = new Rx.BehaviorSubject(null);
 		}
+	}
+
+	getType() {
+		return this.type;
 	}
 
 	notifyChanged(changeToken) {

@@ -1,21 +1,29 @@
 @import "colors.scss";
 
-.text-field {
+@mixin input-style {
     width: 100%;
     padding: 6px 12px;
     display: block;
     border: solid 1px $input-border;
     border-radius: 4px;
     font-size: 1rem;
+
+    &--medium-width {
+        width: 300px;
+    }
+}
+
+.text-field {
+    @include input-style;
 }
 
 .button {
-    display: inline-block;
+    background-color: #fff;
     padding: 6px 12px;
     font-size: 1rem;
-    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
+    display: inline-block;
 
     &:hover, &--hover {
         background-color: #e6e6e6;
@@ -25,4 +33,16 @@
     &:active, &--active {
         box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     }
+}
+
+.label {
+    font-weight: bold;
+}
+
+.dropdown {
+    @include input-style;
+}
+
+.textarea {
+    @include input-style;
 }

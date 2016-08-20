@@ -5,27 +5,27 @@ import ComponentPlaceholder from './ComponentPlaceholder';
 import ComponentOptionsBuilder from './component-options/ComponentOptionsBuilder';
 import AllTypes from '../../scripting/types/AllTypes';
 
-class LabelEditor extends AbstractComponent {
+class TextEditor extends AbstractComponent {
 
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
-			.addOption('label', AllTypes.getStringType())
+			.addOption('text', AllTypes.getStringType())
 			.build();
 	}
 
 	render() {
-		return (<ComponentPlaceholder {...this.createProps()} name="Label" component={this}>
-			<label>{this.getDisplayValue('text')}</label>
+		return (<ComponentPlaceholder {...this.createProps()} name="Text" component={this}>
+			<div>{this.getDisplayValue('text')}</div>
 		</ComponentPlaceholder>);
 	}
 }
 
-export default class Label extends AbstractComponent {
+export default class Text extends AbstractComponent {
 	static getEditor() {
-		return LabelEditor;
+		return TextEditor;
 	}
 	render() {
-		return (<div className="label">
+		return (<div className="text">
 			{this.getValue('text')}
 		</div>);
 	}

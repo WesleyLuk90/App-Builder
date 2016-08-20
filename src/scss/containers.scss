@@ -1,5 +1,9 @@
 @import 'defaults.scss';
 
+@mixin default-padding {
+	padding: 10px 15px;
+}
+
 @mixin row-container() {
 	> * + * {
 		margin-top: 1.5rem;

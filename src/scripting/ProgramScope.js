@@ -1,5 +1,6 @@
 import ChangeTokenGenerator from './ChangeTokenGenerator';
 import Variable from './Variable';
+import AllTypes from './types/AllTypes';
 /**
  * interface ProgramScope {
  * 		getValue(variableName): value;
@@ -29,7 +30,7 @@ export default class ProgramScope {
 		}
 		const variables = programData.variables;
 		variables
-			.forEach(variableData => this.defineLocalVariable(variableData.name));
+			.forEach(variableData => this.defineLocalVariable(variableData.name, AllTypes.fromData(variableData.type)));
 		variables
 			.filter(variableData => variableData.binding)
 			.forEach(variableData => this.loadBinding(variableData.name, variableData.binding));
@@ -73,8 +74,8 @@ export default class ProgramScope {
 		return currentScope;
 	}
 
-	defineLocalVariable(name) {
-		const variable = Variable.createVariable();
+	defineLocalVariable(name, type) {
+		const variable = Variable.createVariable(type);
 		this.variables.set(name, variable);
 	}
 
@@ -92,6 +93,14 @@ export default class ProgramScope {
 		variable.bindComputed(variables, parameters, computation.body);
 	}
 
+	getVariableNames() {
+		const names = [];
+		this.variables.forEach((variable, name) => {
+			names.push(name);
+		});
+		return names;
+	}
+
 	/**
 	 * Gets a local variable given its fully qualified scope path
 	 * @param  {[type]} variableName [description]
@@ -102,20 +111,12 @@ export default class ProgramScope {
 		return this.variables.get(variableIdentifier);
 	}
 
-	equalsScope(scope) {
-		if (scope.length !== this.scopePath.length) {
-			return false;
-		}
-		for (let i = 0; i < scope.length; i++) {
-			if (scope[i] !== this.scopePath[i]) {
-				return false;
-			}
-		}
-		return true;
+	getVariableFromLocalName(localVariableName) {
+		return this.variables.get(localVariableName);
 	}
 
-	getParent() {
-		return this.parentScope;
+	getInScopeVariableNames() {
+		return this.getVariableNames();
 	}
 
 	/**
@@ -133,6 +134,22 @@ export default class ProgramScope {
 			throw new Error(`Failed to find variable '${variableName}'`);
 		}
 		return variable;
+	}
+
+	equalsScope(scope) {
+		if (scope.length !== this.scopePath.length) {
+			return false;
+		}
+		for (let i = 0; i < scope.length; i++) {
+			if (scope[i] !== this.scopePath[i]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	getParent() {
+		return this.parentScope;
 	}
 
 	setValue(variableName, value) {

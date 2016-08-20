@@ -19,7 +19,7 @@ function main(document) {
 			.addComponent(ComponentBuilder.newBuilder('Page')
 				.setComponents('children', ComponentListBuilder.newBuilder()
 					.addComponent(
-						ComponentBuilder.newBuilder('Label')
+						ComponentBuilder.newBuilder('Text')
 						.setNamedVariable('text', ['text_value'])
 					)
 					.addComponent(ComponentBuilder.newBuilder('TextField')
@@ -29,18 +29,18 @@ function main(document) {
 					.addComponent(ComponentBuilder.newBuilder('Table')
 						.setValue('scopeName', 'loopScope1')
 						.setComponents('headers', ComponentListBuilder.newBuilder()
-							.addComponent(ComponentBuilder.newBuilder('Label').setNamedVariable('text', ['my_other_value']))
-							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Header 2'))
-							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Header 3'))
+							.addComponent(ComponentBuilder.newBuilder('Text').setNamedVariable('text', ['my_other_value']))
+							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Header 2'))
+							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Header 3'))
 						)
 						.setComponents('columns', ComponentListBuilder.newBuilder()
-							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Row'))
-							.addComponent(ComponentBuilder.newBuilder('Label').setNamedVariable('text', ['loopScope1', 'column_value']))
+							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Row'))
+							.addComponent(ComponentBuilder.newBuilder('Text').setNamedVariable('text', ['loopScope1', 'column_value']))
 						)
 						.setComponents('footers', ComponentListBuilder.newBuilder()
-							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Footer 4'))
-							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Footer 5'))
-							.addComponent(ComponentBuilder.newBuilder('Label').setValue('text', 'My Footer 6'))
+							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Footer 4'))
+							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Footer 5'))
+							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Footer 6'))
 						)
 						.setValue('foreach', [1, 2, 3, 4])
 						.setScopedVariable('as', ['loopScope1', 'rowNumber'])
@@ -68,6 +68,7 @@ function main(document) {
 			)
 		)
 		.toJSONObject();
+
 
 	const props = {
 		page: pageDefinition,
