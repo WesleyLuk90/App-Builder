@@ -1,6 +1,8 @@
 import ChangeTokenGenerator from './ChangeTokenGenerator';
 import Variable from './Variable';
 import AllTypes from './types/AllTypes';
+import Path from './builder/Path';
+
 /**
  * interface ProgramScope {
  * 		getValue(variableName): value;
@@ -10,12 +12,15 @@ import AllTypes from './types/AllTypes';
  */
 export default class ProgramScope {
 	static create(programData) {
-		const programScope = new ProgramScope([], null, new ChangeTokenGenerator());
+		const programScope = new ProgramScope(Path.rootPath(), null, new ChangeTokenGenerator());
 		programScope.loadFromData(programData);
 		return programScope;
 	}
 
 	constructor(scopePath, parentScope, tokenGenerator) {
+		if (!Path.isInstance(scopePath)) {
+			throw new Error(`ScopePath must be instance of Path got ${scopePath}`);
+		}
 		this.scopePath = scopePath;
 		this.parentScope = parentScope;
 		this.tokenGenerator = tokenGenerator;
@@ -44,18 +49,6 @@ export default class ProgramScope {
 		return scopeList.get(index);
 	}
 
-	getScopeFromName(variableName) {
-		const scopeName = variableName.slice(0, -1);
-		let currentScope = this;
-		while (currentScope) {
-			if (currentScope.equalsScope(scopeName)) {
-				return currentScope;
-			}
-			currentScope = currentScope.getParent();
-		}
-		return currentScope;
-	}
-
 	defineLocalVariable(name, type) {
 		const variable = Variable.createVariable(type);
 		this.variables.set(name, variable);
@@ -63,13 +56,13 @@ export default class ProgramScope {
 
 	loadBinding(name, binding) {
 		const variable = this.variables.get(name);
-		const bindTo = this.getVariable(binding.variable);
+		const bindTo = this.getVariable(Path.newPath(binding.variable));
 		variable.bindProperty(bindTo, binding.property);
 	}
 
 	loadComputed(name, computation) {
 		const variable = this.variables.get(name);
-		const variables = computation.parameters.map(parameter => this.getVariable(parameter.variable));
+		const variables = computation.parameters.map(parameter => this.getVariable(Path.newPath(parameter.variable)));
 		const parameters = computation.parameters.map(parameter => parameter.localVariable);
 
 		variable.bindComputed(variables, parameters, computation.body);
@@ -88,9 +81,8 @@ export default class ProgramScope {
 	 * @param  {[type]} variableName [description]
 	 * @return {[type]}              [description]
 	 */
-	getLocalVariable(variableName) {
-		const variableIdentifier = variableName[variableName.length - 1];
-		return this.variables.get(variableIdentifier);
+	getLocalVariable(variablePath) {
+		return this.variables.get(variablePath.tail());
 	}
 
 	getVariableFromLocalName(localVariableName) {
@@ -103,31 +95,27 @@ export default class ProgramScope {
 
 	/**
 	 * Gets a variable given its fully qualified scope path, searches through parent scopes too
-	 * @param  Array<string> variableName [description]
+	 * @param  Path variablePath [description]
 	 * @return Variable              [description]
 	 */
-	getVariable(variableName) {
-		const scope = this.getScopeFromName(variableName);
-		if (!scope) {
-			throw new Error(`Failed to find scope for variable '${variableName}' from scope '${this.scopePath}'`);
+	getVariable(variablePath) {
+		// Get the scope that the variable is in
+		const variableScopePath = variablePath.getParentPath();
+		// Count how many ancestores we have to go up
+		const parentCount = this.scopePath.getAncestorDistance(variableScopePath);
+		let scope = this;
+		for (let i = 0; i < parentCount; i++) {
+			scope = scope.getParent();
 		}
-		const variable = scope.getLocalVariable(variableName);
+		const variable = scope.getLocalVariable(variablePath);
 		if (!variable) {
-			throw new Error(`Failed to find variable '${variableName}'`);
+			throw new Error(`Failed to find variable '${variablePath}'`);
 		}
 		return variable;
 	}
 
-	equalsScope(scope) {
-		if (scope.length !== this.scopePath.length) {
-			return false;
-		}
-		for (let i = 0; i < scope.length; i++) {
-			if (scope[i] !== this.scopePath[i]) {
-				return false;
-			}
-		}
-		return true;
+	equalsScopePath(scopePath) {
+		return this.scopePath.equals(scopePath);
 	}
 
 	getParent() {
@@ -150,7 +138,8 @@ export default class ProgramScope {
 
 	loadFromData(programData) {
 		const name = programData.name;
-		if (!this.equalsScope(name)) {
+		const path = Path.newPath(name);
+		if (!this.equalsScopePath(path)) {
 			throw new Error(`Failed to load scope, invalid name got ${name} but expecting ${this.scopePath}`);
 		}
 		const variables = programData.variables;

@@ -19,15 +19,15 @@ function main(document) {
 	const appContainer = document.querySelector('.app-container');
 
 	const programDefinition = ProgramBuilder.newBuilder()
-		.addVariable('text_value', AllTypes.getStringType())
-		.addVariable('teacher', AllTypes.getObjectType('people'))
+		.addNormalVariable('text_value', AllTypes.getStringType())
+		.addNormalVariable('teacher', AllTypes.getObjectType('people'))
 		.addBoundVariable('teacher_name', AllTypes.getNumberType(), ['teacher'], 'age')
 		.addComputedVariable('my_other_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
 			.addParameter(['text_value'], 'text_value')
 			.setBody("\treturn text_value + 'is the value';")
 		)
 		.addScope(ProgramBuilder.newScope(['loopScope1'])
-			.addVariable('rowNumber', AllTypes.getNumberType())
+			.addNormalVariable('rowNumber', AllTypes.getNumberType())
 			.addComputedVariable('column_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
 				.addParameter(['loopScope1', 'rowNumber'], 'rowNumber')
 				.addParameter(['text_value'], 'inputValue')

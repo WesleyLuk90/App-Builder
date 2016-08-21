@@ -29,6 +29,14 @@ export default class VariableBuilder {
 		return variable;
 	}
 
+	setProgramBuilder(programBuilder) {
+		this.programBuilder = programBuilder;
+	}
+
+	getProgramBuilder() {
+		return this.programBuilder;
+	}
+
 	setType(variableType) {
 		this.variableType = variableType;
 	}

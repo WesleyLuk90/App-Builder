@@ -5,8 +5,8 @@ import ComputedVariableBuilder from '../ComputedVariableBuilder';
 describe('ProgramBuilder', () => {
 	it('should generate a program with variables of different types', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('myString', AllTypes.getStringType())
-			.addVariable('myObject', AllTypes.getObjectType('trees'))
+			.addNormalVariable('myString', AllTypes.getStringType())
+			.addNormalVariable('myObject', AllTypes.getObjectType('trees'))
 			.toJSONObject();
 
 		expect(programData).toEqual({
@@ -24,7 +24,7 @@ describe('ProgramBuilder', () => {
 
 	it('should generate a program with a bound value', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('tree', AllTypes.getObjectType('trees'))
+			.addNormalVariable('tree', AllTypes.getObjectType('trees'))
 			.addBoundVariable('height', AllTypes.getNumberType(), ['tree'], 'height')
 			.toJSONObject();
 
@@ -47,7 +47,7 @@ describe('ProgramBuilder', () => {
 
 	it('should generate a program with a computed value', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('age', AllTypes.getNumberType())
+			.addNormalVariable('age', AllTypes.getNumberType())
 			.addComputedVariable('nextYearsAge', AllTypes.getNumberType(), ComputedVariableBuilder.newBuilder()
 				.addParameter(['age'], 'age')
 				.setBody('return age + 1;'))
@@ -118,7 +118,7 @@ describe('ProgramBuilder', () => {
 			.addScope(
 				ProgramBuilder
 				.newScope(['testScope'])
-				.addVariable('testVar', AllTypes.getNumberType())
+				.addNormalVariable('testVar', AllTypes.getNumberType())
 			)
 			.toJSONObject();
 

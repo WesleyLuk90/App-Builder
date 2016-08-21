@@ -42,12 +42,31 @@ export default class ComputedEditor extends React.Component {
 		return this.props.variable;
 	}
 
+	getProgramBuilder() {
+		return this.getVariable().getProgramBuilder();
+	}
+
 	getParameters() {
 		return this.getVariable().getParameters();
 	}
 
 	getBody() {
 		return this.getVariable().getComputationBody();
+	}
+
+	getExistingParameterVariables() {
+		const programBuilder = this.getProgramBuilder();
+		return this.state.parameters.map(parameter => programBuilder.getParameterVariable(parameter));
+	}
+
+	getVariablesInScope() {
+		const variables = this.getProgramBuilder().getVariablesInScope();
+		const existingParameters = this.getExistingParameterVariables();
+		const variableOptions = _(variables)
+			.filter(v => v !== this.getVariable())
+			.difference(existingParameters)
+			.value();
+		return variableOptions;
 	}
 
 	render() {
@@ -60,9 +79,9 @@ export default class ComputedEditor extends React.Component {
 			<div className="computed-editor__variable-parameter-adder">
 				<select className="dropdown dropdown--medium-width" onChange={e => this.onChangeVariableSelector(e)} value={this.state.selectedVariable}>
 					<option disabled value="">Select a Variable</option>
-					<option value="apple">apple</option>
-					<option value="orange">orange</option>
-					<option value="pear">pear</option>
+					{this.getVariablesInScope().map((v, index) =>
+						<option key={index} value={v.getName()}>{v.getName()}</option>
+					)}
 				</select>
 				<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>
 			</div>

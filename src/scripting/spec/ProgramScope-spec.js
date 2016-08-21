@@ -25,7 +25,7 @@ describe('ProgramScope', () => {
 
 	it('should notify when a variable changes', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('age', AllTypes.getNumberType())
+			.addNormalVariable('age', AllTypes.getNumberType())
 			.toJSONObject();
 
 		const programScope = ProgramScope.create(programData);
@@ -42,7 +42,7 @@ describe('ProgramScope', () => {
 
 	it('should notify when bound variable changes', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('teacher', AllTypes.getObjectType('teacher'))
+			.addNormalVariable('teacher', AllTypes.getObjectType('teacher'))
 			.addBoundVariable('age', AllTypes.getNumberType(), ['teacher'], 'age')
 			.toJSONObject();
 
@@ -59,7 +59,7 @@ describe('ProgramScope', () => {
 
 	it('should notify a property of an object is changed', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('teacher', AllTypes.getObjectType('teacher'))
+			.addNormalVariable('teacher', AllTypes.getObjectType('teacher'))
 			.addBoundVariable('age', AllTypes.getNumberType(), ['teacher'], 'age')
 			.toJSONObject();
 
@@ -78,7 +78,7 @@ describe('ProgramScope', () => {
 
 	it('should calculate a computed value', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('age', AllTypes.getNumberType())
+			.addNormalVariable('age', AllTypes.getNumberType())
 			.addComputedVariable('nextYearsAge', AllTypes.getNumberType(), ComputedVariableBuilder.newBuilder()
 				.addParameter(['age'], 'age')
 				.setBody('return age + 1;'))
@@ -97,7 +97,7 @@ describe('ProgramScope', () => {
 
 	it('have an object with an object parameter and not infinite loop', () => {
 		const programData = ProgramBuilder.newBuilder()
-			.addVariable('tree', AllTypes.getObjectType('trees'))
+			.addNormalVariable('tree', AllTypes.getObjectType('trees'))
 			.addBoundVariable('branch', AllTypes.getObjectType('branch'), ['tree'], 'branch')
 			.toJSONObject();
 
