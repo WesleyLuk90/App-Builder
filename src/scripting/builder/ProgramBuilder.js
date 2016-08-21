@@ -1,40 +1,8 @@
-class Variable {
-	static createSimple(name, type) {
-		const variable = new Variable();
-		variable.name = name;
-		variable.type = type;
-		return variable;
-	}
+import _ from 'lodash';
 
-	static createPropertyBound(name, type, otherVariable, property) {
-		const variable = Variable.createSimple(name, type);
-		variable.binding = {
-			variable: otherVariable,
-			property,
-		};
-		return variable;
-	}
-
-	static createComputed(name, type, computedVariableBuilder) {
-		const variable = Variable.createSimple(name, type);
-		variable.computedVariableBuilder = computedVariableBuilder;
-		return variable;
-	}
-
-	toJSONObject() {
-		const object = {
-			name: this.name,
-			type: this.type.toJSONObject(),
-		};
-		if (this.binding) {
-			object.binding = this.binding;
-		}
-		if (this.computedVariableBuilder) {
-			object.computation = this.computedVariableBuilder.toJSONObject();
-		}
-		return object;
-	}
-}
+import AllTypes from '../types/AllTypes';
+import ComputedVariableBuilder from './ComputedVariableBuilder';
+import VariableBuilder from './VariableBuilder';
 
 export default class ProgramBuilder {
 	static newBuilder() {
@@ -43,6 +11,32 @@ export default class ProgramBuilder {
 
 	static newScope(scope) {
 		return new ProgramBuilder(scope);
+	}
+
+	static fromData(data) {
+		const builder = ProgramBuilder.newScope(data.name);
+		data.variables.forEach(variable => {
+			const type = AllTypes.fromData(variable.type);
+			if (variable.computation) {
+				const computedVariableBuilderBuilder = ComputedVariableBuilder.newBuilder()
+					.setBody(variable.computation.body);
+
+				variable.computation.parameters.forEach(param => {
+					computedVariableBuilderBuilder.addParameter(param.variable, param.localVariable);
+				});
+				builder.addComputedVariable(variable.name, type, computedVariableBuilderBuilder);
+			} else if (variable.binding) {
+				builder.addBoundVariable(variable.name, type, variable.binding.variable, variable.binding.property);
+			} else {
+				builder.addVariable(variable.name, type);
+			}
+		});
+		Object.keys(data.scopes).forEach(scopeName => {
+			const scope = data.scopes[scopeName];
+			const scopedProgramBuilder = ProgramBuilder.fromData(scope);
+			builder.addScope(scopedProgramBuilder);
+		});
+		return builder;
 	}
 
 	constructor(scope) {
@@ -64,18 +58,26 @@ export default class ProgramBuilder {
 	}
 
 	addVariable(name, type) {
-		this.variables.push(Variable.createSimple(name, type));
+		this.variables.push(VariableBuilder.createSimple(name, type));
 		return this;
 	}
 
-	addBoundVariable(variable, type, otherVariable, property) {
-		this.variables.push(Variable.createPropertyBound(variable, type, otherVariable, property));
+	addBoundVariable(name, type, otherVariableBuilder, property) {
+		this.variables.push(VariableBuilder.createPropertyBound(name, type, otherVariableBuilder, property));
 		return this;
 	}
 
-	addComputedVariable(variable, type, computedVariableBuilder) {
-		this.variables.push(Variable.createComputed(variable, type, computedVariableBuilder));
+	addComputedVariable(name, type, computedVariableBuilderBuilder) {
+		this.variables.push(VariableBuilder.createComputed(name, type, computedVariableBuilderBuilder));
 		return this;
+	}
+
+	getVariableByName(name) {
+		return _.find(this.variables, v => v.getName() === name);
+	}
+
+	getVariableType(name) {
+		return this.getVariableByName(name).getVariableType();
 	}
 
 	variablesToJSONObject() {

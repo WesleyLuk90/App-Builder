@@ -2,7 +2,7 @@ import React from 'react';
 
 import VariableEditor from './VariableEditor';
 
-export default class ScriptEditor extends React.Component {
+export default class ScopedScriptEditor extends React.Component {
 
 	getVariableNames() {
 		return this.props.program.getVariableNames();

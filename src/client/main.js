@@ -18,7 +18,26 @@ require('../scss/main.scss');
 function main(document) {
 	const appContainer = document.querySelector('.app-container');
 
+	const programDefinition = ProgramBuilder.newBuilder()
+		.addVariable('text_value', AllTypes.getStringType())
+		.addVariable('teacher', AllTypes.getObjectType('people'))
+		.addBoundVariable('teacher_name', AllTypes.getNumberType(), ['teacher'], 'age')
+		.addComputedVariable('my_other_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
+			.addParameter(['text_value'], 'text_value')
+			.setBody("\treturn text_value + 'is the value';")
+		)
+		.addScope(ProgramBuilder.newScope(['loopScope1'])
+			.addVariable('rowNumber', AllTypes.getNumberType())
+			.addComputedVariable('column_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
+				.addParameter(['loopScope1', 'rowNumber'], 'rowNumber')
+				.addParameter(['text_value'], 'inputValue')
+				.setBody('return `${inputValue} ${rowNumber} + Row`;')
+			)
+		)
+		.toJSONObject();
+
 	const pageDefinition = ComponentBuilder.newBuilder('ComponentEditor')
+		.setValue('program', programDefinition)
 		.setComponents('children', ComponentListBuilder.newBuilder()
 			.addComponent(ComponentBuilder.newBuilder('Page')
 				.setComponents('children', ComponentListBuilder.newBuilder()
@@ -54,24 +73,6 @@ function main(document) {
 		).toJSONObject();
 	const componentMap = new ComponentMap();
 	const componentFactory = new ComponentFactory(componentMap);
-
-	const programDefinition = ProgramBuilder.newBuilder()
-		.addVariable('text_value', AllTypes.getStringType())
-		.addVariable('teacher', AllTypes.getObjectType('people'))
-		.addBoundVariable('teacher_name', AllTypes.getStringType(), ['teacher'], 'name')
-		.addComputedVariable('my_other_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
-			.addParameter(['text_value'], 'text_value')
-			.setBody("return text_value + 'is the value';")
-		)
-		.addScope(ProgramBuilder.newScope(['loopScope1'])
-			.addVariable('rowNumber', AllTypes.getNumberType())
-			.addComputedVariable('column_value', AllTypes.getStringType(), ComputedVariableBuilder.newBuilder()
-				.addParameter(['loopScope1', 'rowNumber'], 'rowNumber')
-				.addParameter(['text_value'], 'inputValue')
-				.setBody('return `${inputValue} ${rowNumber} + Row`;')
-			)
-		)
-		.toJSONObject();
 
 	const modelData = ModelDataBuilder.newBuilder()
 		.addModel(ModelBuilder.newBuilder('people')

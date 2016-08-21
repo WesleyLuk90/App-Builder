@@ -2,11 +2,12 @@ import React from 'react';
 import _ from 'lodash';
 
 import AbstractComponent from './AbstractComponent';
+import AbstractComponentEditor from './AbstractComponentEditor';
 import ComponentPlaceholder from './ComponentPlaceholder';
 import ComponentOptionsBuilder from './component-options/ComponentOptionsBuilder';
 import AllTypes from '../../scripting/types/AllTypes';
 
-export class TextFieldEditor extends AbstractComponent {
+export class TextFieldEditor extends AbstractComponentEditor {
 
 	constructor(props) {
 		super(props);

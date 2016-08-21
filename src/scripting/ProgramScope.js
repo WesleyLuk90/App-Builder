@@ -23,24 +23,6 @@ export default class ProgramScope {
 		this.childScopes = new Map();
 	}
 
-	loadFromData(programData) {
-		const name = programData.name;
-		if (!this.equalsScope(name)) {
-			throw new Error(`Failed to load scope, invalid name got ${name} but expecting ${this.scopePath}`);
-		}
-		const variables = programData.variables;
-		variables
-			.forEach(variableData => this.defineLocalVariable(variableData.name, AllTypes.fromData(variableData.type)));
-		variables
-			.filter(variableData => variableData.binding)
-			.forEach(variableData => this.loadBinding(variableData.name, variableData.binding));
-		variables
-			.filter(variableData => variableData.computation)
-			.forEach(variableData => this.loadComputed(variableData.name, variableData.computation));
-
-		this.childScopeDefinitions = programData.scopes;
-	}
-
 	getChildScopeList(scopeName) {
 		if (!this.childScopes.has(scopeName)) {
 			this.childScopes.set(scopeName, new Map());
@@ -164,5 +146,23 @@ export default class ProgramScope {
 
 	getValueStream(variableName) {
 		return this.getVariable(variableName).getStream();
+	}
+
+	loadFromData(programData) {
+		const name = programData.name;
+		if (!this.equalsScope(name)) {
+			throw new Error(`Failed to load scope, invalid name got ${name} but expecting ${this.scopePath}`);
+		}
+		const variables = programData.variables;
+		variables
+			.forEach(variableData => this.defineLocalVariable(variableData.name, AllTypes.fromData(variableData.type)));
+		variables
+			.filter(variableData => variableData.binding)
+			.forEach(variableData => this.loadBinding(variableData.name, variableData.binding));
+		variables
+			.filter(variableData => variableData.computation)
+			.forEach(variableData => this.loadComputed(variableData.name, variableData.computation));
+
+		this.childScopeDefinitions = programData.scopes;
 	}
 }

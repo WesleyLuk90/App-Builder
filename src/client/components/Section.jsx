@@ -2,8 +2,9 @@ import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
 import ComponentPlaceholder from './ComponentPlaceholder';
+import AbstractComponentEditor from './AbstractComponentEditor';
 
-class SectionEditor extends AbstractComponent {
+class SectionEditor extends AbstractComponentEditor {
 	render() {
 		const children = this.buildChildComponents('children');
 		const inserter = this.getComponentInserter('children');

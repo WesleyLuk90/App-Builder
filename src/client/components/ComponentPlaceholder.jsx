@@ -1,10 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import AbstractComponent from './AbstractComponent';
+import AbstractComponentEditor from './AbstractComponentEditor';
 import ComponentEditor from './ComponentEditor';
 
-export default class ComponentPlaceholder extends AbstractComponent {
+export default class ComponentPlaceholder extends AbstractComponentEditor {
 	clickEdit(event) {
 		event.preventDefault();
 		this.props.componentEditor.selectComponent(this.props.component);
@@ -52,7 +52,7 @@ ComponentPlaceholder.propTypes = {
 };
 
 export function createComponentPlaceholder(name) {
-	return class extends AbstractComponent {
+	return class extends AbstractComponentEditor {
 		render() {
 			return <ComponentPlaceholder {...this.props} name={name} />;
 		}

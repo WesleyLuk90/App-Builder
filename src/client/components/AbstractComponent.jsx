@@ -4,10 +4,6 @@ import InsertComponentContext from './InsertComponentContext';
 
 export default class AbstractComponent extends React.Component {
 
-	getComponentOptions() {
-		return [];
-	}
-
 	getChildComponents(name) {
 		if (!this.props.components) {
 			return null;
@@ -112,13 +108,21 @@ export default class AbstractComponent extends React.Component {
 		return new InsertComponentContext(this, componentGroup);
 	}
 
-	componentDidMount() {
+	subscribeNamedVariables() {
 		this.subscriptions = this.getNamedVariables()
 			.map(variableName => this.getProgramScope().getValueStream(variableName))
 			.map(variable => variable.subscribe(() => this.forceUpdate()));
 	}
 
-	componentWillUnmount() {
+	componentDidMount() {
+		this.subscribeNamedVariables();
+	}
+
+	disposeSubscriptions() {
 		this.subscriptions.forEach(subscription => subscription.dispose());
+	}
+
+	componentWillUnmount() {
+		this.disposeSubscriptions();
 	}
 }

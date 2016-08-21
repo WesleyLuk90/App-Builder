@@ -1,3 +1,5 @@
+import ParameterBuilder from './ParameterBuilder';
+
 export default class ComputedVariableBuilder {
 	static newBuilder() {
 		return new ComputedVariableBuilder();
@@ -9,6 +11,12 @@ export default class ComputedVariableBuilder {
 	}
 
 	addParameter(variable, localName) {
+		if (!variable) {
+			throw new Error(`Variable is required, got '${variable}`);
+		}
+		if (!localName) {
+			throw new Error(`Variable is required, got '${localName}`);
+		}
 		this.parameters.set(localName, variable);
 		return this;
 	}
@@ -16,6 +24,18 @@ export default class ComputedVariableBuilder {
 	setBody(body) {
 		this.body = body;
 		return this;
+	}
+
+	getBody() {
+		return this.body;
+	}
+
+	getParameters() {
+		const parameters = [];
+		this.parameters.forEach((variable, localName) => {
+			parameters.push(new ParameterBuilder(variable, localName));
+		});
+		return parameters;
 	}
 
 	parametersToJSONObject() {

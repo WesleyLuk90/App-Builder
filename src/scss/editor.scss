@@ -116,7 +116,7 @@
 	@include row-container;
 }
 
-.variable-option, .variable-list {
+.variable-option {
 	> * + * {
 		margin-top: 1.5rem;
 	}
@@ -133,4 +133,27 @@
 	position: relative;
 	width: 500px;
 	height: 300px;
+}
+
+.variable-list {
+	border: solid 1px #ddd;
+	> * + * {
+		border-top: solid 1px #ddd;
+	}
+	> * {
+		@include default-padding;
+	}
+}
+
+.variable-editor {
+	> * + * {
+		margin-top: 1.5rem;
+	}
+}
+
+.computed-editor {
+	@include row-container;
+	&__variable-parameter-adder {
+		@include column-container;
+	}	
 }

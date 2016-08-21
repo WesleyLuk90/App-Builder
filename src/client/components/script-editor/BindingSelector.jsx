@@ -9,9 +9,11 @@ export default class BindingSelector extends React.Component {
 
 		this.id = _.uniqueId();
 
+		const variable = this.getVariable();
+
 		this.state = {
-			selectedVariable: '',
-			selectedProperty: '',
+			selectedVariable: variable.getBoundVariable().join('/'),
+			selectedProperty: variable.getBoundProperty(),
 		};
 	}
 
@@ -31,6 +33,10 @@ export default class BindingSelector extends React.Component {
 
 	getModelList() {
 		return this.props.modelList;
+	}
+
+	getVariable() {
+		return this.props.variable;
 	}
 
 	getVariableOptions() {

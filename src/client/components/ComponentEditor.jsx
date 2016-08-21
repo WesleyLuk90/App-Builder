@@ -2,16 +2,27 @@ import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
 import ComponentOptionEditor from './ComponentOptionEditor';
-import ScriptEditor from './script-editor/ScriptEditor';
+import ScopedScriptEditor from './script-editor/ScopedScriptEditor';
+import ProgramBuilder from '../../scripting/builder/ProgramBuilder';
+import Edit from './component-editor/Edit';
 
 export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
 		super(props);
+
 		this.editorComponentFactory = this.props.componentFactory.toEditorComponentFactory();
+
+		const program = this.getValue('program');
+		this.programBuilder = ProgramBuilder.fromData(program);
+
+		this.edit = new Edit();
+
 		this.childProps = Object.assign({},
 			this.props, {
 				componentFactory: this.editorComponentFactory,
 				componentEditor: this,
+				programScope: null, // Null this out to make sure nothing uses it
+				programBuilder: this.programBuilder,
 			});
 
 		this.state = {
@@ -36,6 +47,7 @@ export default class ComponentEditor extends AbstractComponent {
 	}
 
 	getComponentFactory() {
+		console.log(this.childProps);
 		return this.editorComponentFactory.withProps(this.childProps);
 	}
 
@@ -45,6 +57,11 @@ export default class ComponentEditor extends AbstractComponent {
 
 	render() {
 		const children = this.buildChildComponents('children');
+		const scriptEditorProps = Object.assign({}, this.props, {
+			programScope: null,
+			programBuilder: this.programBuilder,
+			edit: this.edit,
+		});
 		return (<div className="component-editor">
 			<div className="component-editor__actions-panel">
 				Some Text Info Here
@@ -61,7 +78,7 @@ export default class ComponentEditor extends AbstractComponent {
 				</div>
 			</div>
 			<div className="component-editor__script-panel">
-				<ScriptEditor program={this.props.programScope} {...this.props} />
+				<ScopedScriptEditor program={this.props.programScope} {...scriptEditorProps} />
 			</div>
 		</div>);
 	}

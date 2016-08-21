@@ -1,11 +1,12 @@
 import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
-import ComponentPlaceholder from './ComponentPlaceholder';
-import ComponentOptionsBuilder from './component-options/ComponentOptionsBuilder';
+import AbstractComponentEditor from './AbstractComponentEditor';
 import AllTypes from '../../scripting/types/AllTypes';
+import ComponentOptionsBuilder from './component-options/ComponentOptionsBuilder';
+import ComponentPlaceholder from './ComponentPlaceholder';
 
-class TextEditor extends AbstractComponent {
+class TextEditor extends AbstractComponentEditor {
 
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
