@@ -12,14 +12,14 @@ export default class BindingSelector extends React.Component {
 		const variable = this.getVariableBuilder();
 
 		this.state = {
-			selectedVariable: variable.getBoundVariable(),
+			selectedVariableName: variable.getBoundVariablePath(),
 			selectedProperty: variable.getBoundProperty(),
 		};
 	}
 
 	onSelectVariable(event) {
 		event.preventDefault();
-		this.setState({ selectedVariable: event.target.value });
+		this.setState({ selectedVariableName: event.target.value });
 	}
 
 	onSelectProperty(event) {
@@ -46,11 +46,12 @@ export default class BindingSelector extends React.Component {
 	}
 
 	getPropertyOptions() {
-		const variable = this.getProgramBuilder().getVariableFromLocalName(this.state.selectedVariable);
-		if (!variable) {
+		const selectedVariableName = this.state.selectedVariableName;
+		const boundVariable = this.getProgramBuilder().getVariableByPath(selectedVariableName);
+		if (!boundVariable) {
 			return [];
 		}
-		const objectType = variable.getType();
+		const objectType = boundVariable.getType();
 		const model = this.getModelList().getModel(objectType.getModelName());
 		return model.getFieldNames();
 	}
@@ -58,7 +59,7 @@ export default class BindingSelector extends React.Component {
 	render() {
 		return (<div className="variable-binding">
 			<label htmlFor={this.id} className="label">Binding:</label>
-			<select className="variable-binding dropdown dropdown--medium-width" id={this.id} value={this.state.selectedVariable} onChange={e => this.onSelectVariable(e)}>
+			<select className="variable-binding dropdown dropdown--medium-width" id={this.id} value={this.state.selectedVariableName.toString()} onChange={e => this.onSelectVariable(e)}>
 				<option disabled value="">Select a Variable</option>
 				{this.getVariableOptions().map((variable, index) => <option value={variable.getLocalName()} key={index}>{variable.getLocalName()}</option>)}
 			</select>

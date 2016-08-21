@@ -96,6 +96,14 @@ export default class ProgramBuilder {
 		return this.variables.slice();
 	}
 
+	getLocalVariable(variablePath) {
+		if (!variablePath.getParentPath().equals(this.scopePath)) {
+			throw new Error(`Can not get local variable '${variablePath}' from '${this.scopePath}'`);
+		}
+		const variableLocalName = variablePath.tail();
+		return _.find(this.variables, v => v.getLocalName() === variableLocalName);
+	}
+
 	getVariablesInScope() {
 		let parentVariables = [];
 		if (this.parentBuilder) {
@@ -104,8 +112,14 @@ export default class ProgramBuilder {
 		return [...this.variables, ...parentVariables];
 	}
 
-	getVariableFromLocalName(localName) {
-		return _.find(this.getVariablesInScope(), v => v.getLocalName() === localName);
+	getVariableByPath(variablePath) {
+		const variableScope = variablePath.getParentPath();
+		const parentCount = this.scopePath.getAncestorDistance(variableScope);
+		let builder = this;
+		for (let i = 0; i < parentCount; i++) {
+			builder = builder.getParent();
+		}
+		return builder.getLocalVariable(variablePath);
 	}
 
 	variablesToJSONObject() {

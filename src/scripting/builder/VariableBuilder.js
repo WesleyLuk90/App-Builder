@@ -1,6 +1,7 @@
-import VariableTypes from './VariableType';
 import ComputedVariableBuilder from './ComputedVariableBuilder';
+import Path from './Path';
 import Type from '../types/Type';
+import VariableTypes from './VariableType';
 
 export default class VariableBuilder {
 	static createSimple(localName, type) {
@@ -73,8 +74,12 @@ export default class VariableBuilder {
 		return this.programBuilder.getScopePath().createChild(this.getLocalName());
 	}
 
-	getBoundVariable() {
-		return this.binding.variable;
+	getBoundVariableName() {
+		return this.binding.variableName;
+	}
+
+	getBoundVariablePath() {
+		return Path.newPath(this.binding.variableName);
 	}
 
 	getBoundProperty() {
