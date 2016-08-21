@@ -1,7 +1,6 @@
-
 export default class ParameterBuilder {
-	constructor(variable, localName) {
-		this.variable = variable;
+	constructor(variablePath, localName) {
+		this.variablePath = variablePath;
 		this.localName = localName;
 	}
 
@@ -9,7 +8,14 @@ export default class ParameterBuilder {
 		return this.localName;
 	}
 
-	getVariable() {
-		return this.variable;
+	getVariablePath() {
+		return this.variablePath;
+	}
+
+	toJSONObject() {
+		return {
+			variableName: this.variablePath.toJSONObject(),
+			localName: this.localName,
+		};
 	}
 }

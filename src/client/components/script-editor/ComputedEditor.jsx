@@ -38,20 +38,20 @@ export default class ComputedEditor extends React.Component {
 		this.setState({ parameters: newParams });
 	}
 
-	getVariable() {
-		return this.props.variable;
+	getVariableBuilder() {
+		return this.props.variableBuilder;
 	}
 
 	getProgramBuilder() {
-		return this.getVariable().getProgramBuilder();
+		return this.getVariableBuilder().getProgramBuilder();
 	}
 
 	getParameters() {
-		return this.getVariable().getParameters();
+		return this.getVariableBuilder().getParameters();
 	}
 
 	getBody() {
-		return this.getVariable().getComputationBody();
+		return this.getVariableBuilder().getComputationBody();
 	}
 
 	getExistingParameterVariables() {
@@ -63,7 +63,7 @@ export default class ComputedEditor extends React.Component {
 		const variables = this.getProgramBuilder().getVariablesInScope();
 		const existingParameters = this.getExistingParameterVariables();
 		const variableOptions = _(variables)
-			.filter(v => v !== this.getVariable())
+			.filter(v => v !== this.getVariableBuilder())
 			.difference(existingParameters)
 			.value();
 		return variableOptions;
@@ -80,7 +80,7 @@ export default class ComputedEditor extends React.Component {
 				<select className="dropdown dropdown--medium-width" onChange={e => this.onChangeVariableSelector(e)} value={this.state.selectedVariable}>
 					<option disabled value="">Select a Variable</option>
 					{this.getVariablesInScope().map((v, index) =>
-						<option key={index} value={v.getName()}>{v.getName()}</option>
+						<option key={index} value={v.getVariablePath().toString()}>{v.getVariablePath().toString()}</option>
 					)}
 				</select>
 				<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>

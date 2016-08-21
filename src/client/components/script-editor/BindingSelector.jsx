@@ -9,10 +9,10 @@ export default class BindingSelector extends React.Component {
 
 		this.id = _.uniqueId();
 
-		const variable = this.getVariable();
+		const variable = this.getVariableBuilder();
 
 		this.state = {
-			selectedVariable: variable.getBoundVariable().join('/'),
+			selectedVariable: variable.getBoundVariable(),
 			selectedProperty: variable.getBoundProperty(),
 		};
 	}
@@ -27,26 +27,26 @@ export default class BindingSelector extends React.Component {
 		this.setState({ selectedProperty: event.target.value });
 	}
 
-	getProgram() {
-		return this.props.program;
+	getProgramBuilder() {
+		return this.props.programBuilder;
 	}
 
 	getModelList() {
 		return this.props.modelList;
 	}
 
-	getVariable() {
-		return this.props.variable;
+	getVariableBuilder() {
+		return this.props.variableBuilder;
 	}
 
 	getVariableOptions() {
-		const program = this.getProgram();
-		return program.getInScopeVariableNames()
-			.filter(variableName => program.getVariableFromLocalName(variableName).getType().isAssignableTo(AllTypes.getAnyObjectType()));
+		const programBuilder = this.getProgramBuilder();
+		return programBuilder.getVariablesInScope()
+			.filter(variable => variable.getType().isAssignableTo(AllTypes.getAnyObjectType()));
 	}
 
 	getPropertyOptions() {
-		const variable = this.getProgram().getVariableFromLocalName(this.state.selectedVariable);
+		const variable = this.getProgramBuilder().getVariableFromLocalName(this.state.selectedVariable);
 		if (!variable) {
 			return [];
 		}
@@ -56,12 +56,11 @@ export default class BindingSelector extends React.Component {
 	}
 
 	render() {
-		this.getVariableOptions();
 		return (<div className="variable-binding">
 			<label htmlFor={this.id} className="label">Binding:</label>
 			<select className="variable-binding dropdown dropdown--medium-width" id={this.id} value={this.state.selectedVariable} onChange={e => this.onSelectVariable(e)}>
 				<option disabled value="">Select a Variable</option>
-				{this.getVariableOptions().map((option, index) => <option value={option} key={index}>{option}</option>)}
+				{this.getVariableOptions().map((variable, index) => <option value={variable.getLocalName()} key={index}>{variable.getLocalName()}</option>)}
 			</select>
 			<select className="variable-binding-property dropdown dropdown--medium-width" value={this.state.selectedProperty} onChange={e => this.onSelectProperty(e)}>
 				<option disabled value="">Select a Property</option>

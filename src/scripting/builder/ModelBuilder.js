@@ -11,8 +11,8 @@ export default class ModelBuilder {
 		this.fields = new Map();
 	}
 
-	getName(name) {
-		return name;
+	getName() {
+		return this.name;
 	}
 
 	addField(name, type) {

@@ -13,18 +13,12 @@ export default class VariableEditor extends React.Component {
 		};
 	}
 
-	getVariableName() {
-		return this.props.name;
-	}
-
 	getProgramBuilder() {
 		return this.props.programBuilder;
 	}
 
 	getVariableType() {
-		const programBuilder = this.getProgramBuilder();
-		const name = this.getVariableName();
-		return programBuilder.getVariableType(name);
+		return this.getVariableBuilder().getVariableType();
 	}
 
 	getEdit() {
@@ -35,13 +29,13 @@ export default class VariableEditor extends React.Component {
 		event.preventDefault();
 		const typeName = event.target.value;
 		const variableType = VariableTypes.getByName(typeName);
-		this.getEdit().setVariableType(this.getVariable(), variableType);
+		this.getEdit().setVariableType(this.getVariableBuilder(), variableType);
 
 		this.setState({ variableType });
 	}
 
-	getVariable() {
-		return this.getProgramBuilder().getVariableByName(this.getVariableName());
+	getVariableBuilder() {
+		return this.props.variableBuilder;
 	}
 
 	render() {
@@ -55,8 +49,8 @@ export default class VariableEditor extends React.Component {
 					<option value={VariableTypes.COMPUTED.name}>{VariableTypes.COMPUTED.name}</option>
 				</select>
 			</div>
-			{this.state.variableType === VariableTypes.BOUND ? <BindingSelector {...this.props} variable={this.getVariable()} /> : null}
-			{this.state.variableType === VariableTypes.COMPUTED ? <ComputedEditor {...this.props} variable={this.getVariable()} /> : null}
+			{this.state.variableType === VariableTypes.BOUND ? <BindingSelector {...this.props} variableBuilder={this.getVariableBuilder()} /> : null}
+			{this.state.variableType === VariableTypes.COMPUTED ? <ComputedEditor {...this.props} variableBuilder={this.getVariableBuilder()} /> : null}
 		</div>);
 	}
 }

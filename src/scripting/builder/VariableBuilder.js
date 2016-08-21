@@ -1,31 +1,32 @@
 import VariableTypes from './VariableType';
 import ComputedVariableBuilder from './ComputedVariableBuilder';
+import Type from '../types/Type';
 
 export default class VariableBuilder {
-	static createSimple(name, type) {
+	static createSimple(localName, type) {
 		const variable = new VariableBuilder();
-		variable.name = name;
-		variable.type = type;
-		variable.binding = { variable: [], property: '' };
+		variable.localName = localName;
+		variable.setType(type);
+		variable.binding = { variableName: [], property: '' };
 		variable.computedVariableBuilder = ComputedVariableBuilder.newBuilder();
-		variable.setType(VariableTypes.NORMAL);
+		variable.setVariableType(VariableTypes.NORMAL);
 		return variable;
 	}
 
-	static createPropertyBound(name, type, otherVariable, property) {
-		const variable = VariableBuilder.createSimple(name, type);
+	static createPropertyBound(localName, type, otherVariable, property) {
+		const variable = VariableBuilder.createSimple(localName, type);
 		variable.binding = {
-			variable: otherVariable,
+			variableName: otherVariable,
 			property,
 		};
-		variable.setType(VariableTypes.BOUND);
+		variable.setVariableType(VariableTypes.BOUND);
 		return variable;
 	}
 
-	static createComputed(name, type, computedVariableBuilder) {
-		const variable = VariableBuilder.createSimple(name, type);
+	static createComputed(localName, type, computedVariableBuilder) {
+		const variable = VariableBuilder.createSimple(localName, type);
 		variable.computedVariableBuilder = computedVariableBuilder;
-		variable.setType(VariableTypes.COMPUTED);
+		variable.setVariableType(VariableTypes.COMPUTED);
 		return variable;
 	}
 
@@ -37,12 +38,23 @@ export default class VariableBuilder {
 		return this.programBuilder;
 	}
 
-	setType(variableType) {
+	setVariableType(variableType) {
 		this.variableType = variableType;
 	}
 
 	getVariableType() {
 		return this.variableType;
+	}
+
+	setType(type) {
+		if (!Type.isType(type)) {
+			throw new Error(`Type must be a type, got ${type}`);
+		}
+		this.type = type;
+	}
+
+	getType() {
+		return this.type;
 	}
 
 	isBound() {
@@ -53,8 +65,12 @@ export default class VariableBuilder {
 		return this.variableType === VariableTypes.COMPUTED;
 	}
 
-	getName() {
-		return this.name;
+	getLocalName() {
+		return this.localName;
+	}
+
+	getVariablePath() {
+		return this.programBuilder.getScopePath().createChild(this.getLocalName());
 	}
 
 	getBoundVariable() {
@@ -75,7 +91,7 @@ export default class VariableBuilder {
 
 	toJSONObject() {
 		const object = {
-			name: this.name,
+			localName: this.localName,
 			type: this.type.toJSONObject(),
 		};
 		if (this.isBound()) {

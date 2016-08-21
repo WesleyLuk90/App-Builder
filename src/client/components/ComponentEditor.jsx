@@ -78,7 +78,7 @@ export default class ComponentEditor extends AbstractComponent {
 				</div>
 			</div>
 			<div className="component-editor__script-panel">
-				<ScopedScriptEditor program={this.props.programScope} {...scriptEditorProps} />
+				<ScopedScriptEditor {...scriptEditorProps} />
 			</div>
 		</div>);
 	}

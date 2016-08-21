@@ -19,17 +19,17 @@ export default class ProgramBuilder {
 		data.variables.forEach(variable => {
 			const type = AllTypes.fromData(variable.type);
 			if (variable.computation) {
-				const computedVariableBuilderBuilder = ComputedVariableBuilder.newBuilder()
+				const computedVariableBuilder = ComputedVariableBuilder.newBuilder()
 					.setBody(variable.computation.body);
 
 				variable.computation.parameters.forEach(param => {
-					computedVariableBuilderBuilder.addParameter(param.variable, param.localVariable);
+					computedVariableBuilder.addParameter(param.variableName, param.localName);
 				});
-				builder.addComputedVariable(variable.name, type, computedVariableBuilderBuilder);
+				builder.addComputedVariable(variable.localName, type, computedVariableBuilder);
 			} else if (variable.binding) {
-				builder.addBoundVariable(variable.name, type, variable.binding.variable, variable.binding.property);
+				builder.addBoundVariable(variable.localName, type, variable.binding.variableName, variable.binding.property);
 			} else {
-				builder.addNormalVariable(variable.name, type);
+				builder.addNormalVariable(variable.localName, type);
 			}
 		});
 		Object.keys(data.scopes).forEach(scopeName => {
@@ -73,8 +73,8 @@ export default class ProgramBuilder {
 	}
 
 	getParameterVariable(parameter) {
-		console.log(parameter);
-		return null;
+		const variables = this.getVariablesInScope();
+		return _.find(variables, v => v.getVariablePath().equals(parameter.getVariablePath()));
 	}
 
 	addNormalVariable(name, type) {
@@ -87,17 +87,13 @@ export default class ProgramBuilder {
 		return this;
 	}
 
-	addComputedVariable(name, type, computedVariableBuilderBuilder) {
-		this.addVariable(VariableBuilder.createComputed(name, type, computedVariableBuilderBuilder));
+	addComputedVariable(name, type, computedVariableBuilder) {
+		this.addVariable(VariableBuilder.createComputed(name, type, computedVariableBuilder));
 		return this;
 	}
 
-	getVariableByName(name) {
-		return _.find(this.variables, v => v.getName() === name);
-	}
-
-	getVariableType(name) {
-		return this.getVariableByName(name).getVariableType();
+	getLocalVariables() {
+		return this.variables.slice();
 	}
 
 	getVariablesInScope() {
@@ -106,6 +102,10 @@ export default class ProgramBuilder {
 			parentVariables = this.parentBuilder.getVariablesInScope();
 		}
 		return [...this.variables, ...parentVariables];
+	}
+
+	getVariableFromLocalName(localName) {
+		return _.find(this.getVariablesInScope(), v => v.getLocalName() === localName);
 	}
 
 	variablesToJSONObject() {

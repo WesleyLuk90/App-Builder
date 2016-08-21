@@ -1,4 +1,5 @@
 import ParameterBuilder from './ParameterBuilder';
+import Path from './Path';
 
 export default class ComputedVariableBuilder {
 	static newBuilder() {
@@ -17,7 +18,8 @@ export default class ComputedVariableBuilder {
 		if (!localName) {
 			throw new Error(`Variable is required, got '${localName}`);
 		}
-		this.parameters.set(localName, variable);
+		const variablePath = Path.newPath(variable);
+		this.parameters.set(localName, new ParameterBuilder(variablePath, localName));
 		return this;
 	}
 
@@ -32,19 +34,16 @@ export default class ComputedVariableBuilder {
 
 	getParameters() {
 		const parameters = [];
-		this.parameters.forEach((variable, localName) => {
-			parameters.push(new ParameterBuilder(variable, localName));
+		this.parameters.forEach(parameter => {
+			parameters.push(parameter);
 		});
 		return parameters;
 	}
 
 	parametersToJSONObject() {
 		const parameters = [];
-		this.parameters.forEach((variable, localName) => {
-			parameters.push({
-				variable,
-				localVariable: localName,
-			});
+		this.parameters.forEach(parameter => {
+			parameters.push(parameter.toJSONObject());
 		});
 		return parameters;
 	}

@@ -42,3 +42,9 @@ firstStudent notifies teacherStudents on any mutation
 ## ChangeTokens
 
 Change tokens are used to strictly enforce that each change to a value can not cause an infinite loop of variables updating each other
+
+# Naming Convetions for variables/scopes
+
+* A variable name/scope name is in the form ['part1', 'part2', 'part3', ...]
+* A variable local name/scope local name is in the form 'lastpart'
+* A variable path/scope path is in the form Path.newPath(['part1', 'part2', 'part3', ...])

@@ -22,7 +22,7 @@ export default class Path {
 	createChild(childName) {
 		const newPathComponents = this.pathComponents.slice();
 		newPathComponents.push(childName);
-		return Path.newPath(childName);
+		return Path.newPath(newPathComponents);
 	}
 
 	equals(otherPath) {

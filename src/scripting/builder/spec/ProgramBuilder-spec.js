@@ -12,10 +12,10 @@ describe('ProgramBuilder', () => {
 		expect(programData).toEqual({
 			name: [],
 			variables: [{
-				name: 'myString',
+				localName: 'myString',
 				type: { type: 'string' },
 			}, {
-				name: 'myObject',
+				localName: 'myObject',
 				type: { type: 'object', model: 'trees' },
 			}],
 			scopes: {},
@@ -31,13 +31,13 @@ describe('ProgramBuilder', () => {
 		expect(programData).toEqual({
 			name: [],
 			variables: [{
-				name: 'tree',
+				localName: 'tree',
 				type: { type: 'object', model: 'trees' },
 			}, {
-				name: 'height',
+				localName: 'height',
 				type: { type: 'number' },
 				binding: {
-					variable: ['tree'],
+					variableName: ['tree'],
 					property: 'height',
 				},
 			}],
@@ -56,15 +56,15 @@ describe('ProgramBuilder', () => {
 		expect(programData).toEqual({
 			name: [],
 			variables: [{
-				name: 'age',
+				localName: 'age',
 				type: { type: 'number' },
 			}, {
-				name: 'nextYearsAge',
+				localName: 'nextYearsAge',
 				type: { type: 'number' },
 				computation: {
 					parameters: [{
-						variable: ['age'],
-						localVariable: 'age',
+						variableName: ['age'],
+						localName: 'age',
 					}],
 					body: 'return age + 1;',
 				},
@@ -77,23 +77,23 @@ describe('ProgramBuilder', () => {
 		const programData = {
 			name: [],
 			variables: [{
-				name: 'age',
+				localName: 'age',
 				type: { type: 'number' },
 			}, {
-				name: 'nextYearsAge',
+				localName: 'nextYearsAge',
 				type: { type: 'number' },
 				computation: {
 					parameters: [{
-						variable: ['age'],
-						localVariable: 'age',
+						variableName: ['age'],
+						localName: 'age',
 					}],
 					body: 'return age + 1;',
 				},
 			}, {
-				name: 'height',
+				localName: 'height',
 				type: { type: 'number' },
 				binding: {
-					variable: ['tree'],
+					variableName: ['tree'],
 					property: 'height',
 				},
 			}],
@@ -101,7 +101,7 @@ describe('ProgramBuilder', () => {
 				testScope: {
 					name: ['testScope'],
 					variables: [{
-						name: 'testVar',
+						localName: 'testVar',
 						type: { type: 'number' },
 					}],
 					scopes: {},
@@ -129,7 +129,7 @@ describe('ProgramBuilder', () => {
 				testScope: {
 					name: ['testScope'],
 					variables: [{
-						name: 'testVar',
+						localName: 'testVar',
 						type: { type: 'number' },
 					}],
 					scopes: {},

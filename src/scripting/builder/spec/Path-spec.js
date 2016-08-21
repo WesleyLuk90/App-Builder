@@ -3,7 +3,7 @@ import Path from '../Path';
 describe('Path', () => {
 	it('should create child paths', () => {
 		const rootPath = Path.rootPath();
-		const child = rootPath.createChild(['first-child']);
+		const child = rootPath.createChild('first-child');
 
 		expect(child.equals(Path.newPath(['first-child']))).toBe(true);
 
