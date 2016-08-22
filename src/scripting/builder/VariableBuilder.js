@@ -14,12 +14,9 @@ export default class VariableBuilder {
 		return variable;
 	}
 
-	static createPropertyBound(localName, type, otherVariable, property) {
+	static createPropertyBound(localName, type, otherVariableName, property) {
 		const variable = VariableBuilder.createSimple(localName, type);
-		variable.binding = {
-			variableName: otherVariable,
-			property,
-		};
+		variable.setVariableBinding(otherVariableName, property);
 		variable.setVariableType(VariableTypes.BOUND);
 		return variable;
 	}
@@ -41,6 +38,13 @@ export default class VariableBuilder {
 
 	setVariableType(variableType) {
 		this.variableType = variableType;
+	}
+
+	setVariableBinding(bindToVariableName, property) {
+		this.binding = {
+			variableName: bindToVariableName,
+			property,
+		};
 	}
 
 	getVariableType() {

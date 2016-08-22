@@ -29,7 +29,7 @@ export default class VariableEditor extends React.Component {
 		event.preventDefault();
 		const typeName = event.target.value;
 		const variableType = VariableTypes.getByName(typeName);
-		this.getEdit().setVariableType(this.getVariableBuilder(), variableType);
+		this.getEdit().setVariableVariableType(this.getVariableBuilder(), variableType);
 
 		this.setState({ variableType });
 	}

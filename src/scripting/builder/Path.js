@@ -68,7 +68,11 @@ export default class Path {
 		return this.pathComponents.join('/');
 	}
 
-	toJSONObject() {
+	toName() {
 		return this.pathComponents.slice();
+	}
+
+	toJSONObject() {
+		return this.toName();
 	}
 }

@@ -20,11 +20,17 @@ export default class BindingSelector extends React.Component {
 	onSelectVariable(event) {
 		event.preventDefault();
 		this.setState({ selectedVariableName: event.target.value });
+		this.updateVariableBinding(this.state.selectedVariableName, event.target.value);
 	}
 
 	onSelectProperty(event) {
 		event.preventDefault();
 		this.setState({ selectedProperty: event.target.value });
+		this.updateVariableBinding(this.state.selectedVariableName, event.target.value);
+	}
+
+	updateVariableBinding(variablePath, property) {
+		this.getEdit().setVariableBinding(this.getVariableBuilder(), variablePath.toName(), property);
 	}
 
 	getProgramBuilder() {
@@ -37,6 +43,10 @@ export default class BindingSelector extends React.Component {
 
 	getVariableBuilder() {
 		return this.props.variableBuilder;
+	}
+
+	getEdit() {
+		return this.props.edit;
 	}
 
 	getVariableOptions() {

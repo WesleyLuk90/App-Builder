@@ -1,6 +1,11 @@
 export default class Edit {
 
-	setVariableType(variable, type) {
-		variable.setType(type);
+	setVariableVariableType(variableBuilder, type) {
+		variableBuilder.setVariableType(type);
+	}
+
+	setVariableBinding(variableBuilder, bindToVariableName, property) {
+		variableBuilder.setVariableBinding(bindToVariableName, property);
+		console.log(variableBuilder);
 	}
 }

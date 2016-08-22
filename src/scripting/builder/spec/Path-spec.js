@@ -18,6 +18,12 @@ describe('Path', () => {
 		expect(path.toJSONObject()).toEqual(['hello', 'world']);
 	});
 
+	it('should convert to a name', () => {
+		const path = Path.newPath(['hello', 'world']);
+
+		expect(path.toName()).toEqual(['hello', 'world']);
+	});
+
 	it('should get the parent path', () => {
 		const path = Path.newPath(['hello', 'world']);
 
