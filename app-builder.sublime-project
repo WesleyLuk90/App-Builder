@@ -1,14 +1,12 @@
 {
-	"folders":
-	[
-		{
-			"path": "."
-		}
-	],
-	"settings":
-	{
-		"FuzzyFilePath":
-		{
-		}
-	}
+	"folders": [{
+		"path": "."
+	}],
+	"settings": {
+		"FuzzyFilePath": {}
+	},
+	"build_systems": [{
+		"name": "Jasmine Unit Tests",
+		"cmd": "npm.cmd run test"
+	}]
 }
