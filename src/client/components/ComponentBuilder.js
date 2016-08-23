@@ -15,6 +15,7 @@ export default class ComponentBuilder {
 		this.namedVariables = new Map();
 		this.scopedVariables = new Map();
 		this.scopeName = null;
+		this.childScopes = new Map();
 	}
 
 	setComponents(name, componentList) {
@@ -46,8 +47,8 @@ export default class ComponentBuilder {
 		return this;
 	}
 
-	setScopeName(scopeName) {
-		this.scopeName = scopeName;
+	setChildScope(componentsGroup, scopeName) {
+		this.childScopes.set(componentsGroup, scopeName);
 		return this;
 	}
 

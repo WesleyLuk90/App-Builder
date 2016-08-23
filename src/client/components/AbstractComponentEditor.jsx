@@ -11,10 +11,6 @@ export default class AbstractComponentEditor extends AbstractComponent {
 		return '{null}';
 	}
 
-	getScopeName() {
-		return this.props.scopeName;
-	}
-
 	getProgramBuilder() {
 		return this.props.programBuilder;
 	}
