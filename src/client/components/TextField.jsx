@@ -3,9 +3,10 @@ import _ from 'lodash';
 
 import AbstractComponent from './AbstractComponent';
 import AbstractComponentEditor from './AbstractComponentEditor';
-import ComponentPlaceholder from './ComponentPlaceholder';
-import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import AllTypes from '../../scripting/types/AllTypes';
+import ComponentOption from './component-editor/ComponentOption';
+import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
+import ComponentPlaceholder from './ComponentPlaceholder';
 
 export class TextFieldEditor extends AbstractComponentEditor {
 
@@ -16,9 +17,9 @@ export class TextFieldEditor extends AbstractComponentEditor {
 
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
-			.addOption('label', AllTypes.getStringType())
-			.addOption('placeholder', AllTypes.getStringType())
-			.addOption('value', AllTypes.getStringType())
+			.addOption(ComponentOption.create('label', AllTypes.getStringType()))
+			.addOption(ComponentOption.create('placeholder', AllTypes.getStringType()))
+			.addOption(ComponentOption.create('value', AllTypes.getStringType()))
 			.build();
 	}
 

@@ -5,12 +5,13 @@ import AbstractComponentEditor from './AbstractComponentEditor';
 import AllTypes from '../../scripting/types/AllTypes';
 import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import ComponentPlaceholder from './ComponentPlaceholder';
+import ComponentOption from './component-editor/ComponentOption';
 
 class TableEditor extends AbstractComponentEditor {
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
-			.addOption('foreach', AllTypes.getAnyArrayType())
-			.addOption('as', AllTypes.getAnyObjectType())
+			.addOption(ComponentOption.create('foreach', AllTypes.getAnyArrayType()))
+			.addOption(ComponentOption.create('as', AllTypes.getAnyObjectType()).inComponentGroupScope('columns'))
 			.build();
 	}
 
