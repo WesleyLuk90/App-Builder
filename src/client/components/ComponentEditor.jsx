@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
-import ComponentOptionEditor from './ComponentOptionEditor';
+import ComponentEditorProperties from './component-editor/ComponentEditorProperties';
 import ScopedScriptEditor from './script-editor/ScopedScriptEditor';
 import ProgramBuilder from '../../scripting/builder/ProgramBuilder';
 import Edit from './component-editor/Edit';
@@ -47,7 +47,6 @@ export default class ComponentEditor extends AbstractComponent {
 	}
 
 	getComponentFactory() {
-		console.log(this.childProps);
 		return this.editorComponentFactory.withProps(this.childProps);
 	}
 
@@ -74,7 +73,7 @@ export default class ComponentEditor extends AbstractComponent {
 					{children}
 				</div>
 				<div className="component-editor__edit-panel">
-					<ComponentOptionEditor component={this.state.selectedComponent} />
+					<ComponentEditorProperties {...scriptEditorProps} component={this.state.selectedComponent} />
 				</div>
 			</div>
 			<div className="component-editor__script-panel">

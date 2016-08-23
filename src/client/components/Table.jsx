@@ -3,7 +3,7 @@ import React from 'react';
 import AbstractComponent from './AbstractComponent';
 import AbstractComponentEditor from './AbstractComponentEditor';
 import AllTypes from '../../scripting/types/AllTypes';
-import ComponentOptionsBuilder from './component-options/ComponentOptionsBuilder';
+import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import ComponentPlaceholder from './ComponentPlaceholder';
 
 class TableEditor extends AbstractComponentEditor {

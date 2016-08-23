@@ -29,6 +29,7 @@
 		border-top: solid 1px $section-border;
 		flex: 0 0 auto;
 		height: 200px;
+		overflow: auto;
 	}
 
 	&__middle-row {

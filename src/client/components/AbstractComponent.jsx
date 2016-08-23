@@ -91,19 +91,6 @@ export default class AbstractComponent extends React.Component {
 		return <ComponentInserter {...inserterProps} />;
 	}
 
-	getDisplayValue(key, defaultValue) {
-		if (this.hasValue(key)) {
-			return this.getValue(key);
-		}
-		if (this.hasNamedVariable(key)) {
-			return JSON.stringify(this.props.namedVariables[key]);
-		}
-		if (defaultValue != null) {
-			return defaultValue;
-		}
-		return 'null';
-	}
-
 	getInsertContext(componentGroup) {
 		return new InsertComponentContext(this, componentGroup);
 	}

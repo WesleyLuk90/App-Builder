@@ -36,6 +36,7 @@ export default class ComponentFactory {
 			values: component.values,
 			namedVariables: component.namedVariables,
 			scopedVariables: component.scopedVariables,
+			scopeName: component.scopeName,
 		});
 		return React.createElement(componentClass, props);
 	}

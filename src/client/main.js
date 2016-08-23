@@ -67,6 +67,7 @@ function main(document) {
 						)
 						.setValue('foreach', [1, 2, 3, 4])
 						.setScopedVariable('as', ['loopScope1', 'rowNumber'])
+						.setScopeName(['loopScope1'])
 					)
 				)
 			)

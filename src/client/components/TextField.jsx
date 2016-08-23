@@ -4,7 +4,7 @@ import _ from 'lodash';
 import AbstractComponent from './AbstractComponent';
 import AbstractComponentEditor from './AbstractComponentEditor';
 import ComponentPlaceholder from './ComponentPlaceholder';
-import ComponentOptionsBuilder from './component-options/ComponentOptionsBuilder';
+import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import AllTypes from '../../scripting/types/AllTypes';
 
 export class TextFieldEditor extends AbstractComponentEditor {

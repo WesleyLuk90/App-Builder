@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import AbstractComponent from './AbstractComponent';
+import AbstractComponent from '../AbstractComponent';
 
 
 export default class ComponentOptionInput extends AbstractComponent {
