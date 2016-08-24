@@ -63,6 +63,19 @@ export default class ProgramBuilder {
 		return this;
 	}
 
+	getScope(scopePath) {
+		if (scopePath.equals(this.scopePath)) {
+			return this;
+		}
+		if (scopePath.isAncestorOf(this.scopePath)) {
+			return this.getParent().getScope(scopePath);
+		}
+		// Otherwise its a child
+		const nextComponent = scopePath.getComponent(this.scopePath.length);
+		const childScopePath = this.scopePath.createChild(nextComponent);
+		return this.childScopes.get(childScopePath.toString());
+	}
+
 	setParentBuilder(builder) {
 		this.parentBuilder = builder;
 	}

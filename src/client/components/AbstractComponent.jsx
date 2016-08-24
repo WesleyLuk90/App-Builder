@@ -112,4 +112,8 @@ export default class AbstractComponent extends React.Component {
 	componentWillUnmount() {
 		this.disposeSubscriptions();
 	}
+
+	getScopePath() {
+		return this.props.scopePath;
+	}
 }

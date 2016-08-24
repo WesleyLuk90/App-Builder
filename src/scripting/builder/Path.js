@@ -46,6 +46,10 @@ export default class Path {
 		return otherPath.pathComponents.every((component, index) => this.pathComponents[index] === component);
 	}
 
+	getComponent(index) {
+		return this.pathComponents[index];
+	}
+
 	getParentPath() {
 		return Path.newPath(this.pathComponents.slice(0, -1));
 	}

@@ -14,7 +14,6 @@ export default class ComponentBuilder {
 		this.values = new Map();
 		this.namedVariables = new Map();
 		this.scopedVariables = new Map();
-		this.scopeName = null;
 		this.childScopes = new Map();
 	}
 
@@ -95,7 +94,6 @@ export default class ComponentBuilder {
 			values: this.valuesToJSONObject(),
 			namedVariables: this.namedVariablesToJSONObject(),
 			scopedVariables: this.scopedVariablesToJSONObject(),
-			scopeName: this.scopeName,
 		};
 	}
 }

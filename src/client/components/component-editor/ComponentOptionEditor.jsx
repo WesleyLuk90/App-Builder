@@ -22,7 +22,7 @@ export default class ComponentOptionEditor extends React.Component {
 		return (<div className="component-option-editor">
 			<h2 className="header">{this.getComponent().constructor.name}</h2>
 			{this.getOptions().map((option, index) =>
-				<ComponentOptionInput key={index} option={option} />)}
+				<ComponentOptionInput key={index} option={option} {...this.props} />)}
 		</div>);
 	}
 }
