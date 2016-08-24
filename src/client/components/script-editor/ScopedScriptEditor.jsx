@@ -4,8 +4,20 @@ import VariableEditor from './VariableEditor';
 
 export default class ScopedScriptEditor extends React.Component {
 
+	getProgramBuilder() {
+		return this.props.programBuilder;
+	}
+
 	getLocalVariables() {
-		return this.props.programBuilder.getLocalVariables();
+		return this.getProgramBuilder().getLocalVariables();
+	}
+
+	getScopedProgramBuilders() {
+		return this.getProgramBuilder().getScopedProgramBuilders();
+	}
+
+	getChildScopeProps(programBuilder) {
+		return Object.assign({}, this.props, { programBuilder });
 	}
 
 	render() {
@@ -15,6 +27,9 @@ export default class ScopedScriptEditor extends React.Component {
 				{this.getLocalVariables().map((variableBuilder, index) => <VariableEditor key={index} variableBuilder={variableBuilder} {...this.props} />)}
 			</div>
 			<div className="scope-list">
+				{this.getScopedProgramBuilders().map((scopedProgramBuilder, index) =>
+					<ScopedScriptEditor key={index} {...this.getChildScopeProps(scopedProgramBuilder)} />
+				)}
 			</div>
 		</div>);
 	}

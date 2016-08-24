@@ -11,7 +11,7 @@ class TableEditor extends AbstractComponentEditor {
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
 			.addOption(ComponentOption.create('foreach', AllTypes.getAnyArrayType()))
-			.addOption(ComponentOption.create('as', AllTypes.getAnyObjectType()).inComponentGroupScope('columns'))
+			.addOption(ComponentOption.create('as', AllTypes.getAnyType()).inComponentGroupScope('columns'))
 			.build();
 	}
 

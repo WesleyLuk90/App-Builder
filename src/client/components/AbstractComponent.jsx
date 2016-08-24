@@ -15,6 +15,13 @@ export default class AbstractComponent extends React.Component {
 		return this.getComponentFactory(replaceProps).build(this.getChildComponents(name));
 	}
 
+	getScopeLocalName(groupName) {
+		if (!this.props.childScopes[groupName]) {
+			throw new Error(`There is no child scope for ${groupName}`);
+		}
+		return this.props.childScopes[groupName];
+	}
+
 	getComponentFactory(replaceProps) {
 		const props = Object.assign({}, this.props, replaceProps);
 		return this.props.componentFactory.withProps(props);
@@ -60,10 +67,6 @@ export default class AbstractComponent extends React.Component {
 
 	getNamedVariable(key) {
 		return this.props.namedVariables[key];
-	}
-
-	getScopedVariable(key) {
-		return this.props.scopedVariables[key];
 	}
 
 	hasNamedVariable(key) {

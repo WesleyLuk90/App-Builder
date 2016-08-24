@@ -4,7 +4,7 @@ export default class Type {
 	}
 
 	isAssignableTo(otherType) {
-		return otherType === this;
+		return otherType === this || otherType.toJSONObject().type === 'any';
 	}
 
 	toJSONObject() {

@@ -5,3 +5,5 @@ Each component has properties? identified by a key. The property returned can ei
 
 ## Handling Loop Scopes
 Loop scopes should be declared on the child components. We need to do this to know that these components are children. We also need to be able to define which variable is specified in the subscope. The options on the component can let us define which is the scope variable.
+
+Do we actually need to define scoped variables separately from named ones?

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import AbstractComponent from './AbstractComponent';
 import ComponentInserterModal from './ComponentInserterModal';
 
-export default class ComponentInserter extends AbstractComponent {
+export default class ComponentInserter extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -31,7 +30,8 @@ export default class ComponentInserter extends AbstractComponent {
 				<span className="fa fa-fw fa-2x fa-plus-circle" />
 			</a>
 			<ComponentInserterModal
-				{...this.createProps({ shown: this.state.shown })}
+				shown={this.state.shown}
+				{...this.props}
 				onComplete={() => this.closeModal()}
 			/>
 		</div>);

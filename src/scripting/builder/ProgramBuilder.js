@@ -71,7 +71,7 @@ export default class ProgramBuilder {
 			return this.getParent().getScope(scopePath);
 		}
 		// Otherwise its a child
-		const nextComponent = scopePath.getComponent(this.scopePath.length);
+		const nextComponent = scopePath.getComponent(this.scopePath.componentCount());
 		const childScopePath = this.scopePath.createChild(nextComponent);
 		return this.childScopes.get(childScopePath.toString());
 	}
@@ -117,12 +117,24 @@ export default class ProgramBuilder {
 		return _.find(this.variables, v => v.getLocalName() === variableLocalName);
 	}
 
+	getScopedProgramBuilders() {
+		const scopes = [];
+		this.childScopes.forEach(scope => {
+			scopes.push(scope);
+		});
+		return scopes;
+	}
+
+	getLocalVariables() {
+		return this.variables.slice();
+	}
+
 	getVariablesInScope() {
 		let parentVariables = [];
 		if (this.parentBuilder) {
 			parentVariables = this.parentBuilder.getVariablesInScope();
 		}
-		return [...this.variables, ...parentVariables];
+		return [...this.getLocalVariables(), ...parentVariables];
 	}
 
 	getVariableByPath(variablePath) {

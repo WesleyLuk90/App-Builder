@@ -13,8 +13,17 @@ export default class ComponentOptionInput extends AbstractComponent {
 		this.id = _.uniqueId();
 
 		this.state = {
-			valueType: STATIC_TYPE,
+			valueType: this.getComponentValueType(),
+			selectedVariable: '',
 		};
+	}
+
+	getComponentValueType() {
+		const optionName = this.getOption().getName();
+		if (this.getComponent().hasNamedVariable(optionName)) {
+			return VARIABLE_TYPE;
+		}
+		return STATIC_TYPE;
 	}
 
 	getComponent() {
@@ -38,23 +47,61 @@ export default class ComponentOptionInput extends AbstractComponent {
 		return this.props.option;
 	}
 
+	getAssignableVariables() {
+		const option = this.getOption();
+		let variables = null;
+		if (option.isInComponentGroupScope()) {
+			const name = this.getComponent().getScopeLocalName(option.getComponentGroupName());
+			const variableScope = this.getOptionScopePath().createChild(name);
+			variables = this.getProgramBuilder()
+				.getScope(variableScope)
+				.getLocalVariables();
+		} else {
+			const scopedProgramBuilder = this.getProgramBuilder()
+				.getScope(this.getOptionScopePath());
+			variables = scopedProgramBuilder.getVariablesInScope();
+		}
+		return variables
+			.filter(variable => variable.getType().isAssignableTo(this.getOption().getType()));
+	}
+
+	onChangeVariableSelect(e) {
+		e.preventDefault();
+		this.selectVariableByName(e.target.value);
+	}
+
+	selectVariableByName(name) {
+		const variables = this.getAssignableVariables();
+		const foundVariable = _.find(variables, variable => variable.getVariablePath().toString() === name);
+		this.setState({ selectedVariable: name });
+	}
+
 	render() {
 		const option = this.getOption();
-		const scopedProgramBuilder = this.getProgramBuilder().getScope(this.getOptionScopePath());
-		const variables = scopedProgramBuilder.getVariablesInScope()
-			.filter(variable => variable.getType().isAssignableTo(this.getOption().getType()));
-		console.log(variables);
+		const variables = this.getAssignableVariables();
 		return (<div className="component-option-input">
 			<label className="label" htmlFor={this.id}>{this.props.option.getName()}</label>
 			<select className="dropdown" id={this.id} value={this.state.valueType} onChange={e => this.changeValueType(e)}>
 				<option value={STATIC_TYPE}>Static Value</option>
 				<option value={VARIABLE_TYPE}>Variable</option>
 			</select>
-			<div className="option-list">
-				{variables.map((variable, index) =>
-					<div className="option-list__item" key={index}>{variable.getLocalName()}</div>
-				)}
-			</div>
+			{this.state.valueType === STATIC_TYPE ?
+				<input type="text" className="text-field" placeholder="Enter a value" />
+				:
+				null
+			}
+			{this.state.valueType === VARIABLE_TYPE ?
+				<select className="dropdown" value={this.state.selectedVariable} onChange={e => this.onChangeVariableSelect(e)}>
+					<option value="" disabled>Select a Variable</option>
+					{variables.map((variable, index) =>
+						<option key={index} value={variable.getVariablePath().toString()}>
+							{variable.getLocalName()}
+						</option>
+					)}
+				</select>
+				:
+				null
+			}
 		</div>);
 	}
 }

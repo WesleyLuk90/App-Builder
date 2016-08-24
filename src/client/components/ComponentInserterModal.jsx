@@ -1,9 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-import AbstractComponent from './AbstractComponent';
-
-export default class ComponentInserterModal extends AbstractComponent {
+export default class ComponentInserterModal extends React.Component {
 	getInsertableComponents() {
 		return this.props.componentMap.getInsertableComponentNames()
 			.map((componentName, index) =>
@@ -36,7 +34,7 @@ export default class ComponentInserterModal extends AbstractComponent {
 
 	render() {
 		return (<div className={this.containerClass()}>
-			<div className="component-inserter-modal__background" onClick={e => this.clickBackground(e)}/>
+			<div className="component-inserter-modal__background" onClick={e => this.clickBackground(e)} />
 			<div className="component-inserter-modal__modal">
 				<ul>{this.getInsertableComponents()}</ul>
 			</div>

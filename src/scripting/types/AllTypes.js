@@ -5,6 +5,7 @@ import ArrayType from './ArrayType';
 import ObjectType from './ObjectType';
 import AnyArrayType from './AnyArrayType';
 import AnyObjectType from './AnyObjectType';
+import AnyType from './AnyType';
 
 const AllTypes = {
 	getStringType() {
@@ -33,6 +34,10 @@ const AllTypes = {
 
 	getAnyObjectType() {
 		return AnyObjectType.getInstance();
+	},
+
+	getAnyType() {
+		return AnyType.getInstance();
 	},
 
 	getTypeConstructors() {

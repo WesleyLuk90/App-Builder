@@ -25,4 +25,12 @@ export default class ComponentOption {
 		this.groupName = groupName;
 		return this;
 	}
+
+	isInComponentGroupScope() {
+		return this.groupName != null;
+	}
+
+	getComponentGroupName() {
+		return this.groupName;
+	}
 }

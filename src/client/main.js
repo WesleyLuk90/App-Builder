@@ -66,7 +66,7 @@ function main(document) {
 							.addComponent(ComponentBuilder.newBuilder('Text').setValue('text', 'My Footer 6'))
 						)
 						.setValue('foreach', [1, 2, 3, 4])
-						.setScopedVariable('as', ['loopScope1', 'rowNumber'])
+						.setNamedVariable('as', ['loopScope1', 'rowNumber'])
 						.setChildScope('columns', ['loopScope1'])
 					)
 				)
@@ -89,6 +89,7 @@ function main(document) {
 		componentMap,
 		modelList: ModelList.fromData(modelData),
 	};
+	console.log(props);
 	const element = componentFactory.withProps(props).buildComponent(pageDefinition);
 	ReactDom.render(element, appContainer);
 }

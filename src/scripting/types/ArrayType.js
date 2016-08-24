@@ -27,13 +27,13 @@ export default class ArrayType extends Type {
 	}
 
 	isAssignableTo(otherType) {
-		return otherType.toJSONObject().type === 'array';;
+		return otherType.toJSONObject().type === 'array';
 	}
 
 	toJSONObject() {
 		return {
 			type: 'array',
-			arrayType: this.baseType.toJSONObject(),
+			arrayType: this.baseType ? this.baseType.toJSONObject() : null,
 		};
 	}
 }

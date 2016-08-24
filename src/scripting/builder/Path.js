@@ -76,6 +76,10 @@ export default class Path {
 		return this.pathComponents.slice();
 	}
 
+	componentCount() {
+		return this.pathComponents.length;
+	}
+
 	toJSONObject() {
 		return this.toName();
 	}
