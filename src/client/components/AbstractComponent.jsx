@@ -39,9 +39,13 @@ export default class AbstractComponent extends React.Component {
 		return typeof this.props.values[key] !== 'undefined';
 	}
 
+	getStaticValue(key) {
+		return this.props.values[key];
+	}
+
 	getValue(key, defaultValue) {
 		if (this.hasValue(key)) {
-			return this.props.values[key];
+			return this.getStaticValue(key);
 		}
 		if (this.hasNamedVariable(key)) {
 			const variableName = this.props.namedVariables[key];

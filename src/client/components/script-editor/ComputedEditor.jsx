@@ -69,6 +69,10 @@ export default class ComputedEditor extends React.Component {
 		return variableOptions;
 	}
 
+	onChangeCodeEditor(newBody){
+
+	}
+
 	render() {
 		return (<div className="computed-editor">
 			<div className="computed-editor__parameter-list">
@@ -86,7 +90,14 @@ export default class ComputedEditor extends React.Component {
 				<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>
 			</div>
 			<div>
-				<CodeEditor code={this.state.body} header={this.getHeader()} footer={this.getFooter()} width={700} height={400} onChange={d => console.log(d)} />
+				<CodeEditor
+					code={this.state.body}
+					header={this.getHeader()}
+					footer={this.getFooter()}
+					width={700}
+					height={400}
+					onChange={body => this.onChangeCodeEditor(body)}
+				/>
 			</div>
 		</div>);
 	}
