@@ -6,6 +6,17 @@ export default class Edit {
 
 	setVariableBinding(variableBuilder, bindToVariableName, property) {
 		variableBuilder.setVariableBinding(bindToVariableName, property);
-		console.log(variableBuilder);
+	}
+
+	switchToNamedVariableBinding(component, option) {
+		component.switchToNamedVariableBinding(option);
+	}
+
+	switchToStaticValueBinding(component, option) {
+		component.switchToStaticValueBinding(option);
+	}
+
+	setComponentVariableBinding(component, option, variableBuilder) {
+		component.setNamedVariableBinding(option, variableBuilder.getVariablePath().toName());
 	}
 }

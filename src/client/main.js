@@ -89,7 +89,6 @@ function main(document) {
 		componentMap,
 		modelList: ModelList.fromData(modelData),
 	};
-	console.log(props);
 	const element = componentFactory.withProps(props).buildComponent(pageDefinition);
 	ReactDom.render(element, appContainer);
 }

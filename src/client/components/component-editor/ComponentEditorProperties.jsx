@@ -2,19 +2,16 @@ import React from 'react';
 
 import ComponentOptionEditor from './ComponentOptionEditor';
 
+
 export default class ComponentEditorProperties extends React.Component {
 
-	getComponent() {
-		return this.props.component;
-	}
-
 	render() {
-		if (!this.getComponent()) {
-			return null;
+		if (!this.props.component) {
+			return <div>Select a Component to Edit</div>;
 		}
 		return (<div>
-			{this.getComponent().getScopePath().toString()}
-			<ComponentOptionEditor component={this.getComponent()} {...this.props} />
+			{this.props.component.getScopePath().toString()}
+			<ComponentOptionEditor {...this.props} />
 		</div>);
 	}
 }

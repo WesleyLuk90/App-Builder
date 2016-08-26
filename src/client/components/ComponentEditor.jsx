@@ -10,19 +10,17 @@ export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
 		super(props);
 
-		this.editorComponentFactory = this.props.componentFactory.toEditorComponentFactory();
-
 		const program = this.getValue('program');
 		this.programBuilder = ProgramBuilder.fromData(program);
-
+		this.editorComponentFactory = this.props.componentFactory.toEditorComponentFactory();
 		this.edit = new Edit();
 
 		this.childProps = Object.assign({},
 			this.props, {
 				componentFactory: this.editorComponentFactory,
-				componentEditor: this,
 				programScope: null, // Null this out to make sure nothing uses it
 				programBuilder: this.programBuilder,
+				componentEditor: this,
 			});
 
 		this.state = {
@@ -30,28 +28,22 @@ export default class ComponentEditor extends AbstractComponent {
 		};
 	}
 
-	isSelected(component) {
-		return this.state.selectedComponent === component;
-	}
-
-	selectComponent(component) {
-		if (this.isSelected(component)) {
-			return;
-		}
-		const lastSelected = this.state.selectedComponent;
+	setSelectedComponent(component) {
 		this.setState({ selectedComponent: component });
 		component.forceUpdate();
-		if (lastSelected) {
-			lastSelected.forceUpdate();
-		}
+	}
+
+	isSelectedComponent(component) {
+		return this.state.selectedComponent === component;
 	}
 
 	getComponentFactory() {
 		return this.editorComponentFactory.withProps(this.childProps);
 	}
 
-	getComponentData() {
-		console.log(this.props.components.children[0]);
+	onClickSaveComponent(event) {
+		event.preventDefault();
+		// console.log(this.props.components.children[0]);
 	}
 
 	render() {
@@ -66,7 +58,7 @@ export default class ComponentEditor extends AbstractComponent {
 				Some Text Info Here
 				<div className="spacer" />
 				<button className="button">Another Button</button>
-				<button className="button" onClick={() => this.getComponentData()}>Save</button>
+				<button className="button" onClick={() => this.onClickSaveComponent(event)}>Save</button>
 			</div>
 			<div className="component-editor__middle-row">
 				<div className="component-editor__components">
@@ -77,7 +69,7 @@ export default class ComponentEditor extends AbstractComponent {
 				</div>
 			</div>
 			<div className="component-editor__script-panel">
-				<ScopedScriptEditor {...scriptEditorProps} />
+				<ScopedScriptEditor {...scriptEditorProps} component={this.state.selectedComponent} />
 			</div>
 		</div>);
 	}

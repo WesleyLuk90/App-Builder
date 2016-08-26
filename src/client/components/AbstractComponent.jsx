@@ -17,7 +17,8 @@ export default class AbstractComponent extends React.Component {
 
 	getScopeLocalName(groupName) {
 		if (!this.props.childScopes[groupName]) {
-			throw new Error(`There is no child scope for ${groupName}`);
+			console.log(this);
+			throw new Error(`There is no child scope for '${groupName}'`);
 		}
 		return this.props.childScopes[groupName];
 	}

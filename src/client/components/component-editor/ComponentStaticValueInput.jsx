@@ -1,29 +1,34 @@
 import React from 'react';
 
+
 export default class ComponentStaticValueInput extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			staticValue: this.getComponentStaticValue(),
+			staticValue: this.getComponentStaticValue(this.props),
 		};
 	}
 
-	getOption() {
-		return this.props.option;
+	getComponent(props) {
+		return props.component;
 	}
 
-	getOptionName() {
-		return this.getOption().getName();
+	loadComponentValue(props) {
+		this.setState({ staticValue: this.getComponentStaticValue(props) });
 	}
 
-	getComponent() {
-		return this.props.component;
+	getOption(props) {
+		return props.option;
 	}
 
-	getComponentStaticValue() {
-		const optionName = this.getOptionName();
-		return JSON.stringify(this.getComponent().getStaticValue(optionName));
+	getOptionName(props) {
+		return this.getOption(props).getName();
+	}
+
+	getComponentStaticValue(props) {
+		const optionName = this.getOptionName(props);
+		return JSON.stringify(this.getComponent(props).getStaticValue(optionName)) || '';
 	}
 
 	onChangeStaticValue(e) {
@@ -33,6 +38,10 @@ export default class ComponentStaticValueInput extends React.Component {
 
 	setStaticValue(value) {
 		this.setState({ staticValue: value });
+	}
+
+	componentWillReceiveProps(props) {
+		this.loadComponentValue(props);
 	}
 
 	render() {
