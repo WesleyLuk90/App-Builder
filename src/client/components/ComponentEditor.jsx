@@ -70,7 +70,9 @@ export default class ComponentEditor extends AbstractComponent {
 				</div>
 			</div>
 			<VerticallyResizablePanel className="component-editor__script-panel">
-				<ScopedScriptEditor {...scriptEditorProps} component={this.state.selectedComponent} />
+				<div className="component-editor__script-panel__scroll-area">
+					<ScopedScriptEditor {...scriptEditorProps} component={this.state.selectedComponent} />
+				</div>
 			</VerticallyResizablePanel>
 		</div>);
 	}

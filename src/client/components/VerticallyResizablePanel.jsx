@@ -1,4 +1,5 @@
 import React from 'react';
+import Rx from 'rx';
 
 export default class VerticallyResizablePanel extends React.Component {
 
@@ -7,6 +8,18 @@ export default class VerticallyResizablePanel extends React.Component {
 
 		this.startY = 0;
 		this.startHeight = 0;
+		this.dragSubject = new Rx.Subject();
+
+		this.dragSubject
+			.throttle(100)
+			.subscribe(e => {
+
+				if (e.clientY === 0) {
+					return;
+				}
+				const newHeight = (this.startY - e.clientY) + this.startHeight;
+				this.setState({ height: newHeight });
+			});
 
 		this.state = {
 			height: -1,
@@ -23,11 +36,8 @@ export default class VerticallyResizablePanel extends React.Component {
 	}
 
 	onDrag(e) {
-		if (e.clientY === 0) {
-			return;
-		}
-		const newHeight = (this.startY - e.clientY) + this.startHeight;
-		this.setState({ height: newHeight });
+		e.persist();
+		this.dragSubject.onNext(e);
 	}
 
 	onDragStart(e) {
