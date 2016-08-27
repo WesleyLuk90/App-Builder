@@ -39,3 +39,15 @@
 .section {
 	@include row-container();
 }
+
+.vertical-resize {
+	position: relative;
+	&__handle {
+		position: absolute;
+		height: 20px;
+		left:0;
+		right:0;
+		top: -10px;
+		cursor: row-resize;
+	}
+}

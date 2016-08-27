@@ -19,4 +19,8 @@ export default class Edit {
 	setComponentVariableBinding(component, option, variableBuilder) {
 		component.setNamedVariableBinding(option, variableBuilder.getVariablePath().toName());
 	}
+
+	setComponentStaticValue(component, option, value) {
+		component.setOptionStaticValue(option, value);
+	}
 }

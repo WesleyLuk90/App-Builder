@@ -31,17 +31,32 @@ export default class ComponentStaticValueInput extends React.Component {
 		return JSON.stringify(this.getComponent(props).getStaticValue(optionName)) || '';
 	}
 
-	onChangeStaticValue(e) {
-		e.preventDefault();
-		this.setStaticValue(e.target.value);
-	}
-
 	setStaticValue(value) {
 		this.setState({ staticValue: value });
 	}
 
 	componentWillReceiveProps(props) {
 		this.loadComponentValue(props);
+	}
+
+	onChangeStaticValue(e) {
+		e.preventDefault();
+		this.setStaticValue(e.target.value);
+	}
+
+	getValueFromStaticValue() {
+		try {
+			return JSON.parse(this.state.staticValue);
+		} catch (e) {
+			return this.state.staticValue;
+		}
+	}
+
+	onBlurStaticValue() {
+		const value = this.getValueFromStaticValue();
+		const stringValue = JSON.stringify(value);
+		this.setStaticValue(stringValue);
+		this.props.edit.setComponentStaticValue(this.props.component, this.props.option, value);
 	}
 
 	render() {
@@ -51,6 +66,7 @@ export default class ComponentStaticValueInput extends React.Component {
 			placeholder="Enter a value"
 			value={this.state.staticValue}
 			onChange={e => this.onChangeStaticValue(e)}
+			onBlur={() => this.onBlurStaticValue()}
 		/>);
 	}
 }

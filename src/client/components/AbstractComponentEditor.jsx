@@ -39,4 +39,8 @@ export default class AbstractComponentEditor extends AbstractComponent {
 		this.props.namedVariables[option.getName()] = variableName;
 		this.forceUpdate();
 	}
+
+	setOptionStaticValue(option, value) {
+		this.props.values[option.getName()] = value;
+	}
 }

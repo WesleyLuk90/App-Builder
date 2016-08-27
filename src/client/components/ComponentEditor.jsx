@@ -5,6 +5,7 @@ import ComponentEditorProperties from './component-editor/ComponentEditorPropert
 import ScopedScriptEditor from './script-editor/ScopedScriptEditor';
 import ProgramBuilder from '../../scripting/builder/ProgramBuilder';
 import Edit from './component-editor/Edit';
+import VerticallyResizablePanel from './VerticallyResizablePanel';
 
 export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
@@ -68,9 +69,9 @@ export default class ComponentEditor extends AbstractComponent {
 					<ComponentEditorProperties {...scriptEditorProps} component={this.state.selectedComponent} />
 				</div>
 			</div>
-			<div className="component-editor__script-panel">
+			<VerticallyResizablePanel className="component-editor__script-panel">
 				<ScopedScriptEditor {...scriptEditorProps} component={this.state.selectedComponent} />
-			</div>
+			</VerticallyResizablePanel>
 		</div>);
 	}
 }
