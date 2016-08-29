@@ -3,8 +3,14 @@ import React from 'react';
 import Path from '../../scripting/builder/Path';
 
 export default class ComponentFactory {
-	constructor(componentMap) {
+	static createFromComponentMap(componentMap) {
+		return new ComponentFactory(componentMap, {});
+	}
+
+	constructor(componentMap, props) {
 		this.componentMap = componentMap;
+		this.props = props;
+		this.scopePath = Path.rootPath();
 	}
 
 	toEditorComponentFactory() {
@@ -12,8 +18,16 @@ export default class ComponentFactory {
 	}
 
 	withProps(props) {
-		this.props = props;
-		return this;
+		return new ComponentFactory(this.componentMap, props);
+	}
+
+	withChildScopePath(scopePath) {
+		const newComponentFactory = new ComponentFactory(this.componentMap, this.props);
+		if (!Path.isInstance(scopePath)) {
+			throw new Error(`ScopePath must be a path, got ${scopePath}`);
+		}
+		newComponentFactory.scopePath = scopePath;
+		return newComponentFactory;
 	}
 
 	build(componentList) {
@@ -31,10 +45,7 @@ export default class ComponentFactory {
 	}
 
 	getScopePath() {
-		if (this.props.scopePath) {
-			return this.props.scopePath;
-		}
-		return Path.rootPath();
+		return this.scopePath;
 	}
 
 	buildComponent(component, index) {
@@ -48,6 +59,9 @@ export default class ComponentFactory {
 			componentDefinition: component,
 			scopePath: this.getScopePath(),
 		});
+		if (this.props.programBuilder) {
+			props.programBuilder = this.props.programBuilder.getScope(this.getScopePath());
+		}
 		return React.createElement(componentClass, props);
 	}
 }

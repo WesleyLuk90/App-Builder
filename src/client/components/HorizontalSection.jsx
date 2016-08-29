@@ -9,6 +9,7 @@ class HorizontalSectionEditor extends AbstractComponentEditor {
 
 	static getComponentInfo() {
 		return ComponentInfo.create()
+			.setBaseComponentName('HorizontalSection')
 			.setName('Horizontal Section')
 			.setIcon('bars fa-rotate-90');
 	}

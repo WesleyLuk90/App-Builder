@@ -12,6 +12,7 @@ class TextEditor extends AbstractComponentEditor {
 
 	static getComponentInfo() {
 		return ComponentInfo.create()
+			.setBaseComponentName('Text')
 			.setName('Text')
 			.setIcon('font');
 	}

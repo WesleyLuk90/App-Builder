@@ -9,6 +9,7 @@ class SectionEditor extends AbstractComponentEditor {
 
 	static getComponentInfo() {
 		return ComponentInfo.create()
+			.setBaseComponentName('Section')
 			.setName('Section')
 			.setIcon('bars');
 	}

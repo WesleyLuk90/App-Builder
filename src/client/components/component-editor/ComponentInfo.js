@@ -8,6 +8,15 @@ export default class ComponentInfo {
 		this.name = 'Unnamed Component';
 	}
 
+	setBaseComponentName(name) {
+		this.baseComponent = name;
+		return this;
+	}
+
+	getBaseComponentName() {
+		return this.baseComponent;
+	}
+
 	setName(name) {
 		this.name = name;
 		return this;

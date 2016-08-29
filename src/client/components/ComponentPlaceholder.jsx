@@ -18,7 +18,7 @@ export default class ComponentPlaceholder extends AbstractComponentEditor {
 	render() {
 		const placeholderClassname = classnames(
 			'component-placeholder', {
-				'component-placeholder--selected': this.props.componentEditor.isSelectedComponent(this),
+				'component-placeholder--selected': this.props.componentEditor.isSelectedComponent(this.props.component),
 			}
 		);
 		return (<div className={placeholderClassname}>

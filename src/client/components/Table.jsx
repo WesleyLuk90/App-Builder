@@ -8,11 +8,11 @@ import ComponentOption from './component-editor/ComponentOption';
 import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import ComponentPlaceholder from './ComponentPlaceholder';
 
-
 class TableEditor extends AbstractComponentEditor {
 
 	static getComponentInfo() {
 		return ComponentInfo.create()
+			.setBaseComponentName('Table')
 			.setName('Table')
 			.setIcon('table');
 	}

@@ -69,7 +69,7 @@ export default class Path {
 	}
 
 	toString() {
-		return this.pathComponents.join('/');
+		return `/${this.pathComponents.join('/')}`;
 	}
 
 	toName() {

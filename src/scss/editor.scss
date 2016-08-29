@@ -49,7 +49,7 @@
 
 	&__components {
 		padding-top: 1rem;
-		flex: 1 0 auto;
+		flex: 0 1 100%;
 		overflow: auto;
 	}
 }
@@ -121,6 +121,7 @@
 	@include section-style;
 
 	min-height: 2rem;
+	min-width: 150px;
 	position: relative;
 	padding: 25px 10px 10px;
 

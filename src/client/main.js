@@ -73,7 +73,7 @@ function main(document) {
 			)
 		).toJSONObject();
 	const componentMap = new ComponentMap();
-	const componentFactory = new ComponentFactory(componentMap);
+	const componentFactory = ComponentFactory.createFromComponentMap(componentMap);
 
 	const modelData = ModelDataBuilder.newBuilder()
 		.addModel(ModelBuilder.newBuilder('people')

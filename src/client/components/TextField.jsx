@@ -18,6 +18,7 @@ export class TextFieldEditor extends AbstractComponentEditor {
 
 	static getComponentInfo() {
 		return ComponentInfo.create()
+			.setBaseComponentName('TextField')
 			.setName('Text Input')
 			.setIcon('i-cursor');
 	}

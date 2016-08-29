@@ -14,6 +14,10 @@ export default class AbstractComponentEditor extends AbstractComponent {
 			.setIcon('sticky-note-o');
 	}
 
+	getComponentInfo() {
+		return this.constructor.getComponentInfo();
+	}
+
 	createChildProps(extraProps) {
 		const removeComponentCallback = c => this.props.edit.removeComponent(this, c);
 		return Object.assign({}, this.props, { onRemoveComponent: removeComponentCallback }, extraProps);

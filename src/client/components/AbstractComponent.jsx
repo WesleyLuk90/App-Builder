@@ -1,6 +1,7 @@
 import React from 'react';
 
 import InsertComponentContext from './InsertComponentContext';
+import Path from '../../scripting/builder/Path';
 
 export default class AbstractComponent extends React.Component {
 
@@ -16,7 +17,13 @@ export default class AbstractComponent extends React.Component {
 	}
 
 	buildChildComponents(name, replaceProps) {
-		return this.getComponentFactory(replaceProps).build(this.getChildComponents(name));
+		let childScopePath = this.props.scopePath;
+		if (this.props.childScopes[name]) {
+			childScopePath = Path.newPath(this.props.childScopes[name]);
+		}
+		return this.getComponentFactory(replaceProps)
+			.withChildScopePath(childScopePath)
+			.build(this.getChildComponents(name));
 	}
 
 	getScopeLocalName(groupName) {

@@ -8,7 +8,7 @@ export default class ComponentInserterModal extends React.Component {
 			.map((componentInfo, index) =>
 				(<li key={index} className="component-inserter-modal__item">
 					<a
-						onClick={(e) => this.selectComponent(e, componentInfo.getName())}
+						onClick={(e) => this.selectComponent(e, componentInfo.getBaseComponentName())}
 					>
 						<span className={`component-inserter-modal__icon ${componentInfo.getIconClass()}`} />
 						{componentInfo.getName()}
