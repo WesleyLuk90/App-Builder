@@ -10,4 +10,8 @@ export default class Type {
 	toJSONObject() {
 		throw new Error('Not implemented');
 	}
+
+	toString() {
+		throw new Error('Not implemented');
+	}
 }

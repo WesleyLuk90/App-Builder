@@ -20,6 +20,10 @@ export default class NumberType extends Type {
 			type: 'number',
 		};
 	}
+
+	toString() {
+		return 'Number';
+	}
 }
 
 numberType = new NumberType();

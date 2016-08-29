@@ -10,10 +10,15 @@
 	}
 }
 
-@mixin column-container() {
+@mixin column-container($spread: true, $vertically-center: false) {
 	display: flex;
-	> * {
-		flex: 1 0 0;
+	@if $spread {
+		> * {
+			flex: 1 0 0;
+		}
+	}
+	@if $vertically-center {
+		align-items: center;
 	}
 	> * + * {
 		margin-left: 1.5rem;

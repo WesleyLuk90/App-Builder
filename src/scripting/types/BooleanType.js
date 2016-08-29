@@ -20,6 +20,10 @@ export default class BooleanType extends Type {
 			type: 'boolean',
 		};
 	}
+
+	toString() {
+		return 'Boolean';
+	}
 }
 
 booleanType = new BooleanType();

@@ -156,11 +156,29 @@
 		margin-top: 1.5rem;
 	}
 }
-.variable-type, .variable-binding {
-	display: flex;
-	align-items: center;
-	> * + * {
-		margin-left: 1.5rem;		
+
+.variable-summary {
+	@include column-container($spread: false, $vertically-center: true);
+
+	.variable-summary__name {
+		width: 150px;
+	}
+
+	.variable-summary__type {
+		width: 100px;
+	}
+
+	.variable-summary__variable-type {
+		width: 300px;
+	}
+}
+
+.variable-binding {
+	@include column-container($spread: false, $vertically-center: true);
+	&__label {
+		width: 250px;
+		text-align: right;
+		margin-left: 1.5rem;
 	}
 }
 

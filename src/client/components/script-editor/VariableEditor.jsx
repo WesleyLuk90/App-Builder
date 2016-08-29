@@ -40,10 +40,10 @@ export default class VariableEditor extends React.Component {
 
 	render() {
 		return (<div className="variable-editor">
-			<div className="variable-type">
-				<div className="variable-name">{this.getVariableBuilder().getLocalName()}</div>
-				<div className="variable-type">Variable Type</div>
-				<select className="variable-type dropdown dropdown--medium-width" value={this.state.variableType.name} onChange={e => this.onChangeVariableType(e)}>
+			<div className="variable-summary">
+				<div className="variable-summary__name">{this.getVariableBuilder().getLocalName()}</div>
+				<div className="variable-summary__type">{this.getVariableBuilder().getType().toString()}</div>
+				<select className="variable-summary__variable-type dropdown" value={this.state.variableType.name} onChange={e => this.onChangeVariableType(e)}>
 					<option value={VariableTypes.NORMAL.name}>{VariableTypes.NORMAL.name}</option>
 					<option value={VariableTypes.BOUND.name}>{VariableTypes.BOUND.name}</option>
 					<option value={VariableTypes.COMPUTED.name}>{VariableTypes.COMPUTED.name}</option>

@@ -68,7 +68,7 @@ export default class BindingSelector extends React.Component {
 
 	render() {
 		return (<div className="variable-binding">
-			<label htmlFor={this.id} className="label">Binding:</label>
+			<label htmlFor={this.id} className="label variable-binding__label">Binding:</label>
 			<select className="variable-binding dropdown dropdown--medium-width" id={this.id} value={this.state.selectedVariableName.toString()} onChange={e => this.onSelectVariable(e)}>
 				<option disabled value="">Select a Variable</option>
 				{this.getVariableOptions().map((variable, index) => <option value={variable.getLocalName()} key={index}>{variable.getLocalName()}</option>)}

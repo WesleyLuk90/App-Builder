@@ -40,4 +40,8 @@ export default class ObjectType extends Type {
 			model: this.modelName,
 		};
 	}
+
+	toString() {
+		return this.modelName;
+	}
 }

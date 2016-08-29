@@ -36,4 +36,8 @@ export default class ArrayType extends Type {
 			arrayType: this.baseType ? this.baseType.toJSONObject() : null,
 		};
 	}
+
+	toString() {
+		return `Array of ${this.baseType.toString()}`;
+	}
 }

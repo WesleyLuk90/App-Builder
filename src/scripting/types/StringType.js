@@ -20,6 +20,11 @@ export default class StringType extends Type {
 			type: 'string',
 		};
 	}
+
+	toString() {
+		return 'String';
+	}
+
 }
 
 stringType = new StringType();
