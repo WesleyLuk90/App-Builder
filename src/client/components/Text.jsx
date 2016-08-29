@@ -6,8 +6,15 @@ import AllTypes from '../../scripting/types/AllTypes';
 import ComponentOption from './component-editor/ComponentOption';
 import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import ComponentPlaceholder from './ComponentPlaceholder';
+import ComponentInfo from './component-editor/ComponentInfo';
 
 class TextEditor extends AbstractComponentEditor {
+
+	static getComponentInfo() {
+		return ComponentInfo.create()
+			.setName('Text')
+			.setIcon('font');
+	}
 
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
@@ -16,7 +23,7 @@ class TextEditor extends AbstractComponentEditor {
 	}
 
 	render() {
-		return (<ComponentPlaceholder {...this.createProps()} name="Text" component={this}>
+		return (<ComponentPlaceholder {...this.createPlaceholderProps()}>
 			<div>{this.getDisplayValue('text')}</div>
 		</ComponentPlaceholder>);
 	}

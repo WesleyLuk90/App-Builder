@@ -1,9 +1,11 @@
 .table {
+	border-collapse: collapse;
 	width: 100%;
-	> * + * > {
-		border-top: solid 1px rgb(50, 50, 50);
+	th {
+		background-color: #eee;
 	}
-	tr + tr {
-		border-top: solid 1px rgb(50, 50, 50);
+	td, th {
+		border: solid 1px $section-border;
+		padding: 0.5rem;
 	}
 }

@@ -5,7 +5,7 @@ import Page from './Page';
 import Section from './Section';
 import Table from './Table';
 import TextField from './TextField';
-import { createComponentPlaceholder } from './ComponentPlaceholder';
+import HorizontalSection from './HorizontalSection';
 
 export default class ComponentMap {
 	constructor() {
@@ -22,14 +22,14 @@ export default class ComponentMap {
 		this.addComponent(Table);
 		this.addComponent(ComponentInserter);
 		this.addComponent(Section);
+		this.addComponent(HorizontalSection);
 	}
 
 	addComponent(ctr) {
 		this.components.set(ctr.name, ctr);
 		if (ctr.getEditor) {
-			this.componentEditors.set(ctr.name, ctr.getEditor());
-		} else {
-			this.componentEditors.set(ctr.name, createComponentPlaceholder(ctr.name));
+			const editor = ctr.getEditor();
+			this.componentEditors.set(ctr.getName(), editor);
 		}
 	}
 
@@ -43,23 +43,13 @@ export default class ComponentMap {
 		return this.components.get(componentName);
 	}
 
-	getComponentEditor(componentName) {
-		if (!this.componentEditors.has(componentName)) {
-			throw new Error(`Unknown component ${componentName}`);
-		}
-		return this.componentEditors.get(componentName);
-	}
-
-	getInsertableComponentNames() {
+	getInsertableComponents() {
 		const components = [];
-		const blacklist = {
-			ComponentEditor: true,
-			ComponentInserter: true,
-			Page: true,
-		};
-		this.components.forEach((component, name) => {
-			if (!blacklist[name]) { components.push(name); }
-		});
+		for (const [, component] of this.componentEditors) {
+			if (component.isInsertable()) {
+				components.push(component);
+			}
+		}
 		return components;
 	}
 

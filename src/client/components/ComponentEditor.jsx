@@ -22,6 +22,7 @@ export default class ComponentEditor extends AbstractComponent {
 				programScope: null, // Null this out to make sure nothing uses it
 				programBuilder: this.programBuilder,
 				componentEditor: this,
+				edit: this.edit,
 			});
 
 		this.state = {

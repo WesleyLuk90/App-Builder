@@ -84,6 +84,36 @@
 
 		width: 500px;
 		height: 500px;
+		padding: 1.5rem 1rem;
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__header {
+		flex: 0 0 auto;
+	}
+
+	&__list {
+		flex: 1 0 auto;
+		display: block;
+		border: solid 1px $section-border;
+		overflow: auto;
+	}
+
+	&__icon {
+		display: inline-block;
+		width: 2rem;
+		text-align: center;
+	}
+
+	&__item {
+		height: 2rem;
+		line-height: 2rem;
+		border-bottom: solid 1px $section-border;
+		a {
+			display: block;
+			height: 100%;
+		}
 	}
 }
 

@@ -38,6 +38,10 @@
 
 .section {
 	@include row-container();
+
+}
+.section-horizontal {
+	@include column-container();
 }
 
 .vertical-resize {

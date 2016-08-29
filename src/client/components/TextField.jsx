@@ -7,12 +7,19 @@ import AllTypes from '../../scripting/types/AllTypes';
 import ComponentOption from './component-editor/ComponentOption';
 import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import ComponentPlaceholder from './ComponentPlaceholder';
+import ComponentInfo from './component-editor/ComponentInfo';
 
 export class TextFieldEditor extends AbstractComponentEditor {
 
 	constructor(props) {
 		super(props);
 		this.id = _.uniqueId();
+	}
+
+	static getComponentInfo() {
+		return ComponentInfo.create()
+			.setName('Text Input')
+			.setIcon('i-cursor');
 	}
 
 	getComponentOptions() {
@@ -24,7 +31,7 @@ export class TextFieldEditor extends AbstractComponentEditor {
 	}
 
 	render() {
-		return (<ComponentPlaceholder {...this.createProps()} name="Text Field" component={this}>
+		return (<ComponentPlaceholder {...this.createPlaceholderProps()}>
 			<label htmlFor={this.id}>{this.getDisplayValue('label', '')}</label>
 			<input
 				id={this.id}

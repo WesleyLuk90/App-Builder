@@ -4,6 +4,10 @@ import InsertComponentContext from './InsertComponentContext';
 
 export default class AbstractComponent extends React.Component {
 
+	static getName() {
+		return this.name;
+	}
+
 	getChildComponents(name) {
 		if (!this.props.components) {
 			return null;
@@ -17,19 +21,22 @@ export default class AbstractComponent extends React.Component {
 
 	getScopeLocalName(groupName) {
 		if (!this.props.childScopes[groupName]) {
-			console.log(this);
 			throw new Error(`There is no child scope for '${groupName}'`);
 		}
 		return this.props.childScopes[groupName];
 	}
 
 	getComponentFactory(replaceProps) {
-		const props = Object.assign({}, this.props, replaceProps);
+		const props = this.createChildProps(replaceProps);
 		return this.props.componentFactory.withProps(props);
 	}
 
 	getProgramScope() {
 		return this.props.programScope;
+	}
+
+	createChildProps(extraProps) {
+		return Object.assign({}, this.props, extraProps);
 	}
 
 	createProps(props) {

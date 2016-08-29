@@ -12,6 +12,7 @@ export default class ComponentPlaceholder extends AbstractComponentEditor {
 
 	clickRemove(event) {
 		event.preventDefault();
+		this.props.component.props.onRemoveComponent(this.props.component);
 	}
 
 	render() {
@@ -23,7 +24,7 @@ export default class ComponentPlaceholder extends AbstractComponentEditor {
 		return (<div className={placeholderClassname}>
 			<div className="component-placeholder__header">
 				<div className="component-placeholder__label">
-					{this.props.name}
+					{this.props.componentInfo.getName()}
 				</div>
 				<div className="component-placeholder__actions">
 					<a className="component-placeholder__action">
@@ -50,11 +51,3 @@ export default class ComponentPlaceholder extends AbstractComponentEditor {
 ComponentPlaceholder.propTypes = {
 	componentEditor: React.PropTypes.instanceOf(ComponentEditor).isRequired,
 };
-
-export function createComponentPlaceholder(name) {
-	return class extends AbstractComponentEditor {
-		render() {
-			return <ComponentPlaceholder {...this.props} name={name} />;
-		}
-	};
-}

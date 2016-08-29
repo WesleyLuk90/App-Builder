@@ -5,32 +5,32 @@ import ComponentPlaceholder from './ComponentPlaceholder';
 import AbstractComponentEditor from './AbstractComponentEditor';
 import ComponentInfo from './component-editor/ComponentInfo';
 
-class SectionEditor extends AbstractComponentEditor {
+class HorizontalSectionEditor extends AbstractComponentEditor {
 
 	static getComponentInfo() {
 		return ComponentInfo.create()
-			.setName('Section')
-			.setIcon('bars');
+			.setName('Horizontal Section')
+			.setIcon('bars fa-rotate-90');
 	}
 
 	render() {
 		const children = this.buildChildComponents('children');
 		const inserter = this.getComponentInserter('children');
 		children.push(inserter);
-		return (<ComponentPlaceholder name="Section" {...this.createPlaceholderProps()}>
-			<div className="section">{children}</div>
+		return (<ComponentPlaceholder {...this.createPlaceholderProps()}>
+			<div className="section-horizontal">{children}</div>
 		</ComponentPlaceholder>);
 	}
 }
 
-export default class Section extends AbstractComponent {
+export default class HorizontalSection extends AbstractComponent {
 
 	static getEditor() {
-		return SectionEditor;
+		return HorizontalSectionEditor;
 	}
 
 	render() {
 		const children = this.buildChildComponents('children');
-		return React.createElement('div', { className: 'section' }, children);
+		return React.createElement('div', { className: 'section-horizontal' }, children);
 	}
 }

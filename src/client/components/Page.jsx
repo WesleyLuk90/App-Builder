@@ -4,6 +4,11 @@ import AbstractComponent from './AbstractComponent';
 import AbstractComponentEditor from './AbstractComponentEditor';
 
 class PageEditor extends AbstractComponentEditor {
+
+	static isInsertable() {
+		return false;
+	}
+
 	render() {
 		const children = this.buildChildComponents('children');
 		const inserter = this.getComponentInserter('children');

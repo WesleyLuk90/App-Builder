@@ -3,11 +3,20 @@ import React from 'react';
 import AbstractComponent from './AbstractComponent';
 import AbstractComponentEditor from './AbstractComponentEditor';
 import AllTypes from '../../scripting/types/AllTypes';
+import ComponentInfo from './component-editor/ComponentInfo';
+import ComponentOption from './component-editor/ComponentOption';
 import ComponentOptionsBuilder from './component-editor/ComponentOptionsBuilder';
 import ComponentPlaceholder from './ComponentPlaceholder';
-import ComponentOption from './component-editor/ComponentOption';
+
 
 class TableEditor extends AbstractComponentEditor {
+
+	static getComponentInfo() {
+		return ComponentInfo.create()
+			.setName('Table')
+			.setIcon('table');
+	}
+
 	getComponentOptions() {
 		return ComponentOptionsBuilder.create()
 			.addOption(ComponentOption.create('foreach', AllTypes.getAnyArrayType()))
@@ -18,16 +27,17 @@ class TableEditor extends AbstractComponentEditor {
 	render() {
 		const headers = this.buildChildComponents('headers');
 		headers.push(this.getComponentInserter('headers'));
-		// const columns = this.buildChildComponents('columns');
+		const columns = this.buildChildComponents('columns');
+		columns.push(this.getComponentInserter('columns'));
 		const footers = this.buildChildComponents('footers');
 		footers.push(this.getComponentInserter('footers'));
-		return (<ComponentPlaceholder {...this.createProps()} name="Table" component={this}>
+		return (<ComponentPlaceholder {...this.createPlaceholderProps()}>
 			<table className="table">
 				<thead>
 					<tr>{headers.map((h, i) => <th key={i}>{h}</th>)}</tr>
 				</thead>
 				<tbody>
-					<tr><td>data</td></tr>
+					<tr>{columns.map((c, i) => <td key={i}>{c}</td>)}</tr>
 				</tbody>
 				<tfoot>
 					<tr>{footers.map((f, i) => <th key={i}>{f}</th>)}</tr>
@@ -38,9 +48,11 @@ class TableEditor extends AbstractComponentEditor {
 }
 
 export default class Table extends AbstractComponent {
+
 	static getEditor() {
 		return TableEditor;
 	}
+
 	render() {
 		const forEach = this.getValue('foreach', []);
 		const scopeName = this.getValue('scopeName', null);

@@ -23,4 +23,8 @@ export default class Edit {
 	setComponentStaticValue(component, option, value) {
 		component.setOptionStaticValue(option, value);
 	}
+
+	removeComponent(parent, component) {
+		parent.removeChildComponent(component);
+	}
 }
