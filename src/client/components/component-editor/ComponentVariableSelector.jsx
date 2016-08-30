@@ -44,7 +44,7 @@ export default class ComponentVariableSelector extends React.Component {
 	getComponentVariable(props) {
 		const optionName = this.getOptionName(props);
 		const variableOptions = this.getAssignableVariables(props);
-		const variableName = this.getComponent(props).getNamedVariable(optionName);
+		const variableName = this.getComponent(props).getComponentData().getNamedVariable(optionName);
 		if (!variableName) {
 			return null;
 		}

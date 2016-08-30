@@ -78,30 +78,27 @@ export default class AbstractComponentEditor extends AbstractComponent {
 	componentWillUnmount() {}
 
 	switchToNamedVariableBinding(option) {
-		delete this.props.values[option.getName()];
+		this.getComponentData().removeStaticValue(option.getName());
 		this.forceUpdate();
 	}
 
 	switchToStaticValueBinding(option) {
-		delete this.props.namedVariables[option.getName()];
+		this.getComponentData().removeNamedVariable(option.getName());
 		this.forceUpdate();
 	}
 
 	setNamedVariableBinding(option, variableName) {
-		this.props.namedVariables[option.getName()] = variableName;
+		this.getComponentData().setNamedVariable(option.getName(), variableName);
 		this.forceUpdate();
 	}
 
 	setOptionStaticValue(option, value) {
-		this.props.values[option.getName()] = value;
+		this.getComponentData().setStaticValue(option, value);
 		this.forceUpdate();
 	}
 
 	removeChildComponent(child) {
-		const components = this.props.components;
-		const targetComponent = child.props.componentDefinition;
-		const groupName = ComponentGroups.findComponentGroupName(components, targetComponent);
-		ComponentGroups.removeComponentFromList(components[groupName], targetComponent);
+		this.getComponentData().removeChildComponent(child.getComponentData());
 		this.forceUpdate();
 	}
 }

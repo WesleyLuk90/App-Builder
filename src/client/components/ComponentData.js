@@ -1,4 +1,5 @@
 import Path from '../../scripting/builder/Path';
+import ComponentGroups from './ComponentGroups';
 
 export default class ComponentData {
 	constructor(componentDefinition) {
@@ -56,5 +57,28 @@ export default class ComponentData {
 		}
 		return Object.keys(this.componentDefinition.namedVariables)
 			.map(key => this.componentDefinition.namedVariables[key]);
+	}
+
+	removeNamedVariable(name) {
+		delete this.componentDefinition.namedVariables[name];
+	}
+
+	removeStaticValue(name) {
+		delete this.componentDefinition.values[name];
+	}
+
+	setNamedVariable(name, variableName) {
+		this.componentDefinition.namedVariables[name] = variableName;
+	}
+
+	setStaticValue(name, value) {
+		this.componentDefinition.values[name] = value;
+	}
+
+	removeChildComponent(childComponentData) {
+		const components = this.componentDefinition.components;
+		const targetComponent = childComponentData.componentDefinition;
+		const groupName = ComponentGroups.findComponentGroupName(components, targetComponent);
+		ComponentGroups.removeComponentFromList(components[groupName], targetComponent);
 	}
 }

@@ -25,7 +25,7 @@ export default class ComponentOptionInput extends React.Component {
 
 	getComponentValueType(props) {
 		const optionName = this.getOptionName(props);
-		if (this.getComponent(props).hasNamedVariable(optionName)) {
+		if (this.getComponent(props).getComponentData().hasNamedVariable(optionName)) {
 			return VARIABLE_TYPE;
 		}
 		return STATIC_TYPE;

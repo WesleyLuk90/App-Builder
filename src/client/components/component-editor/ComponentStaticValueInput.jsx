@@ -28,7 +28,7 @@ export default class ComponentStaticValueInput extends React.Component {
 
 	getComponentStaticValue(props) {
 		const optionName = this.getOptionName(props);
-		return JSON.stringify(this.getComponent(props).getStaticValue(optionName)) || '';
+		return JSON.stringify(this.getComponent(props).getComponentData().getStaticValue(optionName)) || '';
 	}
 
 	setStaticValue(value) {
