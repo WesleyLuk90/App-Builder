@@ -29,4 +29,11 @@ describe('Path', () => {
 
 		expect(path.getParentPath().equals(Path.newPath(['hello']))).toBe(true);
 	});
+
+	it('should count the ancestors', () => {
+		const myPath = Path.newPath(['someChild', 'path']);
+		const ancestor = Path.newPath(['someChild']);
+
+		expect(myPath.getAncestorDistance(ancestor)).toEqual(1);
+	});
 });

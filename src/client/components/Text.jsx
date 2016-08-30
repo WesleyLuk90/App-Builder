@@ -31,9 +31,11 @@ class TextEditor extends AbstractComponentEditor {
 }
 
 export default class Text extends AbstractComponent {
+
 	static getEditor() {
 		return TextEditor;
 	}
+
 	render() {
 		return (<div className="text">
 			{this.getValue('text')}

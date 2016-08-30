@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Path from '../../scripting/builder/Path';
+import ComponentData from './ComponentData';
 
 export default class ComponentFactory {
 	static createFromComponentMap(componentMap) {
@@ -52,12 +53,13 @@ export default class ComponentFactory {
 		const componentClass = this.componentMap.getComponent(component.type);
 		const props = this.createProps({
 			key: index,
-			components: component.components,
-			values: component.values,
-			namedVariables: component.namedVariables,
-			childScopes: component.childScopes,
-			componentDefinition: component,
+			componentData: new ComponentData(component),
 			scopePath: this.getScopePath(),
+			// components: component.components,
+			// values: component.values,
+			// namedVariables: component.namedVariables,
+			// childScopes: component.childScopes,
+			// componentDefinition: component,
 		});
 		if (this.props.programBuilder) {
 			props.programBuilder = this.props.programBuilder.getScope(this.getScopePath());

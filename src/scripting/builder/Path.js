@@ -59,7 +59,7 @@ export default class Path {
 			return 0;
 		}
 		if (otherPath.isAncestorOf(this)) {
-			return this.getParentPath().getAncestorDistance(otherPath);
+			return this.getParentPath().getAncestorDistance(otherPath) + 1;
 		}
 		throw new Error(`Can not get ancestor distance, ${otherPath} is not an ancestor of ${this}`);
 	}

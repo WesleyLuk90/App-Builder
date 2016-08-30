@@ -1,6 +1,9 @@
+import React from 'react';
+
 import AbstractComponent from './AbstractComponent';
 import ComponentGroups from './ComponentGroups';
 import ComponentInfo from './component-editor/ComponentInfo';
+import InsertComponentContext from './InsertComponentContext';
 
 export default class AbstractComponentEditor extends AbstractComponent {
 
@@ -32,21 +35,45 @@ export default class AbstractComponentEditor extends AbstractComponent {
 	}
 
 	getDisplayValue(key) {
-		if (this.hasValue(key)) {
-			return this.props.values[key];
+		const data = this.getComponentData();
+		if (data.hasStaticValue(key)) {
+			return data.getStaticValue(key);
 		}
-		if (this.hasNamedVariable(key)) {
-			return `{${this.props.namedVariables[key]}}`;
+		if (data.hasNamedVariable(key)) {
+			return `{${data.getNamedVariable(key)}}`;
 		}
 		return '{No Binding}';
+	}
+
+	getComponentInserter(componentGroup) {
+		if (!componentGroup) {
+			throw new Error(`ComponentGroup must be defined, got ${componentGroup}`);
+		}
+		const inserterProps = this.createProps({
+			key: 'inserter',
+			insertContext: this.getInsertContext(componentGroup),
+		});
+		// Prevent a circular dependency by fetching it from the component map
+		const ComponentInserter = this.props.componentMap.getComponent('ComponentInserter');
+		return <ComponentInserter {...inserterProps} />;
+	}
+
+	getInsertContext(componentGroup) {
+		return new InsertComponentContext(this, componentGroup);
 	}
 
 	getProgramBuilder() {
 		return this.props.programBuilder;
 	}
+
 	getComponentOptions() {
 		return [];
 	}
+
+	/**
+	 * Delete subscriptions
+	 * @return {[type]} [description]
+	 */
 	componentDidMount() {}
 	componentWillUnmount() {}
 

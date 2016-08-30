@@ -58,7 +58,6 @@ export default class Table extends AbstractComponent {
 		const scopeName = this.getValue('scopeName', null);
 
 		const headers = this.buildChildComponents('headers');
-		// const columns = this.buildChildComponents('columns');
 		const footers = this.buildChildComponents('footers');
 		return (<table className="table">
 			<thead>
@@ -67,8 +66,8 @@ export default class Table extends AbstractComponent {
 			<tbody>
 				{forEach.map((value, rowIndex) => {
 					const newScope = this.getLoopScope(scopeName, rowIndex);
-					const children = this.buildChildComponents('columns', { ProgramScope: newScope });
-					const variableName = this.getScopedVariable('as');
+					const children = this.buildChildComponents('columns', { programScope: newScope });
+					const variableName = this.getComponentData().getNamedVariable('as');
 					newScope.setValue(variableName, value);
 					return (<tr key={rowIndex}>
 						{children.map((child, columnIndex) =>

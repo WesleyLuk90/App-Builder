@@ -36,7 +36,7 @@ function main(document) {
 		)
 		.toJSONObject();
 
-	const pageDefinition = ComponentBuilder.newBuilder('ComponentEditor')
+	const pageDefinition = ComponentBuilder.newBuilder('Page')
 		.setValue('program', programDefinition)
 		.setComponents('children', ComponentListBuilder.newBuilder()
 			.addComponent(ComponentBuilder.newBuilder('Page')

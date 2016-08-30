@@ -98,7 +98,7 @@ describe('ProgramBuilder', () => {
 				},
 			}],
 			scopes: {
-				testScope: {
+				'/testScope': {
 					name: ['testScope'],
 					variables: [{
 						localName: 'testVar',
@@ -126,7 +126,7 @@ describe('ProgramBuilder', () => {
 			name: [],
 			variables: [],
 			scopes: {
-				testScope: {
+				'/testScope': {
 					name: ['testScope'],
 					variables: [{
 						localName: 'testVar',

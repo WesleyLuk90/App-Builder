@@ -13,7 +13,7 @@ export default class ComponentEditor extends AbstractComponent {
 	constructor(props) {
 		super(props);
 
-		const program = this.getValue('program');
+		const program = this.getComponentData().getStaticValue('program');
 		this.programBuilder = ProgramBuilder.fromData(program);
 		this.editorComponentFactory = this.props.componentFactory.toEditorComponentFactory();
 		this.edit = new Edit();

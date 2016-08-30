@@ -28,6 +28,10 @@ export default class ProgramScope {
 		this.childScopes = new Map();
 	}
 
+	getScopePath() {
+		return this.scopePath;
+	}
+
 	getChildScopeList(scopeName) {
 		if (!this.childScopes.has(scopeName)) {
 			this.childScopes.set(scopeName, new Map());
@@ -35,14 +39,16 @@ export default class ProgramScope {
 		return this.childScopes.get(scopeName);
 	}
 
-	getChildScope(scopeName, index) {
-		if (!this.childScopeDefinitions[scopeName]) {
-			throw new Error(`No child scope defined for ${scopeName}`);
+	getChildScope(scopeLocalName, index) {
+		const scopePath = this.scopePath.createChild(scopeLocalName);
+		const scopeFullName = scopePath.toString();
+		if (!this.childScopeDefinitions[scopeFullName]) {
+			throw new Error(`No child scope defined for ${scopeFullName}`);
 		}
-		const childScopeData = this.childScopeDefinitions[scopeName];
-		const scopeList = this.getChildScopeList(scopeName);
+		const childScopeData = this.childScopeDefinitions[scopeFullName];
+		const scopeList = this.getChildScopeList(scopeFullName);
 		if (!scopeList.has(index)) {
-			const childScope = new ProgramScope(childScopeData.name, this, this.tokenGenerator);
+			const childScope = new ProgramScope(scopePath, this, this.tokenGenerator);
 			childScope.loadFromData(childScopeData);
 			scopeList.set(index, childScope);
 		}
