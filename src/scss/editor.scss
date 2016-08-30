@@ -2,11 +2,13 @@
 
 .component-editor {
 	@include fill-parent;
+
 	display: flex;
 	flex-direction: column;
 
 	&__actions-panel {
 		@include default-padding;
+
 		height: 50px;
 		flex: 0 0 auto;
 		display: flex;
@@ -20,6 +22,7 @@
 		& > * {
 			flex: 0 0 auto;
 		}
+
 		.spacer {
 			flex: 1 0 auto;
 		}
@@ -29,21 +32,35 @@
 		border-top: solid 1px $section-border;
 		flex: 0 0 auto;
 		height: 200px;
-		&__scroll-area {
+		display: flex;
+
+		&__variable-editor {
 			height: 100%;
 			overflow: auto;
+			@include default-padding;
+		}
+
+		&__variable-list {
+			height: 100%;
+			flex: 0 0 400px;
+			overflow-y: scroll;
+			overflow-x: auto;
+			@include default-padding;
 		}
 	}
 
 	&__middle-row {
 		display: flex;
 		flex: 0 1 100%;
+		box-shadow: inset 0 0 10px black;
 	}
 
 	&__edit-panel {
 		border-left: solid 1px $section-border;
 		width: 300px;
+
 		@include default-padding;
+
 		@include row-container;
 	}
 
@@ -51,7 +68,6 @@
 		padding-top: 1rem;
 		flex: 0 1 100%;
 		overflow: auto;
-		box-shadow: inset 0 0 10px black;
 	}
 }
 
@@ -69,6 +85,7 @@
 	display: none;
 	justify-content: center;
 	align-items: center;
+	text-align: left;
 
 	&--shown {
 		display: flex;
@@ -111,6 +128,7 @@
 		height: 2rem;
 		line-height: 2rem;
 		border-bottom: solid 1px $section-border;
+
 		a {
 			display: block;
 			height: 100%;
@@ -146,24 +164,29 @@
 	}
 }
 
-
 .script-editor {
 	@include default-padding;
 
 	.script-editor__header {
 		border: solid 1px $section-border;
+
 		@include default-padding;
+
 		a {
 			display: flex;
 			align-items: center;
+
 			* {
 				margin-right: 0.5rem;
 			}
 		}
 	}
+
 	.script-editor__scope {
 		@include row-container;
+
 		@include default-padding;
+
 		border: solid 1px $section-border;
 		border-top: none;
 		padding: 0.5rem;
@@ -178,6 +201,7 @@
 
 @mixin variable-list-columns {
 	@include column-container($spread: false, $vertically-center: true);
+
 	&__name {
 		width: 150px;
 		flex: 0 0 auto;
@@ -200,6 +224,7 @@
 
 .variable-binding {
 	@include column-container($spread: false, $vertically-center: true);
+
 	&__label {
 		width: 250px;
 		text-align: right;
@@ -215,14 +240,18 @@
 
 .variable-list {
 	border: solid 1px #ddd;
+
 	> * + * {
 		border-top: solid 1px #ddd;
 	}
+
 	> * {
 		@include default-padding;
 	}
+
 	&__header {
 		font-weight: bold;
+
 		@include variable-list-columns;
 	}
 }
@@ -235,7 +264,59 @@
 
 .computed-editor {
 	@include row-container;
+
 	&__variable-parameter-adder {
 		@include column-container;
-	}	
+	}
+}
+
+$item-height: 20px;
+
+.program-tree {
+	&__children {
+		padding-left: $item-height;
+		position: relative;
+
+		&--hidden {
+			display: none;
+		}
+
+		&:before {
+			content: '';
+			position: absolute;
+			border-left: dotted 1px $section-border;
+			top: 0;
+			bottom: $item-height / 2;
+			left: $item-height / 2;
+		}
+	}
+
+	&__item {
+		min-height: $item-height;
+		position: relative;
+
+		&:before {
+			content: '';
+			position: absolute;
+			border-top: dotted 1px $section-border;
+			left: -$item-height / 2;
+			top: $item-height / 2;
+			width: $item-height / 2;
+		}
+	}
+
+	&__item-label {
+		padding: 3px;
+		&--selected {
+			background-color: $highlight-color;
+		}
+	}
+
+	&__icon {
+		width: $item-height;
+		height: $item-height;
+		display: inline-block;
+		text-align: center;
+		margin-right: 5px;
+	}
 }

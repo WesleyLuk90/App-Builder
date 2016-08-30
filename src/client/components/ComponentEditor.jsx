@@ -2,9 +2,10 @@ import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
 import ComponentEditorProperties from './component-editor/ComponentEditorProperties';
-import ScopedScriptEditor from './script-editor/ScopedScriptEditor';
-import ProgramBuilder from '../../scripting/builder/ProgramBuilder';
 import Edit from './component-editor/Edit';
+import ProgramBuilder from '../../scripting/builder/ProgramBuilder';
+import ProgramTree from './script-editor/ProgramTree';
+import VariableEditorState from './script-editor/VariableEditorState';
 import VerticallyResizablePanel from './VerticallyResizablePanel';
 
 export default class ComponentEditor extends AbstractComponent {
@@ -28,6 +29,8 @@ export default class ComponentEditor extends AbstractComponent {
 		this.state = {
 			selectedComponent: null,
 		};
+
+		this.variableEditorState = new VariableEditorState();
 	}
 
 	setSelectedComponent(component) {
@@ -54,6 +57,7 @@ export default class ComponentEditor extends AbstractComponent {
 			programScope: null,
 			programBuilder: this.programBuilder,
 			edit: this.edit,
+			variableEditorState: this.variableEditorState,
 		});
 		return (<div className="component-editor">
 			<div className="component-editor__actions-panel">
@@ -71,8 +75,10 @@ export default class ComponentEditor extends AbstractComponent {
 				</div>
 			</div>
 			<VerticallyResizablePanel className="component-editor__script-panel">
-				<div className="component-editor__script-panel__scroll-area">
-					<ScopedScriptEditor {...scriptEditorProps} component={this.state.selectedComponent} />
+				<div className="component-editor__script-panel__variable-list">
+					<ProgramTree {...scriptEditorProps} />
+				</div>
+				<div className="component-editor__script-panel__variable-editor">
 				</div>
 			</VerticallyResizablePanel>
 		</div>);

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import VariableEditor from './VariableEditor';
+import ProgramTree from './ProgramTree';
 
 export default class ScopedScriptEditor extends React.Component {
 

@@ -125,10 +125,6 @@ export default class ProgramBuilder {
 		return scopes;
 	}
 
-	getLocalVariables() {
-		return this.variables.slice();
-	}
-
 	getVariablesInScope() {
 		let parentVariables = [];
 		if (this.parentBuilder) {
