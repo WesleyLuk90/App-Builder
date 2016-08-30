@@ -24,6 +24,10 @@ export default class VariableEditorState {
 		return this.scope.getValue() === scope;
 	}
 
+	getSelectedVariable() {
+		return this.variable.getValue();
+	}
+
 	getSelectedVariableStream() {
 		return this.variable;
 	}

@@ -1,322 +1,257 @@
 @import "modal.scss";
 
 .component-editor {
-	@include fill-parent;
+    @include fill-parent;
 
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-	&__actions-panel {
-		@include default-padding;
+    &__actions-panel {
+        @include default-padding;
 
-		height: 50px;
-		flex: 0 0 auto;
-		display: flex;
-		align-items: center;
-		border-bottom: solid 1px $section-border;
+        height: 50px;
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        border-bottom: solid 1px $section-border;
 
-		> * + * {
-			margin-left: 1rem;
-		}
+        > * + * {
+            margin-left: 1rem;
+        }
 
-		& > * {
-			flex: 0 0 auto;
-		}
+        & > * {
+            flex: 0 0 auto;
+        }
 
-		.spacer {
-			flex: 1 0 auto;
-		}
-	}
+        .spacer {
+            flex: 1 0 auto;
+        }
+    }
 
-	&__script-panel {
-		border-top: solid 1px $section-border;
-		flex: 0 0 auto;
-		height: 200px;
-		display: flex;
+    &__script-panel {
+        border-top: solid 1px $section-border;
+        flex: 0 0 auto;
+        height: 200px;
+        display: flex;
 
-		&__variable-editor {
-			height: 100%;
-			overflow: auto;
-			@include default-padding;
-		}
+        &__variable-editor {
+            height: 100%;
+            overflow: auto;
 
-		&__variable-list {
-			height: 100%;
-			flex: 0 0 400px;
-			overflow-y: scroll;
-			overflow-x: auto;
-			@include default-padding;
-		}
-	}
+            @include default-padding;
 
-	&__middle-row {
-		display: flex;
-		flex: 0 1 100%;
-		box-shadow: inset 0 0 10px black;
-	}
+            flex: 1 0 0;
+        }
 
-	&__edit-panel {
-		border-left: solid 1px $section-border;
-		width: 300px;
+        &__variable-list {
+            height: 100%;
+            flex: 0 0 400px;
+            overflow-y: scroll;
+            overflow-x: auto;
 
-		@include default-padding;
+            @include default-padding;
+        }
+    }
 
-		@include row-container;
-	}
+    &__middle-row {
+        display: flex;
+        flex: 0 1 100%;
+        box-shadow: inset 0 0 10px #888;
+    }
 
-	&__components {
-		padding-top: 1rem;
-		flex: 0 1 100%;
-		overflow: auto;
-	}
+    &__edit-panel {
+        border-left: solid 1px $section-border;
+        width: 300px;
+
+        @include default-padding;
+
+        @include row-container;
+    }
+
+    &__components {
+        padding-top: 1rem;
+        flex: 0 1 100%;
+        overflow: auto;
+    }
 }
 
 .component-inserter {
-	.component-inserter__button {
-		text-align: center;
-		display: block;
-		cursor: pointer;
-	}
+    .component-inserter__button {
+        text-align: center;
+        display: block;
+        cursor: pointer;
+    }
 }
 
 .component-inserter-modal {
-	@include modal-container;
+    @include modal-container;
 
-	display: none;
-	justify-content: center;
-	align-items: center;
-	text-align: left;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
 
-	&--shown {
-		display: flex;
-	}
+    &--shown {
+        display: flex;
+    }
 
-	&__background {
-		@include modal-background;
-	}
+    &__background {
+        @include modal-background;
+    }
 
-	&__modal {
-		@include modal;
+    &__modal {
+        @include modal;
 
-		@include row-container;
+        @include row-container;
 
-		width: 500px;
-		height: 500px;
-		padding: 1.5rem 1rem;
-		display: flex;
-		flex-direction: column;
-	}
+        width: 500px;
+        height: 500px;
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+    }
 
-	&__header {
-		flex: 0 0 auto;
-	}
+    &__header {
+        flex: 0 0 auto;
+    }
 
-	&__list {
-		flex: 1 0 auto;
-		display: block;
-		border: solid 1px $section-border;
-		overflow: auto;
-	}
+    &__list {
+        flex: 1 0 auto;
+        display: block;
+        border: solid 1px $section-border;
+        overflow: auto;
+    }
 
-	&__icon {
-		display: inline-block;
-		width: 2rem;
-		text-align: center;
-	}
+    &__icon {
+        display: inline-block;
+        width: 2rem;
+        text-align: center;
+    }
 
-	&__item {
-		height: 2rem;
-		line-height: 2rem;
-		border-bottom: solid 1px $section-border;
+    &__item {
+        height: 2rem;
+        line-height: 2rem;
+        border-bottom: solid 1px $section-border;
 
-		a {
-			display: block;
-			height: 100%;
-		}
-	}
+        a {
+            display: block;
+            height: 100%;
+        }
+    }
 }
 
 .component-placeholder {
-	@include section-style;
+    @include section-style;
 
-	min-height: 2rem;
-	min-width: 150px;
-	position: relative;
-	padding: 25px 10px 10px;
+    min-height: 2rem;
+    min-width: 150px;
+    position: relative;
+    padding: 25px 10px 10px;
 
-	&__header {
-		position: absolute;
-		top: 0px;
-		left: 5px;
-		display: flex;
-	}
+    &__header {
+        position: absolute;
+        top: 0px;
+        left: 5px;
+        display: flex;
+    }
 
-	&__label {
-		font-size: 0.75rem;
-	}
+    &__label {
+        font-size: 0.75rem;
+    }
 
-	&__action {
-		@include muted-action;
-	}
+    &__action {
+        @include muted-action;
+    }
 
-	&--selected {
-		border-color: $section-focused-border;
-	}
-}
-
-.script-editor {
-	@include default-padding;
-
-	.script-editor__header {
-		border: solid 1px $section-border;
-
-		@include default-padding;
-
-		a {
-			display: flex;
-			align-items: center;
-
-			* {
-				margin-right: 0.5rem;
-			}
-		}
-	}
-
-	.script-editor__scope {
-		@include row-container;
-
-		@include default-padding;
-
-		border: solid 1px $section-border;
-		border-top: none;
-		padding: 0.5rem;
-	}
-}
-
-.variable-option {
-	> * + * {
-		margin-top: 1.5rem;
-	}
-}
-
-@mixin variable-list-columns {
-	@include column-container($spread: false, $vertically-center: true);
-
-	&__name {
-		width: 150px;
-		flex: 0 0 auto;
-	}
-
-	&__type {
-		width: 100px;
-		flex: 0 0 auto;
-	}
-
-	&__variable-type.dropdown {
-		width: 300px;
-		flex: 0 0 auto;
-	}
-}
-
-.variable-summary {
-	@include variable-list-columns;
-}
-
-.variable-binding {
-	@include column-container($spread: false, $vertically-center: true);
-
-	&__label {
-		width: 250px;
-		text-align: right;
-		margin-left: 1.5rem;
-	}
+    &--selected {
+        border-color: $section-focused-border;
+    }
 }
 
 .code-editor {
-	position: relative;
-	width: 500px;
-	height: 300px;
-}
-
-.variable-list {
-	border: solid 1px #ddd;
-
-	> * + * {
-		border-top: solid 1px #ddd;
-	}
-
-	> * {
-		@include default-padding;
-	}
-
-	&__header {
-		font-weight: bold;
-
-		@include variable-list-columns;
-	}
-}
-
-.variable-editor {
-	> * + * {
-		margin-top: 1.5rem;
-	}
-}
-
-.computed-editor {
-	@include row-container;
-
-	&__variable-parameter-adder {
-		@include column-container;
-	}
+    position: relative;
+    width: 500px;
+    height: 300px;
 }
 
 $item-height: 20px;
 
 .program-tree {
-	&__children {
-		padding-left: $item-height;
-		position: relative;
+    &__children {
+        padding-left: $item-height;
+        position: relative;
 
-		&--hidden {
-			display: none;
-		}
+        &--hidden {
+            display: none;
+        }
 
-		&:before {
-			content: '';
-			position: absolute;
-			border-left: dotted 1px $section-border;
-			top: 0;
-			bottom: $item-height / 2;
-			left: $item-height / 2;
-		}
+        &:before {
+            content: '';
+            position: absolute;
+            border-left: dotted 1px $section-border;
+            top: 0;
+            bottom: $item-height / 2;
+            left: $item-height / 2;
+        }
+    }
+
+    &__item {
+        min-height: $item-height;
+        position: relative;
+
+        &:before {
+            content: '';
+            position: absolute;
+            border-top: dotted 1px $section-border;
+            left: -$item-height / 2;
+            top: $item-height / 2;
+            width: $item-height / 2;
+        }
+    }
+
+    &__item-label {
+        padding: 3px;
+
+        &--selected {
+            background-color: $highlight-color;
+        }
+    }
+
+    &__icon {
+        width: $item-height;
+        height: $item-height;
+        display: inline-block;
+        text-align: center;
+        margin-right: 5px;
+    }
+}
+
+.variable-summary {
+	& &__variable-type {
+		width: 200px;
 	}
+}
 
-	&__item {
-		min-height: $item-height;
-		position: relative;
+.binding-selector {
+    float: left;
 
-		&:before {
-			content: '';
-			position: absolute;
-			border-top: dotted 1px $section-border;
-			left: -$item-height / 2;
-			top: $item-height / 2;
-			width: $item-height / 2;
-		}
+    & &__property {
+        float: left;
+        width: 200px;
+    }
+
+    & &__variable {
+        float: left;
+        width: 200px;
+    }
+}
+
+.variable-name-editor {
+	* + * {
+		margin-left: 0.5rem;
 	}
-
-	&__item-label {
-		padding: 3px;
-		&--selected {
-			background-color: $highlight-color;
-		}
-	}
-
-	&__icon {
-		width: $item-height;
-		height: $item-height;
+	& &__input_field {
 		display: inline-block;
-		text-align: center;
-		margin-right: 5px;
+		width: 200px;
 	}
 }

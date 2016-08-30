@@ -74,6 +74,10 @@ export default class VariableBuilder {
 		return this.localName;
 	}
 
+	setLocalName(newName) {
+		this.localName = newName;
+	}
+
 	getVariablePath() {
 		return this.programBuilder.getScopePath().createChild(this.getLocalName());
 	}

@@ -1,16 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export default class ProgramTree extends React.Component {
+import VariableEditorAbstractComponent from './VariableEditorAbstractComponent';
+
+export default class ProgramTree extends VariableEditorAbstractComponent {
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			expanded: true,
 		};
-	}
-	getProgramBuilder() {
-		return this.props.programBuilder;
 	}
 
 	getVariables() {
@@ -35,10 +34,6 @@ export default class ProgramTree extends React.Component {
 		return <span className="program-tree__icon fa fa-cube" />;
 	}
 
-	getVariableEditorState() {
-		return this.props.variableEditorState;
-	}
-
 	onClickVariable(e, variable) {
 		e.preventDefault();
 		this.getVariableEditorState().selectVariable(variable);
@@ -53,6 +48,7 @@ export default class ProgramTree extends React.Component {
 		this.subscriptions = [
 			this.getVariableEditorState().getSelectedVariableStream().subscribe(() => this.forceUpdate()),
 			this.getVariableEditorState().getSelectedScopeStream().subscribe(() => this.forceUpdate()),
+			this.getEdit().getGlobalChangeStream().subscribe(() => this.forceUpdate()),
 		];
 	}
 

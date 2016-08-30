@@ -6,6 +6,7 @@ import Edit from './component-editor/Edit';
 import ProgramBuilder from '../../scripting/builder/ProgramBuilder';
 import ProgramTree from './script-editor/ProgramTree';
 import VariableEditorState from './script-editor/VariableEditorState';
+import VariableScopeEditor from './script-editor/VariableScopeEditor';
 import VerticallyResizablePanel from './VerticallyResizablePanel';
 
 export default class ComponentEditor extends AbstractComponent {
@@ -79,6 +80,7 @@ export default class ComponentEditor extends AbstractComponent {
 					<ProgramTree {...scriptEditorProps} />
 				</div>
 				<div className="component-editor__script-panel__variable-editor">
+					<VariableScopeEditor {...scriptEditorProps} />
 				</div>
 			</VerticallyResizablePanel>
 		</div>);

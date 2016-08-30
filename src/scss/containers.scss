@@ -60,3 +60,25 @@
 		cursor: row-resize;
 	}
 }
+
+.property-list {
+	overflow: auto;
+	width: 100%;
+	padding: 1rem 0;
+	@mixin row-item {
+		float: left;
+		height: 2.25rem;
+		line-height: 2.25rem;
+		padding: 0px 0.5rem;
+	}
+	dt {
+		@include row-item;
+		width: 200px;
+		text-align: right;
+		font-weight: bold;
+		clear: left;
+	}
+	dd {
+		@include row-item;
+	}
+}

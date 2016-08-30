@@ -2,9 +2,10 @@ import React from 'react';
 import _ from 'lodash';
 
 import CodeEditor from './CodeEditor';
+import VariableEditorAbstractComponent from './VariableEditorAbstractComponent';
 
 
-export default class ComputedEditor extends React.Component {
+export default class ComputedEditor extends VariableEditorAbstractComponent {
 
 	constructor(props) {
 		super(props);
@@ -36,14 +37,6 @@ export default class ComputedEditor extends React.Component {
 		const newParameter = { localName: selectedVariable };
 		const newParams = [...this.state.parameters, newParameter];
 		this.setState({ parameters: newParams });
-	}
-
-	getVariableBuilder() {
-		return this.props.variableBuilder;
-	}
-
-	getProgramBuilder() {
-		return this.getVariableBuilder().getProgramBuilder();
 	}
 
 	getParameters() {

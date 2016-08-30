@@ -1,4 +1,15 @@
+import Rx from 'rx';
+
 export default class Edit {
+
+	constructor() {
+		// Used to broadcast changes globally when it is hard to notify the component directly
+		this.globalChangeStream = new Rx.Subject();
+	}
+
+	getGlobalChangeStream() {
+		return this.globalChangeStream;
+	}
 
 	setVariableVariableType(variableBuilder, type) {
 		variableBuilder.setVariableType(type);
@@ -26,5 +37,14 @@ export default class Edit {
 
 	removeComponent(parent, component) {
 		parent.removeChildComponent(component);
+	}
+
+	renameVariable(variable, newName) {
+		// TODO:
+		// Find all uses and rename them too
+		// Check for duplicate names
+		variable.setLocalName(newName);
+
+		this.globalChangeStream.onNext();
 	}
 }
