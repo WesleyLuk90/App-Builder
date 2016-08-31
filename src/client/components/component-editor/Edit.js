@@ -13,6 +13,8 @@ export default class Edit {
 
 	setVariableVariableType(variableBuilder, type) {
 		variableBuilder.setVariableType(type);
+
+		this.globalChangeStream.onNext();
 	}
 
 	setVariableBinding(variableBuilder, bindToVariableName, property) {
@@ -46,5 +48,13 @@ export default class Edit {
 		variable.setLocalName(newName);
 
 		this.globalChangeStream.onNext();
+	}
+
+	setComputedVariableBody(variable, body) {
+		variable.setComputationBody(body);
+	}
+
+	setComputedVariableParameters(variable, parameters) {
+		variable.setComputedVariableParameters(parameters);
 	}
 }

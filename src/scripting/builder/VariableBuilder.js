@@ -98,6 +98,14 @@ export default class VariableBuilder {
 		return this.computedVariableBuilder.getBody();
 	}
 
+	setComputationBody(body) {
+		this.computedVariableBuilder.setBody(body);
+	}
+
+	setComputedVariableParameters(parameters) {
+		this.computedVariableBuilder.setParameters(parameters);
+	}
+
 	getParameters() {
 		return this.computedVariableBuilder.getParameters();
 	}

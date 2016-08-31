@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import CodeEditor from './CodeEditor';
 import VariableEditorAbstractComponent from './VariableEditorAbstractComponent';
+import ParameterBuilder from '../../../scripting/builder/ParameterBuilder';
 
 
 export default class ComputedEditor extends VariableEditorAbstractComponent {
@@ -17,27 +18,6 @@ export default class ComputedEditor extends VariableEditorAbstractComponent {
 			body: this.getBody(),
 		};
 	}
-	getHeader() {
-		const params = this.state.parameters.map(p => p.localName).join(', ');
-		return `function(${params}) {`;
-	}
-
-	getFooter() {
-		return '}';
-	}
-
-	onChangeVariableSelector(e) {
-		this.setState({ selectedVariable: e.target.value });
-	}
-
-	onClickAddParameter(event) {
-		event.preventDefault();
-
-		const selectedVariable = this.state.selectedVariable;
-		const newParameter = { localName: selectedVariable };
-		const newParams = [...this.state.parameters, newParameter];
-		this.setState({ parameters: newParams });
-	}
 
 	getParameters() {
 		return this.getVariableBuilder().getParameters();
@@ -45,6 +25,19 @@ export default class ComputedEditor extends VariableEditorAbstractComponent {
 
 	getBody() {
 		return this.getVariableBuilder().getComputationBody();
+	}
+
+	getHeader() {
+		const params = this.state.parameters.map(p => p.localName).join(', ');
+		return `function calculateValue(${params}) {`;
+	}
+
+	getFooter() {
+		return '}';
+	}
+
+	getSelectedVariable() {
+		return _.find(this.getVariablesInScope(), v => v.getVariablePath().toString() === this.state.selectedVariable);
 	}
 
 	getExistingParameterVariables() {
@@ -62,26 +55,74 @@ export default class ComputedEditor extends VariableEditorAbstractComponent {
 		return variableOptions;
 	}
 
-	onChangeCodeEditor(newBody){
+	updateParameterOptions(parameters) {
+		this.getEdit().setComputedVariableParameters(this.getVariableBuilder(), parameters);
+		this.setState({ parameters });
+	}
 
+	onClickRemoveParameter(e, parameter) {
+		e.preventDefault();
+		const newParameters = this.state.parameters.filter(p => p !== parameter);
+		this.updateParameterOptions(newParameters);
+	}
+
+	onChangeCodeEditor(newBody) {
+		this.getEdit().setComputedVariableBody(this.getVariableBuilder(), newBody);
+	}
+
+	onChangeVariableSelector(e) {
+		this.setState({ selectedVariable: e.target.value });
+	}
+
+	onClickAddParameter(event) {
+		event.preventDefault();
+
+		const selectedVariable = this.getSelectedVariable();
+		if (!selectedVariable) {
+			return;
+		}
+		const newParameter = new ParameterBuilder(selectedVariable.getVariablePath(), selectedVariable.getLocalName());
+		const newParams = [...this.state.parameters, newParameter];
+		this.updateParameterOptions(newParams);
+		this.setState({
+			selectedVariable: '',
+		});
 	}
 
 	render() {
 		return (<div className="computed-editor">
-			<div className="computed-editor__parameter-list">
-				{this.state.parameters.map((p, index) =>
-					<div className="computed-editor__parameter" key={index}>{p.getLocalName()}</div>
-				)}
-			</div>
-			<div className="computed-editor__variable-parameter-adder">
-				<select className="dropdown dropdown--medium-width" onChange={e => this.onChangeVariableSelector(e)} value={this.state.selectedVariable}>
-					<option disabled value="">Select a Variable</option>
-					{this.getVariablesInScope().map((v, index) =>
-						<option key={index} value={v.getVariablePath().toString()}>{v.getVariablePath().toString()}</option>
+			<h2>Computation</h2>
+			<table className="table computed-editor__parameter-list">
+				<thead>
+					<tr>
+						<th>Variable</th>
+						<th />
+					</tr>
+				</thead>
+				<tbody>
+					{this.state.parameters.map((p, index) =>
+						<tr className="computed-editor__parameter" key={index}>
+							<td>{p.getLocalName()}</td>
+							<td>
+								<a onClick={e => this.onClickRemoveParameter(e, p)}><span className="fa fa-remove" /></a>
+							</td>
+						</tr>
 					)}
-				</select>
-				<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>
-			</div>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th colSpan="2" className="computed-editor__variable-parameter-adder">
+							<select className="dropdown dropdown--medium-width" onChange={e => this.onChangeVariableSelector(e)} value={this.state.selectedVariable}>
+								<option disabled value="">Select a Variable</option>
+								{this.getVariablesInScope().map((v, index) =>
+									<option key={index} value={v.getVariablePath().toString()}>{v.getVariablePath().toString()}</option>
+								)}
+							</select>
+							<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>
+						</th>
+					</tr>
+				</tfoot>
+			</table>
 			<div>
 				<CodeEditor
 					code={this.state.body}

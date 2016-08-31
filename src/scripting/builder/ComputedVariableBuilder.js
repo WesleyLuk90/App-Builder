@@ -23,6 +23,13 @@ export default class ComputedVariableBuilder {
 		return this;
 	}
 
+	setParameters(parameters) {
+		this.parameters = new Map();
+		parameters.forEach(parameter => {
+			this.parameters.set(parameter.getLocalName(), parameter);
+		});
+	}
+
 	setBody(body) {
 		this.body = body;
 		return this;

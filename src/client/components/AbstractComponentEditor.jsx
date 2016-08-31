@@ -1,7 +1,6 @@
 import React from 'react';
 
 import AbstractComponent from './AbstractComponent';
-import ComponentGroups from './ComponentGroups';
 import ComponentInfo from './component-editor/ComponentInfo';
 import InsertComponentContext from './InsertComponentContext';
 
