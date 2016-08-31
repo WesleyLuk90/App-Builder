@@ -28,6 +28,10 @@ export default class VariableEditorState {
 		return this.variable.getValue();
 	}
 
+	getSelectedScope() {
+		return this.scope.getValue();
+	}
+
 	getSelectedVariableStream() {
 		return this.variable;
 	}
