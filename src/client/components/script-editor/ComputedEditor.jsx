@@ -111,28 +111,28 @@ export default class ComputedEditor extends VariableEditorAbstractComponent {
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colSpan="2" className="computed-editor__variable-parameter-adder">
-							<select className="dropdown dropdown--medium-width" onChange={e => this.onChangeVariableSelector(e)} value={this.state.selectedVariable}>
-								<option disabled value="">Select a Variable</option>
-								{this.getVariablesInScope().map((v, index) =>
-									<option key={index} value={v.getVariablePath().toString()}>{v.getVariablePath().toString()}</option>
-								)}
-							</select>
-							<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>
+						<th colSpan="2">
+							<div className="computed-editor__variable-parameter-adder">
+								<select className="dropdown dropdown--medium-width" onChange={e => this.onChangeVariableSelector(e)} value={this.state.selectedVariable}>
+									<option disabled value="">Select a Variable</option>
+									{this.getVariablesInScope().map((v, index) =>
+										<option key={index} value={v.getVariablePath().toString()}>{v.getVariablePath().toString()}</option>
+									)}
+								</select>
+								<button className="button" onClick={e => this.onClickAddParameter(e)}>Add</button>
+							</div>
 						</th>
 					</tr>
 				</tfoot>
 			</table>
-			<div>
-				<CodeEditor
-					code={this.state.body}
-					header={this.getHeader()}
-					footer={this.getFooter()}
-					width={700}
-					height={400}
-					onChange={body => this.onChangeCodeEditor(body)}
-				/>
-			</div>
+			<CodeEditor
+				code={this.state.body}
+				header={this.getHeader()}
+				footer={this.getFooter()}
+				width={700}
+				height={400}
+				onChange={body => this.onChangeCodeEditor(body)}
+			/>
 		</div>);
 	}
 }

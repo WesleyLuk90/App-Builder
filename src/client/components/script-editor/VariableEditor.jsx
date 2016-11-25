@@ -2,9 +2,10 @@ import React from 'react';
 
 import BindingSelector from './BindingSelector';
 import ComputedEditor from './ComputedEditor';
-import VariableTypes from '../../../scripting/builder/VariableType';
-import VariableNameEditor from './VariableNameEditor';
 import VariableEditorAbstractComponent from './VariableEditorAbstractComponent';
+import VariableNameEditor from './VariableNameEditor';
+import VariableTypeEditor from './VariableTypeEditor';
+import VariableTypes from '../../../scripting/builder/VariableType';
 
 export default class VariableEditor extends VariableEditorAbstractComponent {
 	constructor(props) {
@@ -52,7 +53,7 @@ export default class VariableEditor extends VariableEditorAbstractComponent {
 				<dt>Variable Name</dt>
 				<dd><VariableNameEditor {...this.props} /></dd>
 				<dt>Variable Data Type</dt>
-				<dd>{this.getVariableBuilder().getType().toString()}</dd>
+				<dd><VariableTypeEditor {...this.props} /></dd>
 				<dt>Data Source</dt>
 				<dd>
 					<select className="variable-summary__variable-type dropdown" value={this.state.variableType.name} onChange={e => this.onChangeVariableType(e)}>

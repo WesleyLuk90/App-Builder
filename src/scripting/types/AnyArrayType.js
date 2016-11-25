@@ -1,9 +1,24 @@
-import ArrayType from './ArrayType';
+import Type from './Type';
 
-const anyArrayType = new ArrayType();
-
-export default class AnyArrayType {
+export default class AnyArrayType extends Type {
 	static getInstance() {
-		return anyArrayType;
+		if (!AnyArrayType.instance) {
+			AnyArrayType.instance = new AnyArrayType();
+		}
+		return AnyArrayType.instance;
+	}
+
+	isAssignableTo(otherType) {
+		return otherType instanceof AnyArrayType;
+	}
+
+	toString() {
+		return 'Array';
+	}
+
+	toJSONObject() {
+		return {
+			type: 'array',
+		};
 	}
 }

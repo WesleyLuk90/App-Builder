@@ -1,11 +1,13 @@
 import Type from './Type';
 
+import AnyArrayType from './AnyArrayType';
+
 const arrayTypes = new Map();
 
-export default class ArrayType extends Type {
+export default class ArrayType extends AnyArrayType {
 	static getInstance(baseType) {
-		if (Type.isType(baseType)) {
-			throw new Error(`Array type must have a base type, got ${baseType}`);
+		if (!Type.isType(baseType)) {
+			throw new Error(`Array type must have a base type, got ${baseType && baseType.constructor.name}`);
 		}
 		if (!arrayTypes.has(baseType)) {
 			arrayTypes.set(baseType, new ArrayType(baseType));
@@ -27,6 +29,9 @@ export default class ArrayType extends Type {
 	}
 
 	isAssignableTo(otherType) {
+		if (super.isAssignableTo(otherType)) {
+			return true;
+		}
 		return otherType.toJSONObject().type === 'array';
 	}
 

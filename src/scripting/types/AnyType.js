@@ -1,16 +1,24 @@
 import Type from './Type';
 
-let anyType = null;
-
 export default class AnyType extends Type {
 	static getInstance() {
-		return anyType;
+		if (!AnyType.instance) {
+			AnyType.instance = new AnyType();
+		}
+		return AnyType.instance;
 	}
+
+	isAssignableTo(otherType) {
+		return otherType instanceof AnyType;
+	}
+
+	toString() {
+		return 'Any';
+	}
+
 	toJSONObject() {
 		return {
 			type: 'any',
 		};
 	}
 }
-
-anyType = new AnyType();

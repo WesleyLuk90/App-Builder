@@ -1,229 +1,229 @@
 @import "modal.scss";
 
 .component-editor {
-    @include fill-parent;
+	@include fill-parent;
 
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-    &__actions-panel {
-        @include default-padding;
+	&__actions-panel {
+		@include default-padding;
 
-        height: 50px;
-        flex: 0 0 auto;
-        display: flex;
-        align-items: center;
-        border-bottom: solid 1px $section-border;
+		height: 50px;
+		flex: 0 0 auto;
+		display: flex;
+		align-items: center;
+		border-bottom: solid 1px $section-border;
 
-        > * + * {
-            margin-left: 1rem;
-        }
+		> * + * {
+			margin-left: 1rem;
+		}
 
-        & > * {
-            flex: 0 0 auto;
-        }
+		& > * {
+			flex: 0 0 auto;
+		}
 
-        .spacer {
-            flex: 1 0 auto;
-        }
-    }
+		.spacer {
+			flex: 1 0 auto;
+		}
+	}
 
-    &__script-panel {
-        border-top: solid 1px $section-border;
-        flex: 0 0 auto;
-        height: 200px;
-        display: flex;
+	&__script-panel {
+		border-top: solid 1px $section-border;
+		flex: 0 0 auto;
+		height: 200px;
+		display: flex;
 
-        &__variable-editor {
-            height: 100%;
-            overflow: auto;
+		&__variable-editor {
+			height: 100%;
+			overflow: auto;
 
-            @include default-padding;
+			@include default-padding;
 
-            flex: 1 0 0;
-        }
+			flex: 1 0 0;
+		}
 
-        &__variable-list {
-            height: 100%;
-            flex: 0 0 400px;
-            overflow-y: scroll;
-            overflow-x: auto;
+		&__variable-list {
+			height: 100%;
+			flex: 0 0 400px;
+			overflow-y: scroll;
+			overflow-x: auto;
 
-            @include default-padding;
-        }
-    }
+			@include default-padding;
+		}
+	}
 
-    &__middle-row {
-        display: flex;
-        flex: 0 1 100%;
-        box-shadow: inset 0 0 10px #888;
-    }
+	&__middle-row {
+		display: flex;
+		flex: 0 1 100%;
+		box-shadow: inset 0 0 10px #888;
+	}
 
-    &__edit-panel {
-        border-left: solid 1px $section-border;
-        width: 300px;
+	&__edit-panel {
+		border-left: solid 1px $section-border;
+		width: 300px;
 
-        @include default-padding;
+		@include default-padding;
 
-        @include row-container;
-    }
+		@include row-container;
+	}
 
-    &__components {
-        padding-top: 1rem;
-        flex: 0 1 100%;
-        overflow: auto;
-    }
+	&__components {
+		padding-top: 1rem;
+		flex: 0 1 100%;
+		overflow: auto;
+	}
 }
 
 .component-inserter {
-    .component-inserter__button {
-        text-align: center;
-        display: block;
-        cursor: pointer;
-    }
+	.component-inserter__button {
+		text-align: center;
+		display: block;
+		cursor: pointer;
+	}
 }
 
 .component-inserter-modal {
-    @include modal-container;
+	@include modal-container;
 
-    display: none;
-    justify-content: center;
-    align-items: center;
-    text-align: left;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	text-align: left;
 
-    &--shown {
-        display: flex;
-    }
+	&--shown {
+		display: flex;
+	}
 
-    &__background {
-        @include modal-background;
-    }
+	&__background {
+		@include modal-background;
+	}
 
-    &__modal {
-        @include modal;
+	&__modal {
+		@include modal;
 
-        @include row-container;
+		@include row-container;
 
-        width: 500px;
-        height: 500px;
-        padding: 1.5rem 1rem;
-        display: flex;
-        flex-direction: column;
-    }
+		width: 500px;
+		height: 500px;
+		padding: 1.5rem 1rem;
+		display: flex;
+		flex-direction: column;
+	}
 
-    &__header {
-        flex: 0 0 auto;
-    }
+	&__header {
+		flex: 0 0 auto;
+	}
 
-    &__list {
-        flex: 1 0 auto;
-        display: block;
-        border: solid 1px $section-border;
-        overflow: auto;
-    }
+	&__list {
+		flex: 1 0 auto;
+		display: block;
+		border: solid 1px $section-border;
+		overflow: auto;
+	}
 
-    &__icon {
-        display: inline-block;
-        width: 2rem;
-        text-align: center;
-    }
+	&__icon {
+		display: inline-block;
+		width: 2rem;
+		text-align: center;
+	}
 
-    &__item {
-        height: 2rem;
-        line-height: 2rem;
-        border-bottom: solid 1px $section-border;
+	&__item {
+		height: 2rem;
+		line-height: 2rem;
+		border-bottom: solid 1px $section-border;
 
-        a {
-            display: block;
-            height: 100%;
-        }
-    }
+		a {
+			display: block;
+			height: 100%;
+		}
+	}
 }
 
 .component-placeholder {
-    @include section-style;
+	@include section-style;
 
-    min-height: 2rem;
-    min-width: 150px;
-    position: relative;
-    padding: 25px 10px 10px;
+	min-height: 2rem;
+	min-width: 150px;
+	position: relative;
+	padding: 25px 10px 10px;
 
-    &__header {
-        position: absolute;
-        top: 0px;
-        left: 5px;
-        display: flex;
-    }
+	&__header {
+		position: absolute;
+		top: 0px;
+		left: 5px;
+		display: flex;
+	}
 
-    &__label {
-        font-size: 0.75rem;
-    }
+	&__label {
+		font-size: 0.75rem;
+	}
 
-    &__action {
-        @include muted-action;
-    }
+	&__action {
+		@include muted-action;
+	}
 
-    &--selected {
-        border-color: $section-focused-border;
-    }
+	&--selected {
+		border-color: $section-focused-border;
+	}
 }
 
 .code-editor {
-    position: relative;
-    width: 500px;
-    height: 300px;
+	position: relative;
+	width: 500px;
+	height: 300px;
 }
 
 $item-height: 20px;
 
 .program-tree {
-    &__children {
-        padding-left: $item-height;
-        position: relative;
+	&__children {
+		padding-left: $item-height;
+		position: relative;
 
-        &--hidden {
-            display: none;
-        }
+		&--hidden {
+			display: none;
+		}
 
-        &:before {
-            content: '';
-            position: absolute;
-            border-left: dotted 1px $section-border;
-            top: 0;
-            bottom: $item-height / 2;
-            left: $item-height / 2;
-        }
-    }
+		&:before {
+			content: '';
+			position: absolute;
+			border-left: dotted 1px $section-border;
+			top: 0;
+			bottom: $item-height / 2;
+			left: $item-height / 2;
+		}
+	}
 
-    &__item {
-        min-height: $item-height;
-        position: relative;
+	&__item {
+		min-height: $item-height;
+		position: relative;
 
-        &:before {
-            content: '';
-            position: absolute;
-            border-top: dotted 1px $section-border;
-            left: -$item-height / 2;
-            top: $item-height / 2;
-            width: $item-height / 2;
-        }
-    }
+		&:before {
+			content: '';
+			position: absolute;
+			border-top: dotted 1px $section-border;
+			left: -$item-height / 2;
+			top: $item-height / 2;
+			width: $item-height / 2;
+		}
+	}
 
-    &__item-label {
-        padding: 3px;
+	&__item-label {
+		padding: 3px;
 
-        &--selected {
-            background-color: $highlight-color;
-        }
-    }
+		&--selected {
+			background-color: $highlight-color;
+		}
+	}
 
-    &__icon {
-        width: $item-height;
-        height: $item-height;
-        display: inline-block;
-        text-align: center;
-        margin-right: 5px;
-    }
+	&__icon {
+		width: $item-height;
+		height: $item-height;
+		display: inline-block;
+		text-align: center;
+		margin-right: 5px;
+	}
 }
 
 .variable-summary {
@@ -233,17 +233,17 @@ $item-height: 20px;
 }
 
 .binding-selector {
-    float: left;
+	float: left;
 
-    & &__property {
-        float: left;
-        width: 200px;
-    }
+	& &__property {
+		float: left;
+		width: 200px;
+	}
 
-    & &__variable {
-        float: left;
-        width: 200px;
-    }
+	& &__variable {
+		float: left;
+		width: 200px;
+	}
 }
 
 .variable-name-editor {
@@ -251,6 +251,26 @@ $item-height: 20px;
 		margin-left: 0.5rem;
 	}
 	& &__input_field {
+		display: inline-block;
+		width: 200px;
+	}
+}
+
+.computed-editor {
+	@include row-container;
+	&__variable-parameter-adder {
+		@include column-container;
+	}
+}
+
+.variable-type-editor {
+	display: inline-block;
+	& &__type-selector {
+		margin-right: 0.5rem;
+		display: inline-block;
+		width: 200px;
+	}
+	& &__model-selector {
 		display: inline-block;
 		width: 200px;
 	}
